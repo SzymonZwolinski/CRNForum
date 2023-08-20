@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Platender.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +9,16 @@ namespace Platender.Core.Services
 {
 	public interface IPlateService
 	{
-		bool CheckIfPlateExists(string number);
-		void AddPlate(string number);
+		Task<bool> CheckIfPlateExistsAsync(string number);
+		Task<Plate> GetPlateAsync(Guid plateId);
+		Task AddPlateAsync(string number);
 		Task AddCommentToPlateAsync(Guid plateId, string content, string userName);
 		void AddLikeToPlate(Guid plateId);
 		void RemoveLikeFromPlate(Guid plateId);
 		void AddLikeToCommentInPlate(Guid plateId, Guid commentId);
 		void RemoveLikeFromCommentInPlate(Guid plateId, Guid commentId);
 		void AddDislikeToCommentInPlate(Guid plateId, Guid commentId);
-		void RemoveDislikeToCommentInPlate(Guid plateId, Guid commentId)
+		void RemoveDislikeToCommentInPlate(Guid plateId, Guid commentId);
 
 	}
 }

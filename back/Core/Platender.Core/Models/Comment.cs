@@ -8,7 +8,7 @@ namespace Platender.Core.Models
 {
 	public class Comment
 	{
-		public Guid Id { get; set; }
+		public Guid Id { get; private set; }
 		public string Content { get; private set; }
 		public string AddingUserName { get; private set; } // W przyszłosic powinien być to idk usera, na ten moment nie robie usera 
 		public int Sequence { get; private set; }

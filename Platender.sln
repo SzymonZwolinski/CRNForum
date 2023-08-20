@@ -15,13 +15,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{4E073BE0-148D-4D50-8733-C1817901BFD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platender.Api", "back\Api\Platender.Api\Platender.Api.csproj", "{DC0537A1-ECED-4C21-BCFA-960B9B626B9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platender.Api", "back\Api\Platender.Api\Platender.Api.csproj", "{DC0537A1-ECED-4C21-BCFA-960B9B626B9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platender.Application", "back\Application\Platender.Application\Platender.Application.csproj", "{60CCA46E-A0AB-422A-ACC1-9ED589CF2708}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platender.Application", "back\Application\Platender.Application\Platender.Application.csproj", "{60CCA46E-A0AB-422A-ACC1-9ED589CF2708}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platender.Core", "back\Core\Platender.Core\Platender.Core.csproj", "{645949E6-F7A5-425C-B5EC-819AA864449F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platender.Core", "back\Core\Platender.Core\Platender.Core.csproj", "{645949E6-F7A5-425C-B5EC-819AA864449F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platender.Infrastructure", "back\Infrastructure\Platender.Infrastructure\Platender.Infrastructure.csproj", "{B1C647C2-8F22-49C1-87F6-1A4DE60B2426}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platender.Infrastructure", "back\Infrastructure\Platender.Infrastructure\Platender.Infrastructure.csproj", "{B1C647C2-8F22-49C1-87F6-1A4DE60B2426}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platender.Front", "front\Platender.Front\Platender.Front.csproj", "{2056760C-72B6-4824-9D48-5AFA55F0C171}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{B1C647C2-8F22-49C1-87F6-1A4DE60B2426}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1C647C2-8F22-49C1-87F6-1A4DE60B2426}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1C647C2-8F22-49C1-87F6-1A4DE60B2426}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2056760C-72B6-4824-9D48-5AFA55F0C171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2056760C-72B6-4824-9D48-5AFA55F0C171}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2056760C-72B6-4824-9D48-5AFA55F0C171}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2056760C-72B6-4824-9D48-5AFA55F0C171}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{60CCA46E-A0AB-422A-ACC1-9ED589CF2708} = {7BF1ABF8-125E-4BC3-B9CB-B50F4C1519FA}
 		{645949E6-F7A5-425C-B5EC-819AA864449F} = {4E073BE0-148D-4D50-8733-C1817901BFD7}
 		{B1C647C2-8F22-49C1-87F6-1A4DE60B2426} = {5D8C7904-482C-4234-BB65-23E78776FBBE}
+		{2056760C-72B6-4824-9D48-5AFA55F0C171} = {37CAE11C-2B23-4C47-8CE4-DC095C415D0F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8D84F90-9B5F-4900-AEFF-FD913A02B4E9}

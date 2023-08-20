@@ -49,15 +49,14 @@ namespace Platender.Core.Services
 			throw new NotImplementedException();
 		}
 
-		public void AddPlate(string number)
+		public async Task AddPlateAsync(string number)
 		{
-			throw new NotImplementedException();
+			var plate = new Plate(number);
+			await _plateRepository.AddPlateAsync(plate);
 		}
 
-		public bool CheckIfPlateExists(string number)
-		{
-			throw new NotImplementedException();
-		}
+		public async Task<bool> CheckIfPlateExistsAsync(string number)
+			=> await _plateRepository.CheckIfPlateExistsAsync(number);
 
 		public void RemoveDislikeToCommentInPlate(Guid plateId, Guid commentId)
 		{
@@ -73,5 +72,8 @@ namespace Platender.Core.Services
 		{
 			throw new NotImplementedException();
 		}
+
+		public Task<Plate> GetPlateAsync(Guid plateId)
+		=> _plateRepository.GetPlateAsync(plateId);
 	}
 }

@@ -9,7 +9,7 @@ namespace Platender.Core.Models
 	public class Plate
 	{
 		//Plate jest to "produkt" który może posiadać opis + komenatrze
-		private Guid Id { get; set; }
+		public Guid Id { get; private set; }
 		public string Number { get; private set; }
 		public int LikeRatio { get; private set; }
 		public IEnumerable<Comment> Comments => _comments;

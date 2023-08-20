@@ -1,0 +1,41 @@
+﻿@page "/plates"
+@using Platender.Front.Models;
+@inject HttpClient HttpClient
+
+<h1>Lista Talerzy</h1>
+
+<ul>
+    <li>@plate.Number</li>
+    
+</ul>
+
+
+@code {
+    protected Plate plate;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var paramName = "plateId";
+        var paramValue = "test12";
+
+        var url = $"https://localhost:7037/plate?{paramName}={paramValue}";
+
+        try
+        {
+            var response = await HttpClient.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                 plate = await response.Content.ReadFromJsonAsync<Plate>();
+            }
+            else
+            {
+                // Obsługa błędu odpowiedzi HTTP
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            // Obsługa wyjątku związana z żądaniem HTTP
+        }
+    }
+}

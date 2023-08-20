@@ -6,7 +6,7 @@ namespace Platender.Core.Repositories
 	{
 		Task AddPlateAsync(Plate plate);
 		Task UpdatePlateAsync(Plate plate);
-		Task CheckIfPlateExistsAsync(Guid plateId);
+		Task<bool> CheckIfPlateExistsAsync(string number);
 		Task<Plate> GetPlateAsync(Guid plateId);
 	}
 }
