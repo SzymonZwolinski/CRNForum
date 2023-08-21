@@ -51,7 +51,7 @@ namespace Platender.Core.Services
 
 		public async Task AddPlateAsync(string number)
 		{
-			var plate = new Plate(number);
+			var plate = new Plate(number, Enums.CultureCode.PL);
 			await _plateRepository.AddPlateAsync(plate);
 		}
 
@@ -73,7 +73,9 @@ namespace Platender.Core.Services
 			throw new NotImplementedException();
 		}
 
-		public Task<Plate> GetPlateAsync(Guid plateId)
-		=> _plateRepository.GetPlateAsync(plateId);
+		public async Task<Plate> GetPlateAsync(Guid plateId)
+		{
+			return await _plateRepository.GetPlateAsync(plateId); 
+		}
 	}
 }

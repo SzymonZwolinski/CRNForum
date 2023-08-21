@@ -1,23 +1,52 @@
 ﻿@page "/plates"
 @using Platender.Front.Models;
 @inject HttpClient HttpClient
+<style>
 
+    .plate-list 
+    { 
+        display: grid;
+        grid-template-rows: [first] 25% [second] auto;
+        grid-column-gap: 1%;
+        grid-template-columns: 25% [first] 5% [second] 25%
+    }
+    .plate-list-number 
+    {
+        grid-column: second;
+        grid-row: first;
+    }
+    .plate-list-culture
+    {
+        grid-column: first;
+        grid-row: first;
+    }
+    .plate-list-content
+    {
+        grid-row: second;
+        grid-column: second;
+    }
+    .polish-plate-style
+    {
+        background-color: red;
+    }
+</style>
 <h1>Lista Talerzy</h1>
 
-<ul>
-    <li>@plate.Number</li>
-    
-</ul>
+<div class="plate-list">
+    <div class="plate-list-number @style">@plate.Number</div>
+    <div class="plate-list-culture @style">@plate.Culture</div>
+    <div class="plate-list-content">@plate.Comments</div>
+</div>
 
 
 @code {
     protected Plate plate;
+    protected string style;
 
     protected override async Task OnInitializedAsync()
     {
         var paramName = "plateId";
         var paramValue = "test12";
-
         var url = $"https://localhost:7037/plate?{paramName}={paramValue}";
 
         try
@@ -26,7 +55,7 @@
 
             if (response.IsSuccessStatusCode)
             {
-                 plate = await response.Content.ReadFromJsonAsync<Plate>();
+                plate = await response.Content.ReadFromJsonAsync<Plate>();
             }
             else
             {
@@ -36,6 +65,11 @@
         catch (HttpRequestException ex)
         {
             // Obsługa wyjątku związana z żądaniem HTTP
+        }
+
+        if (plate.Culture == Models.Enums.CultureCode.PL.ToString())
+    {
+            style = "polish-plate-style";
         }
     }
 }

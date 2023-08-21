@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Platender.Core.Enums;
 
 namespace Platender.Core.Models
 {
@@ -12,13 +9,15 @@ namespace Platender.Core.Models
 		public Guid Id { get; private set; }
 		public string Number { get; private set; }
 		public int LikeRatio { get; private set; }
+		public CultureCode Culture { get; private set; }
 		public IEnumerable<Comment> Comments => _comments;
 		private List<Comment> _comments { get; } = new List<Comment>();
 	
 
-		public Plate(string number) 
+		public Plate(string number, CultureCode culture) 
 		{
 			SetNumber(number);
+			SetCultureCode(culture);
 			LikeRatio = 0; //Na starcie likratio musi byc równe 0
 		}
 
@@ -30,12 +29,17 @@ namespace Platender.Core.Models
 				throw new ArgumentNullException("Plate number cannot be null or whitespace");
 			}
 
-			if(number.Length <5 || number.Length > 7)
+			if(number.Length < 5 || number.Length > 7)
 			{
 				throw new ArgumentOutOfRangeException("Plate number cannot be less than 5 chars and longer than 7 chars");
 			}
 
 			Number = number;
+		}
+
+		private void SetCultureCode(CultureCode culture) 
+		{
+			Culture = culture;
 		}
 
 		#endregion
@@ -55,7 +59,6 @@ namespace Platender.Core.Models
 		{
 			_comments.Add(comment);
 		}
-
 
 		public void RemoveComment(Guid ComentId) 
 		{

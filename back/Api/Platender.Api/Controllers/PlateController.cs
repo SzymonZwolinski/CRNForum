@@ -1,22 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Platender.Core.Services;
+using Platender.Application.Providers;
 
 namespace Platender.Api.Controllers
 {
 	[Route("[Controller]")]
 	public class PlateController
 	{
-		private readonly IPlateService _plateService;
+		private readonly IPlateProvider _plateProvider;
 
-		public PlateController(IPlateService plateService)
+		public PlateController(IPlateProvider plateProvider)
 		{
-			_plateService = plateService;
+			_plateProvider = plateProvider;
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> GetPlate([FromQuery] Guid plateId)
 		{
-			var plate = await _plateService.GetPlateAsync(plateId);
+			var plate = await _plateProvider.GetPlateAsync(plateId);
 			return new JsonResult(plate);
 		}
 	}
