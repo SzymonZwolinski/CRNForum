@@ -1,6 +1,7 @@
 ﻿@page "/plates"
 @using Platender.Front.Models;
 @inject HttpClient HttpClient
+
 <style>
 
     .plate-list 
@@ -30,46 +31,22 @@
         background-color: red;
     }
 </style>
+<form @onsubmit="() => OnValidSubmit(numbers)">
+    <InputText @bind-Value="numbers" />
+    <button type="submit">Submit</button>
+</form>
+
+<button @onclick="ClearPlate">Clear Plate</button>
+
 <h1>Lista Talerzy</h1>
-
 <div class="plate-list">
-    <div class="plate-list-number @style">@plate.Number</div>
-    <div class="plate-list-culture @style">@plate.Culture</div>
-    <div class="plate-list-content">@plate.Comments</div>
+    <div class="plate-list-number @style">@plate?.Number</div>
+    <div class="plate-list-culture @style">@plate?.Culture</div>
+    <div class="plate-list-content">@plate?.Comments</div>
 </div>
-
-
-@code {
-    protected Plate plate;
-    protected string style;
-
-    protected override async Task OnInitializedAsync()
-    {
-        var paramName = "plateId";
-        var paramValue = "test12";
-        var url = $"https://localhost:7037/plate?{paramName}={paramValue}";
-
-        try
-        {
-            var response = await HttpClient.GetAsync(url);
-
-            if (response.IsSuccessStatusCode)
-            {
-                plate = await response.Content.ReadFromJsonAsync<Plate>();
-            }
-            else
-            {
-                // Obsługa błędu odpowiedzi HTTP
-            }
-        }
-        catch (HttpRequestException ex)
-        {
-            // Obsługa wyjątku związana z żądaniem HTTP
-        }
-
-        if (plate.Culture == Models.Enums.CultureCode.PL.ToString())
-    {
-            style = "polish-plate-style";
-        }
-    }
+@if (isResponseNull)
+{
+    <div >
+       This plate was not found
+    </div>
 }

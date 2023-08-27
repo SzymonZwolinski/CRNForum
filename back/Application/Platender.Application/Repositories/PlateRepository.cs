@@ -29,6 +29,10 @@ namespace Platender.Application.Repositories
 		public Task<Plate> GetPlateAsync(Guid plateId)
 		=> Task.Run(() => plates.FirstOrDefault(x => x.Id == plateId));
 
+		public Task<Plate> GetPlateByNumbersAsync(string number)
+		=> Task.Run(() => plates.FirstOrDefault(x => x.Number.Equals(number, StringComparison.OrdinalIgnoreCase)));
+		
+
 		public Task UpdatePlateAsync(Plate plate)
 		{
 			throw new NotImplementedException();

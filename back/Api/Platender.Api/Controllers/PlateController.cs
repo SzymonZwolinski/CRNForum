@@ -14,9 +14,9 @@ namespace Platender.Api.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetPlate([FromQuery] Guid plateId)
+		public async Task<IActionResult> GetPlate([FromQuery] string numbers)
 		{
-			var plate = await _plateProvider.GetPlateAsync(plateId);
+			var plate = await _plateProvider.GetPlateAsync(numbers);
 			return new JsonResult(plate);
 		}
 	}

@@ -11,7 +11,8 @@ namespace Platender.Core.Services
 	{
 		Task<bool> CheckIfPlateExistsAsync(string number);
 		Task<Plate> GetPlateAsync(Guid plateId);
-		Task AddPlateAsync(string number);
+        Task<Plate> GetPlateByNumbers(string numbers);
+        Task AddPlateAsync(string number);
 		Task AddCommentToPlateAsync(Guid plateId, string content, string userName);
 		void AddLikeToPlate(Guid plateId);
 		void RemoveLikeFromPlate(Guid plateId);

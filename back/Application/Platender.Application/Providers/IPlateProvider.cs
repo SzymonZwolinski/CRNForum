@@ -4,7 +4,7 @@ namespace Platender.Application.Providers
 {
     public interface IPlateProvider
     {
-        Task<PlateDTO> GetPlateAsync(Guid plateId);
+        Task<PlateDTO> GetPlateAsync(string numbers);
 
     }
 }

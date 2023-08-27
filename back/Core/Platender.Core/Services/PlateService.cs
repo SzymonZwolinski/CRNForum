@@ -77,5 +77,10 @@ namespace Platender.Core.Services
 		{
 			return await _plateRepository.GetPlateAsync(plateId); 
 		}
-	}
+
+        public async Task<Plate> GetPlateByNumbers(string numbers)
+        {
+            return await _plateRepository.GetPlateByNumbersAsync(numbers);
+        }
+    }
 }

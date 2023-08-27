@@ -18,15 +18,19 @@ namespace Platender.Application.Providers
             _plateService = plateService;
         }
 
-        public async Task<PlateDTO> GetPlateAsync(Guid plateId)
+        public async Task<PlateDTO> GetPlateAsync(string numbers)
         {
-            var plate = await _plateService.GetPlateAsync(plateId);
+            var plate = await _plateService.GetPlateByNumbers(numbers);
 
             return MapToPlateDto(plate);
         }
         
         private PlateDTO MapToPlateDto(Plate plate)
         {
+            if(plate is null)
+            {
+                return default;
+            }
             var commentDto = plate.Comments
                 .Select(x => 
                 new CommentDTO(
