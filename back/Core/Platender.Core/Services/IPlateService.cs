@@ -1,4 +1,5 @@
-﻿using Platender.Core.Models;
+﻿using Platender.Core.Enums;
+using Platender.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Platender.Core.Services
 		Task<bool> CheckIfPlateExistsAsync(string number);
 		Task<Plate> GetPlateAsync(Guid plateId);
         Task<Plate> GetPlateByNumbers(string numbers);
-        Task AddPlateAsync(string number);
+        Task AddPlateAsync(string number, CultureCode? cultureCode);
 		Task AddCommentToPlateAsync(Guid plateId, string content, string userName);
 		void AddLikeToPlate(Guid plateId);
 		void RemoveLikeFromPlate(Guid plateId);

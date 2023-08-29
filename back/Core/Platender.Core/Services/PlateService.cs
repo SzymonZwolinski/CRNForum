@@ -1,4 +1,5 @@
 ﻿
+using Platender.Core.Enums;
 using Platender.Core.Models;
 using Platender.Core.Repositories;
 
@@ -49,9 +50,9 @@ namespace Platender.Core.Services
 			throw new NotImplementedException();
 		}
 
-		public async Task AddPlateAsync(string number)
+		public async Task AddPlateAsync(string number, CultureCode? cultureCode)
 		{
-			var plate = new Plate(number, Enums.CultureCode.PL);
+			var plate = new Plate(number, cultureCode);
 			await _plateRepository.AddPlateAsync(plate);
 		}
 

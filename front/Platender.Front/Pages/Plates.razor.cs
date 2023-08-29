@@ -7,7 +7,7 @@ namespace Platender.Front.Pages
 {
     public partial class Plates : ComponentBase
     {
-        protected Plate plate;
+        protected Plate plate = new Plate();
         protected string style;
         protected string numbers;
         protected bool isResponseNull = false;
@@ -24,15 +24,16 @@ namespace Platender.Front.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    plate = await response.Content.ReadFromJsonAsync<Plate>();
+                    var convertedResponse = await response.Content.ReadFromJsonAsync<Plate>();
                     
-                    if(plate is null)
+                    if (convertedResponse is null)
                     {
                         PlateNotFound();
                     }
                     else
                     {
                         PlateFound();
+                        plate = convertedResponse;
                     }
                 }
                 else
@@ -70,6 +71,26 @@ namespace Platender.Front.Pages
         protected override void OnInitialized()
         {
             Console.WriteLine(isResponseNull);
+        }
+
+        private async Task SavePlateAsync()
+        {
+            var plateDto = new
+            {
+                Numbers = plate.Number,
+                CultureCode = plate.Culture
+            };
+
+            var response = await HttpClient.PostAsJsonAsync("https://localhost:7037/plate", plateDto);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Obsłuż sukces
+            }
+            else
+            {
+                // Obsłuż błąd
+            }
         }
     }
 }

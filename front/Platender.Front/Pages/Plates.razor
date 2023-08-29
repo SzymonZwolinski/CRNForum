@@ -1,5 +1,6 @@
 ﻿@page "/plates"
 @using Platender.Front.Models;
+@using Platender.Front.Models.Enums;
 @inject HttpClient HttpClient
 
 <style>
@@ -47,6 +48,21 @@
 @if (isResponseNull)
 {
     <div >
-       This plate was not found
+        <EditForm Model="@plate" OnValidSubmit="@SavePlateAsync">
+            <div class="form-group">
+                <label for="Number">Number:</label>
+                <InputText @bind-Value="@plate!.Number"></InputText>
+            </div>
+            <div class="form-group">
+                <label for="Culture">Culture:</label>
+                <select class="form-control" @bind="@plate.Culture">
+                    @foreach (var culture in Enum.GetNames(typeof(CultureCode)))
+                    {
+                        <option value="@culture"> @culture </option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Plate</button>
+        </EditForm>
     </div>
 }

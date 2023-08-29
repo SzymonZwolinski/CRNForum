@@ -9,12 +9,12 @@ namespace Platender.Core.Models
 		public Guid Id { get; private set; }
 		public string Number { get; private set; }
 		public int LikeRatio { get; private set; }
-		public CultureCode Culture { get; private set; }
+		public CultureCode? Culture { get; private set; }
 		public IEnumerable<Comment> Comments => _comments;
 		private List<Comment> _comments { get; } = new List<Comment>();
 	
 
-		public Plate(string number, CultureCode culture) 
+		public Plate(string number, CultureCode? culture) 
 		{
 			SetNumber(number);
 			SetCultureCode(culture);
@@ -37,7 +37,7 @@ namespace Platender.Core.Models
 			Number = number;
 		}
 
-		private void SetCultureCode(CultureCode culture) 
+		private void SetCultureCode(CultureCode? culture) 
 		{
 			Culture = culture;
 		}

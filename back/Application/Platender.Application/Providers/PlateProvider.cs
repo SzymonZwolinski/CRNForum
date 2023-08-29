@@ -1,4 +1,7 @@
 ﻿using Platender.Application.DTO;
+using Platender.Application.Messages;
+using Platender.Core.Enums;
+using Platender.Core.Extensions.EnumExtensions;
 using Platender.Core.Models;
 using Platender.Core.Services;
 using System;
@@ -16,6 +19,16 @@ namespace Platender.Application.Providers
         public PlateProvider(IPlateService plateService)
         {
             _plateService = plateService;
+        }
+
+        public async Task AddPlateAsync(AddPlate addPlate)
+        {
+
+            await _plateService
+                .AddPlateAsync(
+                    addPlate.Numbers, 
+                    addPlate.CultureCode
+                            .MapStringToEnumOrNull<CultureCode>());
         }
 
         public async Task<PlateDTO> GetPlateAsync(string numbers)

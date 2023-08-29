@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Platender.Application.DTO;
+using Platender.Application.Messages;
 using Platender.Application.Providers;
 
 namespace Platender.Api.Controllers
@@ -18,6 +21,13 @@ namespace Platender.Api.Controllers
 		{
 			var plate = await _plateProvider.GetPlateAsync(numbers);
 			return new JsonResult(plate);
+		}
+
+		[HttpPost]
+		public async Task<IResult> AddPlate([FromBody] AddPlate plate)
+		{
+			await _plateProvider.AddPlateAsync(plate);
+			return Results.Ok();
 		}
 	}
 }
