@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platender.Core", "back\Core
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platender.Infrastructure", "back\Infrastructure\Platender.Infrastructure\Platender.Infrastructure.csproj", "{B1C647C2-8F22-49C1-87F6-1A4DE60B2426}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platender.Front", "front\Platender.Front\Platender.Front.csproj", "{2056760C-72B6-4824-9D48-5AFA55F0C171}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platender.Front", "front\Platender.Front\Platender.Front.csproj", "{2056760C-72B6-4824-9D48-5AFA55F0C171}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

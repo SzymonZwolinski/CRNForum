@@ -1,0 +1,26 @@
+﻿@page "/plates/{plateId}"
+@using Platender.Front.Models;
+@inject HttpClient HttpClient
+
+<style>
+	.plate-model-container
+	{
+		display: grid;
+		grid-template-columns: 10% [first] 40% [second] 40% 10%;
+		grid-template-rows: [first] auto [second] auto 5%;
+	}
+
+	.plate-model
+	{
+		grid-column: first;
+		grid-row: first;
+	}
+
+	.plate-model span
+</style>
+
+<div class="plate-model-container">
+	<div class="plate-model">
+		@plate.
+	</div>
+</div>

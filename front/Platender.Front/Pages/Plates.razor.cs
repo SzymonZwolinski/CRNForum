@@ -8,6 +8,7 @@ namespace Platender.Front.Pages
     public partial class Plates : ComponentBase
     {
         protected Plate plate = new Plate();
+        private Plate newPlate = new Plate();
         protected string style;
         protected string numbers;
         protected bool isResponseNull = false;
@@ -77,11 +78,14 @@ namespace Platender.Front.Pages
         {
             var plateDto = new
             {
-                Numbers = plate.Number,
-                CultureCode = plate.Culture
+                Numbers = newPlate.Number,
+                CultureCode = newPlate.Culture
             };
 
             var response = await HttpClient.PostAsJsonAsync("https://localhost:7037/plate", plateDto);
+            
+            plate = newPlate;
+            PlateFound();
 
             if (response.IsSuccessStatusCode)
             {
