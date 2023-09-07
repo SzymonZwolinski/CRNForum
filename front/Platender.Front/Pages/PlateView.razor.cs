@@ -9,3 +9,4 @@ namespace Platender.Front.Pages
 		protected Plate plate { get; set; };
     }
 }
+z
