@@ -1,9 +1,4 @@
 ﻿using Platender.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Platender.Core.Services
 {
@@ -13,5 +8,7 @@ namespace Platender.Core.Services
 			string userName, 
 			byte[] passwordHash,
 			byte[] passwordSalt);
+
+		Task<string> CheckLogin(string userName, string password);
 	}
 }

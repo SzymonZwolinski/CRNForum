@@ -17,5 +17,18 @@ namespace Platender.Application.Repositories
 			_users.Add(user);
 			return Task.CompletedTask;
 		}
+
+		public Task<User> GetUserAsync(string userName)
+		{
+			var user = _users.FirstOrDefault(x =>
+			x.Username.Equals(userName, StringComparison.Ordinal));
+
+			if (user == null) 
+			{
+				throw new ArgumentException($"User with name: {userName} does not exists");
+			}
+
+			return Task.FromResult(user);
+		}
 	}
 }

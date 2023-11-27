@@ -1,12 +1,7 @@
 ﻿using Platender.Application.DTO;
 using Platender.Core.Models;
 using Platender.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Platender.Application.Providers
 {
@@ -28,6 +23,11 @@ namespace Platender.Application.Providers
 			return MapUserToUserDto(user);
 		}
 
+		public Task<string> LoginUserAsync(string userName, string password)
+		{
+			
+		}
+
 		private UserDto MapUserToUserDto(User user)
 		{
 			return new UserDto(user.Username, user.userStatus.ToString());
@@ -43,6 +43,6 @@ namespace Platender.Application.Providers
 				passwordSalt = hmac.Key;
 				passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
 			}
-		}
+		}	
 	}
 }
