@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Platender.Core.Models
+﻿namespace Platender.Core.Models
 {
 	public class Comment
 	{

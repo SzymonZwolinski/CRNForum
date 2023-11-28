@@ -4,11 +4,6 @@ using Platender.Core.Enums;
 using Platender.Core.Extensions.EnumExtensions;
 using Platender.Core.Models;
 using Platender.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Platender.Application.Providers
 {

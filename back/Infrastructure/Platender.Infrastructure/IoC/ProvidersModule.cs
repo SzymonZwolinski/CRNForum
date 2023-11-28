@@ -1,7 +1,5 @@
 ﻿using Autofac;
 using Platender.Application.Providers;
-using Platender.Application.Repositories;
-using Platender.Core.Repositories;
 
 namespace Platender.Infrastructure.IoC
 {

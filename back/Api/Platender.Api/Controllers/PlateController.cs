@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Platender.Application.DTO;
+﻿using Microsoft.AspNetCore.Mvc;
 using Platender.Application.Messages;
 using Platender.Application.Providers;
 

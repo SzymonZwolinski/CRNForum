@@ -1,5 +1,10 @@
-﻿using Platender.Core.Models;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using Platender.Core.Helpers;
+using Platender.Core.Models;
 using Platender.Core.Repositories;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 
 namespace Platender.Core.Services
@@ -7,17 +12,19 @@ namespace Platender.Core.Services
 	public class AuthService : IAuthService
 	{
 		private readonly IAuthRepository _authRepository;
+		private readonly IConfiguration _configuration;
 
-		public AuthService(IAuthRepository authRepository)
+		public AuthService(IAuthRepository authRepository, IConfiguration configuration)
 		{
 			_authRepository = authRepository;
+			_configuration = configuration;
 		}
 
 		public async Task<string> CheckLogin(string userName, string password)
 		{
 			var user = await _authRepository.GetUserAsync(userName);
 
-			var isPasswordCorrect = VerifyPasswordHash(
+			var isPasswordCorrect = PasswordHelper.VerifyPasswordHash(
 				password,
 				user.PasswordSalt, 
 				user.PasswordHash);
@@ -26,6 +33,8 @@ namespace Platender.Core.Services
 			{
 				throw new Exception($"Invalid password for user {userName}");
 			}
+
+			return JwtTokenHelper.CreateJWTToken(user);
 		}
 
 		public async Task<User> CreateUserAsync(
@@ -41,24 +50,6 @@ namespace Platender.Core.Services
 			await _authRepository.CreateUserAsync(user);
 
 			return user;
-		}
-
-		private bool VerifyPasswordHash(
-			string password,
-			byte[] passwordHash,
-			byte[] passwordSalt)
-		{
-			using (var hmac = new HMACSHA512(passwordSalt))
-			{
-				var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-				return computedHash == passwordHash;
-			}
-		}
-
-		private string CreateJWTToken(User user)
-		{
-			
-
 		}
 	}
 }

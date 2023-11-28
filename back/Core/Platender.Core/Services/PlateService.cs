@@ -1,5 +1,4 @@
-﻿
-using Platender.Core.Enums;
+﻿using Platender.Core.Enums;
 using Platender.Core.Models;
 using Platender.Core.Repositories;
 
