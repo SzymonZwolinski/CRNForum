@@ -18,7 +18,7 @@ namespace Platender.Api.Controllers
 		}
 
 		[HttpPost("register")]
-		public async Task<ActionResult<UserDto>> Register(UserLogin registerUserCommand)
+		public async Task<ActionResult<UserDto>> Register([FromBody]UserLogin registerUserCommand)
 		{
 			var registeredUser = 
 				await _authProvider.RegisterUserAsync(
@@ -29,9 +29,13 @@ namespace Platender.Api.Controllers
 		}
 
 		[HttpPost("login")]
-		public async Task<ActionResult<string>> Login(UserLogin loginUserCommand)
+		public async Task<ActionResult<string>> Login([FromBody] UserLogin loginUserCommand)
 		{
-			
+			var token = await _authProvider.LoginUserAsync(
+				loginUserCommand.UserName, 
+				loginUserCommand.Password);
+
+			return Ok(token.ToString());
 		}
 	}
 }

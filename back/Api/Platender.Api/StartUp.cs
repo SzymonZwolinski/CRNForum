@@ -52,8 +52,7 @@ namespace Platender.Api
 			app.UseAuthentication();
 			app.UseRouting();
 			app.UseAuthorization();
-
-
+			
 
 			app.UseEndpoints(endpoints =>
 			{

@@ -34,7 +34,11 @@ namespace Platender.Core.Services
 				throw new Exception($"Invalid password for user {userName}");
 			}
 
-			return JwtTokenHelper.CreateJWTToken(user);
+			return JwtTokenHelper.CreateJWTToken(
+				user,
+				_configuration
+					.GetRequiredSection("AppSettings:Token")
+					.Value);
 		}
 
 		public async Task<User> CreateUserAsync(

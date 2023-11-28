@@ -2,7 +2,6 @@
 using Platender.Core.Helpers;
 using Platender.Core.Models;
 using Platender.Core.Services;
-using System.Security.Cryptography;
 
 namespace Platender.Application.Providers
 {

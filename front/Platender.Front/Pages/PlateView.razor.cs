@@ -6,7 +6,6 @@ namespace Platender.Front.Pages
     public partial class PlatesView : ComponentBase
     {
 		[Parameter]
-		protected Plate plate { get; set; };
+		public Plate plate { get; set; }
     }
 }
-z

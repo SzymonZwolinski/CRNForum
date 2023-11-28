@@ -7,16 +7,14 @@ namespace Platender.Core.Helpers
 {
 	public static class JwtTokenHelper
 	{
-		public static string CreateJWTToken(User user)
+		public static string CreateJWTToken(User user, string secretToken)
 		{
 			List<Claim> claims = new List<Claim>
 			{
 				new Claim(ClaimTypes.Name, user.Username)
 			};
 			var key = new SymmetricSecurityKey(
-				System.Text.Encoding.UTF8.GetBytes(
-					_configuration.GetSection("AppSettings:Token")
-					.Value));
+				System.Text.Encoding.UTF8.GetBytes(secretToken));
 
 			var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 

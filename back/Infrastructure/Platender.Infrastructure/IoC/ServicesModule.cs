@@ -9,6 +9,7 @@ namespace Platender.Infrastructure.IoC
 		{
 			base.Load(builder);
 			builder.RegisterType<PlateService>().As<IPlateService>().InstancePerLifetimeScope();
+			builder.RegisterType<AuthService>().As<IAuthService>().InstancePerLifetimeScope();
 		}
 	}
 }
