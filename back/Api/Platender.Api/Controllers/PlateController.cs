@@ -21,11 +21,19 @@ namespace Platender.Api.Controllers
 			return new JsonResult(plate);
 		}
 
+		[HttpGet("{id}")]
+		public async Task<IActionResult> GetPlateById([FromRoute] Guid plateId)
+		{
+			var plate = await _plateProvider.GetPlateByIdAsync(plateId);
+
+			return new JsonResult(plate);
+		}
+
 		[HttpPost]
-		public async Task<IResult> AddPlate([FromBody] AddPlate plate)
+		public async Task<IActionResult> AddPlate([FromBody] AddPlate plate)
 		{
 			var plateId = await _plateProvider.AddPlateAsync(plate);
-			return Results.Ok(plateId);
+			return new JsonResult($"Plate {plateId}");//Should be casted to class, but leave it for now
 		}
 
 		[HttpPost("{id}/comment")]

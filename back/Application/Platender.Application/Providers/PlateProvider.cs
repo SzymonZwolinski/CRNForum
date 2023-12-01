@@ -7,7 +7,7 @@ using Platender.Core.Services;
 
 namespace Platender.Application.Providers
 {
-    public class PlateProvider : IPlateProvider
+	public class PlateProvider : IPlateProvider
     {
         private readonly IPlateService _plateService;
 
@@ -37,8 +37,15 @@ namespace Platender.Application.Providers
 
             return MapToPlateDto(plate);
         }
-        
-        private PlateDTO MapToPlateDto(Plate plate)
+
+		public async Task<PlateDTO> GetPlateByIdAsync(Guid plateId)
+		{
+			var plate = await _plateService.GetPlateAsync(plateId);
+
+            return MapToPlateDto(plate);
+		}
+
+		private PlateDTO MapToPlateDto(Plate plate)
         {
             if(plate is null)
             {
