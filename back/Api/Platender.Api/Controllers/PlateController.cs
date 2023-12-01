@@ -27,5 +27,14 @@ namespace Platender.Api.Controllers
 			await _plateProvider.AddPlateAsync(plate);
 			return Results.Ok();
 		}
+
+		[HttpPost("{id}/comment")]
+		public async Task<IResult> AddCommentToPlate([FromRoute] Guid plateId, [FromBody] string content)
+		{
+			var comment = new AddComment(plateId, content);
+
+			await _plateProvider.AddCommentAsync(comment);
+			return Results.Ok();
+		}
 	}
 }

@@ -16,7 +16,12 @@ namespace Platender.Application.Providers
             _plateService = plateService;
         }
 
-        public async Task AddPlateAsync(AddPlate addPlate)
+		public async Task AddCommentAsync(AddComment comment)
+		{
+            await _plateService.AddCommentToPlateAsync(comment.PlateId, comment.Comment, "Tmp");
+		}
+
+		public async Task AddPlateAsync(AddPlate addPlate)
         {
 
             await _plateService

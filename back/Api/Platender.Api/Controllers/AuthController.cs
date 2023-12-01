@@ -18,7 +18,7 @@ namespace Platender.Api.Controllers
 		}
 
 		[HttpPost("register")]
-		public async Task<ActionResult<UserDto>> Register([FromBody]UserLogin registerUserCommand)
+		public async Task<ActionResult<UserDto>> Register([FromBody] UserLogin registerUserCommand)
 		{
 			var registeredUser = 
 				await _authProvider.RegisterUserAsync(
