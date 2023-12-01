@@ -49,10 +49,12 @@ namespace Platender.Core.Services
 			throw new NotImplementedException();
 		}
 
-		public async Task AddPlateAsync(string number, CultureCode? cultureCode)
+		public async Task<Guid> AddPlateAsync(string number, CultureCode? cultureCode)
 		{
 			var plate = new Plate(number, cultureCode);
 			await _plateRepository.AddPlateAsync(plate);
+
+			return plate.Id;
 		}
 
 		public async Task<bool> CheckIfPlateExistsAsync(string number)

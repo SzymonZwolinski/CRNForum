@@ -8,7 +8,7 @@ namespace Platender.Core.Services
 		Task<bool> CheckIfPlateExistsAsync(string number);
 		Task<Plate> GetPlateAsync(Guid plateId);
         Task<Plate> GetPlateByNumbers(string numbers);
-        Task AddPlateAsync(string number, CultureCode? cultureCode);
+        Task<Guid> AddPlateAsync(string number, CultureCode? cultureCode);
 		Task AddCommentToPlateAsync(Guid plateId, string content, string userName);
 		void AddLikeToPlate(Guid plateId);
 		void RemoveLikeFromPlate(Guid plateId);

@@ -21,10 +21,10 @@ namespace Platender.Application.Providers
             await _plateService.AddCommentToPlateAsync(comment.PlateId, comment.Comment, "Tmp");
 		}
 
-		public async Task AddPlateAsync(AddPlate addPlate)
+		public async Task<Guid> AddPlateAsync(AddPlate addPlate)
         {
 
-            await _plateService
+            return await _plateService
                 .AddPlateAsync(
                     addPlate.Numbers, 
                     addPlate.CultureCode

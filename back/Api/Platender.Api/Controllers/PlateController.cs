@@ -24,8 +24,8 @@ namespace Platender.Api.Controllers
 		[HttpPost]
 		public async Task<IResult> AddPlate([FromBody] AddPlate plate)
 		{
-			await _plateProvider.AddPlateAsync(plate);
-			return Results.Ok();
+			var plateId = await _plateProvider.AddPlateAsync(plate);
+			return Results.Ok(plateId);
 		}
 
 		[HttpPost("{id}/comment")]
