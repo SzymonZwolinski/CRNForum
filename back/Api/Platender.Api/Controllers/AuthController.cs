@@ -6,7 +6,7 @@ using Platender.Application.Providers;
 
 namespace Platender.Api.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("[controller]")]
 	[ApiController]
 	public class AuthController : ControllerBase
 	{

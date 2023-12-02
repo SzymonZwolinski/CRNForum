@@ -1,5 +1,10 @@
 ﻿using Autofac;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using Platender.Application.MiddleWare;
 using Platender.Infrastructure.IoC;
+using System.Text;
 
 namespace Platender.Api
 {
@@ -30,6 +35,31 @@ namespace Platender.Api
 
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 			services.AddHttpContextAccessor();
+
+
+			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration
+					.GetRequiredSection("AppSettings:Token")
+					.Value));
+
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options =>
+				{
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ClockSkew = TimeSpan.Zero,
+						IgnoreTrailingSlashWhenValidatingAudience = false,
+						IssuerSigningKey = key,
+						ValidateIssuerSigningKey = false,
+						RequireExpirationTime = false,
+						RequireAudience = false,
+						RequireSignedTokens = false,
+						ValidateAudience = false,
+						ValidateIssuer = false,
+						ValidateLifetime = false,
+						ValidAudience = "api://my-audience/",
+						ValidIssuer = "api://my-issuer/"
+					};
+				});
 		}
 
 		public void ConfigureContainer(ContainerBuilder builder)
@@ -52,6 +82,7 @@ namespace Platender.Api
 			app.UseAuthentication();
 			app.UseRouting();
 			app.UseAuthorization();
+			//app.UseMiddleware<AuthenticationMiddleware>();
 			
 
 			app.UseEndpoints(endpoints =>

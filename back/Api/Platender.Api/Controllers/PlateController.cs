@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Platender.Application.Messages;
 using Platender.Application.Providers;
+using System.Security.Claims;
 
 namespace Platender.Api.Controllers
 {
 	[Route("[Controller]")]
-	public class PlateController
+	public class PlateController : BaseController
 	{
 		private readonly IPlateProvider _plateProvider;
 
@@ -29,10 +31,14 @@ namespace Platender.Api.Controllers
 			return new JsonResult(plate);
 		}
 
+		[Authorize]
 		[HttpPost]
 		public async Task<IActionResult> AddPlate([FromBody] AddPlate plate)
 		{
+			InitalizeHttpContextClaims();
+
 			var plateId = await _plateProvider.AddPlateAsync(plate);
+			
 			return new JsonResult($"Plate {plateId}");//Should be casted to class, but leave it for now
 		}
 
