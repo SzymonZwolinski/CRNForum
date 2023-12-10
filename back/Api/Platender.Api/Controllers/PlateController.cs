@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Platender.Application.Messages;
 using Platender.Application.Providers;
-using System.Security.Claims;
 
 namespace Platender.Api.Controllers
 {

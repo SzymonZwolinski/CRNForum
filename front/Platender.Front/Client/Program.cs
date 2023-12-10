@@ -1,6 +1,10 @@
+using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Platender.Front;
+using Platender.Front.Services;
+using Platender.Front.Utilities;
 
 
 namespace Platender.Front
@@ -16,7 +20,12 @@ namespace Platender.Front
 
 
 			builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            await builder.Build().RunAsync();
+
+			builder.Services.AddBlazoredLocalStorage();
+			builder.Services.AddAuthorizationCore();
+			builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
+			builder.Services.AddScoped<IAuthService, AuthService>();
+			await builder.Build().RunAsync();
 		}
 	}
 }

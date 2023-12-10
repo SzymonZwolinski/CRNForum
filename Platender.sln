@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platender.Infrastructure", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platender.Front", "front\Platender.Front\Platender.Front.csproj", "{2056760C-72B6-4824-9D48-5AFA55F0C171}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "back\Tests\Tests.csproj", "{CE984266-4863-4E8F-B7FD-1D5C0C3989C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "back\Tests\Tests.csproj", "{CE984266-4863-4E8F-B7FD-1D5C0C3989C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
