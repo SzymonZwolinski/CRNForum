@@ -1,24 +1,24 @@
 ﻿@page "/plates/{plateId}"
-@using Platender.Front.Models;
-@inject HttpClient HttpClient
-
-<style>
-	.plate-model-container
-	{
-		display: grid;
-		grid-template-columns: 10% [first] 40% [second] 40% 10%;
-		grid-template-rows: [first] auto [second] auto 5%;
-	}
-
-	.plate-model
-	{
-		grid-column: first;
-		grid-row: first;
-	}
-</style>
-
-<div class="plate-model-container">
-	<div class="plate-model">
-		
-	</div>
+<div>
+    @if (plate != null)
+    {
+        <h3>Plate Details</h3>
+        <div>
+            <strong>Id:</strong> @plate.Id
+        </div>
+        <div>
+            <strong>Number:</strong> @plate.Number
+        </div>
+        <div>
+            <strong>Like Ratio:</strong> @plate.LikeRatio
+        </div>
+        <div>
+            <strong>Culture:</strong> @plate.Culture
+        </div>
+        
+    }
+    else
+    {
+        <p>Loading...</p>
+    }
 </div>

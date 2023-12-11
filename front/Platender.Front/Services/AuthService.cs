@@ -4,7 +4,6 @@ using Platender.Front.Models;
 using Platender.Front.Utilities;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text.Json;
 
 namespace Platender.Front.Services
 {
@@ -13,20 +12,22 @@ namespace Platender.Front.Services
 		private readonly HttpClient _httpClient;
 		private readonly AuthenticationStateProvider _authenticationStateProvider;
 		private readonly ILocalStorageService _localStorage;
+		private readonly BackendConfig _backendConfig;
 
 		public AuthService(HttpClient httpClient,
 					   AuthenticationStateProvider authenticationStateProvider,
-					   ILocalStorageService localStorage)
+					   ILocalStorageService localStorage,
+					   BackendConfig backendConfig)
 		{
 			_httpClient = httpClient;
 			_authenticationStateProvider = authenticationStateProvider;
 			_localStorage = localStorage;
+			_backendConfig = backendConfig;
 		}
 
 		public async Task LoginAsync(Account loginModel)
 		{
-			var result = await _httpClient.PostAsJsonAsync("/Account/Login", loginModel);
-			//.PostJsonAsync<RegisterResult>("api/accounts", loginModel);
+			var result = await _httpClient.PostAsJsonAsync(_backendConfig.Url + "/auth/Login", loginModel);
 			
 			if(!result.IsSuccessStatusCode)
 			{
@@ -52,7 +53,7 @@ namespace Platender.Front.Services
 
 		public async Task RegisterAsync(Account registerModel)
 		{
-			var result = await _httpClient.PostAsJsonAsync("/Account/Register", registerModel);
+			var result = await _httpClient.PostAsJsonAsync(_backendConfig.Url + "/auth/Register", registerModel);
 
 			return;
 		}

@@ -41,6 +41,7 @@ namespace Platender.Api.Controllers
 			return new JsonResult($"Plate {plateId}");//Should be casted to class, but leave it for now
 		}
 
+		[Authorize]
 		[HttpPost("{id}/comment")]
 		public async Task<IResult> AddCommentToPlate([FromRoute] Guid plateId, [FromBody] string content)
 		{

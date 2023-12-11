@@ -10,7 +10,7 @@ namespace Platender.Infrastructure.IoC
 		{
 			base.Load(builder);
 			builder.RegisterType<PlateRepository>().As<IPlateRepository>().InstancePerLifetimeScope();
-			builder.RegisterType<AuthRepository>().As<IAuthRepository>().SingleInstance();
+			builder.RegisterType<AuthRepository>().As<IAuthRepository>().InstancePerLifetimeScope();
 		}
 	}
 }

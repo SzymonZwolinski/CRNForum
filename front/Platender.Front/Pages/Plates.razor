@@ -1,50 +1,6 @@
-﻿@page "/plates"
-@using Platender.Front.Models;
-@using Platender.Front.Models.Enums;
-@inject HttpClient HttpClient
+﻿@* @page "/plates"
 
-<style>
 
-    .plate-list 
-    { 
-        display: grid;
-        grid-template-rows: [first] 25% [second] auto;
-        grid-column-gap: 1%;
-        grid-template-columns: 25% [first] 5% [second] 25%
-    }
-    .plate-list-number 
-    {
-        grid-column: second;
-        grid-row: first;
-    }
-    .plate-list-culture
-    {
-        grid-column: first;
-        grid-row: first;
-    }
-    .plate-list-content
-    {
-        grid-row: second;
-        grid-column: second;
-    }
-    .polish-plate-style
-    {
-        background-color: red;
-    }
-
-    .add-plate-container
-    {
-        display: grid;
-        grid-template-columns: 25% [first] 25% [second] 25% 25%;
-        grid-template-rows: 25% [first]50% [second] 25%;
-    }
-
-    .add-plate-form
-    {
-        grid-column: first;
-        grid-row: first;
-    }
-</style>
 <form @onsubmit="() => OnValidSubmit(numbers)">
     <InputText @bind-Value="numbers" />
     <button type="submit">Submit</button>
@@ -80,4 +36,4 @@
         </EditForm>
         </div>
     </div>
-}
+} *@

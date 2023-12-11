@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Platender.Front.Models;
+using Platender.Front.Services;
 using System.Net.Http.Json;
 using System.Reflection;
 
@@ -7,12 +8,20 @@ namespace Platender.Front.Pages
 {
     public partial class Plates : ComponentBase
     {
+        [Inject]
+        private IPlateService _plateService { get; set; }  
+
+        private void AddPlate()
+        {
+            _plateService.PostPlateAsync(newPlate);
+        }
+
         protected Plate plate = new Plate();
         private Plate newPlate = new Plate();
         protected string style;
         protected string numbers;
         protected bool isResponseNull = false;
-
+/*
         private async Task OnValidSubmit(string numbers)
         {
             var paramName = "numbers";
@@ -95,6 +104,6 @@ namespace Platender.Front.Pages
             {
                 // Obsłuż błąd
             }
-        }
+        }*/
     }
 }

@@ -1,6 +1,4 @@
-﻿using Platender.Front.Models.Enums;
-
-namespace Platender.Front.Models
+﻿namespace Platender.Front.Models
 {
     public class Plate
     {

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Platender.Front;
 using Platender.Front.Services;
 using Platender.Front.Utilities;
+using System;
 
 
 namespace Platender.Front
@@ -20,11 +21,15 @@ namespace Platender.Front
 
 
 			builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
+			
 			builder.Services.AddBlazoredLocalStorage();
 			builder.Services.AddAuthorizationCore();
+
+			builder.Services.AddSingleton(new BackendConfig { Url = builder.Configuration["BackendUrl"] });
+
 			builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
 			builder.Services.AddScoped<IAuthService, AuthService>();
+			builder.Services.AddScoped<IPlateService, PlateService>();
 			await builder.Build().RunAsync();
 		}
 	}

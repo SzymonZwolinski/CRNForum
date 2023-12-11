@@ -1,9 +1,10 @@
 ﻿@page "/Account/Register"
+
 <PageTitle>Register</PageTitle>
 <div class="row">
 	<div class="col-md-4">
 		<section>
-			<EditForm id="account" method="post" Model="@InputAccount">
+			<EditForm id="account" Model="@InputAccount" OnValidSubmit="@RegisterUser">
 				<DataAnnotationsValidator />
 				<h2> Create a new account.</h2>
 				<hr />
