@@ -1,0 +1,24 @@
+﻿@page "/plates/{plateId}"
+<div>
+    @if (plate != null)
+    {
+        <h3>Plate Details</h3>
+        <div>
+            <strong>Id:</strong> @plate.Id
+        </div>
+        <div>
+            <strong>Number:</strong> @plate.Number
+        </div>
+        <div>
+            <strong>Like Ratio:</strong> @plate.LikeRatio
+        </div>
+        <div>
+            <strong>Culture:</strong> @plate.Culture
+        </div>
+        
+    }
+    else
+    {
+        <p>Loading...</p>
+    }
+</div>

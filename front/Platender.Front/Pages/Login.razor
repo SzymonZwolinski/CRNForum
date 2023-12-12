@@ -1,0 +1,26 @@
+﻿@page "/Account/Login"
+
+<PageTitle>Login</PageTitle>
+<div class="row">
+	<div class="col-md-4">
+		<section>
+			<EditForm id="account" Model="@InputAccount" OnValidSubmit="@LoginUser">
+				<DataAnnotationsValidator />
+				<h2> Login to an account.</h2>
+				<hr />
+				<ValidationSummary class="text-danger" />
+				<div class="form-floating mb-3">
+					<InputText id="userName" @bind-Value="InputAccount.UserName" class="form-control" autocomplete="username" aria-required="true"></InputText>
+					<label for="userName"> Username: </label>
+					<ValidationMessage For="() => InputAccount.UserName" class="text-danger" />
+				</div>
+				<div class="form-floating mb-3">
+					<InputText id="password" type="password" @bind-Value="InputAccount.Password" class="form-control" autocomplete="username" aria-required="true"></InputText>
+					<label for="password"> Password: </label>
+					<ValidationMessage For="() => InputAccount.Password" class="text-danger" />
+				</div>
+				<button id="registerSubmit" type="submit" class="m-100 btn btn-lg btn-primary">Register</button>
+			</EditForm>
+		</section>
+	</div>
+</div>
