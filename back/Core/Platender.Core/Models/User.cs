@@ -28,9 +28,9 @@ namespace Platender.Core.Models
                 throw new ArgumentNullException("username cannot be null or whitepace");
             }
 
-            if(userName.Length > 15)
+            if(userName.Length > 31)
             {
-                throw new ArgumentOutOfRangeException("Username cannot be longer than 16 chars");
+                throw new ArgumentOutOfRangeException("Username cannot be longer than 32 chars");
             }
 
             Username = userName;
