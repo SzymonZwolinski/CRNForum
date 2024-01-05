@@ -1,17 +1,17 @@
 ﻿using Autofac;
 using Microsoft.Extensions.Configuration;
 using Platender.Application.EF.Settings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Platender.Infrastructure.IoC
 {
     public class DbContextModule : Module
     {
         private readonly IConfiguration _configuration;
+
+        public DbContextModule(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         protected override void Load(ContainerBuilder builder)
         {

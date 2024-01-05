@@ -7,27 +7,39 @@ namespace Platender.Core.Services
 	public class PlateService : IPlateService
 	{
 		private readonly IPlateRepository _plateRepository;
+		private readonly IAuthRepository _authRepository;
 
-		public PlateService(IPlateRepository plateRepository)
+		public PlateService(IPlateRepository plateRepository, IAuthRepository authRepository)
 		{
 			_plateRepository = plateRepository;
+			_authRepository = authRepository;	
 		}
 
-		public async Task AddCommentToPlateAsync(Guid plateId, string content, string userName)
+		public async Task AddCommentToPlateAsync(
+			Guid plateId, 
+			string content,
+			string userName)
 		{
+			var user = await _authRepository.GetUserAsync(userName);
 			var plate = await _plateRepository.GetPlateAsync(plateId);
-			var comment = CreateComment(plate, content, userName);
+			var comment = CreateComment(
+				plate,
+				content,
+				user);
 
 			plate.AddComment(comment);
 
 			await _plateRepository.UpdatePlateAsync(plate);
 		}
 
-		private Comment CreateComment(Plate plate, string content, string userName)
+		private Comment CreateComment(
+			Plate plate,
+			string content,
+			User user)
 		{
 			return new Comment(
 				content,
-				userName,
+				user,
 				plate.Comments
 				.OrderBy(x => x.Sequence)
 				.First()

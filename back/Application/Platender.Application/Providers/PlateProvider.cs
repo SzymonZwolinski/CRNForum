@@ -16,9 +16,9 @@ namespace Platender.Application.Providers
             _plateService = plateService;
         }
 
-		public async Task AddCommentAsync(AddComment comment)
+		public async Task AddCommentAsync(AddComment comment, string commentingUserName)
 		{
-            await _plateService.AddCommentToPlateAsync(comment.PlateId, comment.Comment, "Tmp");
+            await _plateService.AddCommentToPlateAsync(comment.PlateId, comment.Comment, commentingUserName);
 		}
 
 		public async Task<Guid> AddPlateAsync(AddPlate addPlate)
@@ -56,7 +56,7 @@ namespace Platender.Application.Providers
                 new CommentDTO(
                     x.Id,
                     x.Content,
-                    x.AddingUserName,
+                    x.User.Username,
                     x.Sequence,
                     x.LikeCount,
                     x.DislikeCount));

@@ -3,21 +3,22 @@
 	public class Comment
 	{
 		public Guid Id { get; private set; }
-		public Plate plate { get; private set; }
+		public Plate Plate { get; private set; }
 		public string Content { get; private set; }
-		public string AddingUserName { get; private set; } // W przyszłosic powinien być to idk usera, na ten moment nie robie usera 
+		public User User { get; private set; } 
 		public int Sequence { get; private set; }
 		public int LikeCount { get; private set; }
 		public int DislikeCount { get; private set; }
 
+        public Comment(){}
 
         public Comment(
 			string content,
-			string userName,
+			User user,
 			int sequence)
         {
 			SetContent(content);
-			SetAddingUserName(userName);
+			User = user;
 			Sequence = sequence;
 			LikeCount = 0;
 			DislikeCount = 0;
@@ -39,20 +40,6 @@
 			Content = content;
 		}
 
-		private void SetAddingUserName(string addingUserName)
-		{
-			if(string.IsNullOrWhiteSpace(addingUserName)) 
-			{ 
-				throw new ArgumentNullException("Username cannot be null or empty");
-			}
-
-			if(addingUserName.Length > 31)
-			{
-				throw new ArgumentOutOfRangeException("UserName cannot be longer than 32 chars");
-			}
-
-			AddingUserName = addingUserName;  
-		}
 		#endregion
 		#region GettersAndControlMethods
 		public void AddLike()

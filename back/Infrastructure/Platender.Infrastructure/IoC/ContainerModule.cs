@@ -19,7 +19,8 @@ namespace Platender.Infrastructure.IoC
 			builder.RegisterModule<ServicesModule>();
 			builder.RegisterModule<RepositoriesModule>();
 			builder.RegisterModule<ProvidersModule>();
-			builder.RegisterModule<DbContextModule>();
+			
+			builder.RegisterModule(new DbContextModule(_configuration));
 
 		}
 	}

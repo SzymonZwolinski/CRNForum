@@ -1,7 +1,9 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Platender.Application.EF;
 using Platender.Application.MiddleWare;
 using Platender.Infrastructure.IoC;
 using System.Text;
@@ -22,6 +24,7 @@ namespace Platender.Api
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
+			services.AddDbContext<PlatenderDbContext>();
 
             services.AddCors(options =>
             {
@@ -35,7 +38,6 @@ namespace Platender.Api
 
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 			services.AddHttpContextAccessor();
-
 
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration
 					.GetRequiredSection("AppSettings:Token")

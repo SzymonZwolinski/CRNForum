@@ -11,9 +11,10 @@ namespace Platender.Core.Models
 		public CultureCode? Culture { get; private set; }
 		public IEnumerable<Comment> Comments => _comments;
 		private List<Comment> _comments { get; } = new List<Comment>();
-	
 
-		public Plate(string number, CultureCode? culture) 
+        public Plate(){}
+
+        public Plate(string number, CultureCode? culture) 
 		{
 			SetNumber(number);
 			SetCultureCode(culture);

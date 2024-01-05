@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Platender.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Platender.Application.EF.Configuration
 {
@@ -15,11 +10,9 @@ namespace Platender.Application.EF.Configuration
         {
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.plate).WithMany(x => x.Comments);
+            builder.HasOne(x => x.Plate).WithMany(x => x.Comments);
 
             builder.Property(x => x.Content).HasMaxLength(1023);
-            builder.Property(x => x.AddingUserName).HasMaxLength(31);
-
         }
     }
 }

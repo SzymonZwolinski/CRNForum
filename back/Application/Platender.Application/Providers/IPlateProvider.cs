@@ -8,6 +8,6 @@ namespace Platender.Application.Providers
         Task<PlateDTO> GetPlateAsync(string numbers);
         Task<PlateDTO> GetPlateByIdAsync(Guid plateId);
 		Task<Guid> AddPlateAsync(AddPlate plate);
-        Task AddCommentAsync(AddComment comment);
+        Task AddCommentAsync(AddComment comment, string commentingUserName);
     }
 }
