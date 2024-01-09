@@ -18,7 +18,7 @@ namespace Platender.Core.Models
 		{
 			SetNumber(number);
 			SetCultureCode(culture);
-			LikeRatio = 0; //Na starcie likratio musi byc równe 0
+			LikeRatio = 0;
 		}
 
 		#region Setters

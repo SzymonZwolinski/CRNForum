@@ -24,6 +24,11 @@ namespace Platender.Core.Services
 		{
 			var user = await _authRepository.GetUserAsync(userName);
 
+			if(user is null)
+			{
+				throw new Exception($"user with name {userName} does not exists");
+			}
+
 			var isPasswordCorrect = PasswordHelper.VerifyPasswordHash(
 				password,
 				user.PasswordSalt, 

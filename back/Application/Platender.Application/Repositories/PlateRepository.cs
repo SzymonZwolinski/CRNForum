@@ -1,4 +1,6 @@
-﻿using Platender.Core.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Platender.Application.EF;
+using Platender.Core.Models;
 using Platender.Core.Repositories;
 
 
@@ -6,28 +8,32 @@ namespace Platender.Application.Repositories
 {
 	public class PlateRepository : IPlateRepository
 	{
-		private List<Plate> plates = new List<Plate>();
-        
-        public Task AddPlateAsync(Plate plate)
+		private readonly PlatenderDbContext _platenderDbContext;
+
+        public PlateRepository(PlatenderDbContext platenderDbContext)
+        {
+			_platenderDbContext = platenderDbContext;
+        }
+
+        public async Task AddPlateAsync(Plate plate)
 		{
-			plates.Add(plate);
-			return Task.CompletedTask;
+			await _platenderDbContext.AddAsync(plate);
+			await _platenderDbContext.SaveChangesAsync();
 		}
 
-		public Task<bool> CheckIfPlateExistsAsync(string number)
-		=> Task.Run(() => plates.Any(x => x.Number == number));
-
-
-		public Task<Plate> GetPlateAsync(Guid plateId)
-		=> Task.Run(() => plates.FirstOrDefault(x => x.Id == plateId));
-
-		public Task<Plate> GetPlateByNumbersAsync(string number)
-		=> Task.Run(() => plates.FirstOrDefault(x => x.Number.Equals(number, StringComparison.OrdinalIgnoreCase)));
+		public async Task<bool> CheckIfPlateExistsAsync(string number)
+		=> await _platenderDbContext.plates.AnyAsync(x => x.Number == number);
 		
+		public async Task<Plate> GetPlateAsync(Guid plateId)
+		=> await _platenderDbContext.plates.FirstOrDefaultAsync(x => x.Id == plateId);
 
-		public Task UpdatePlateAsync(Plate plate)
+		public async Task<Plate> GetPlateByNumbersAsync(string number)
+		=> await _platenderDbContext.plates.FirstOrDefaultAsync(x => x.Number.Equals(number, StringComparison.OrdinalIgnoreCase));
+		
+		public async Task UpdatePlateAsync(Plate plate)
 		{
-			throw new NotImplementedException();
+			_platenderDbContext.Update(plate);
+			await _platenderDbContext.SaveChangesAsync();
 		}
 	}
 }
