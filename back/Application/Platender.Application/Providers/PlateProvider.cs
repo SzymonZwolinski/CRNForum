@@ -31,11 +31,11 @@ namespace Platender.Application.Providers
                             .MapStringToEnumOrNull<CultureCode>());
         }
 
-        public async Task<PlateDTO> GetPlateAsync(string numbers)
+        public async Task<IEnumerable<PlateDTO>> GetPlatesAsync(string numbers, CultureCode? cultureCode)
         {
-            var plate = await _plateService.GetPlateByNumbers(numbers);
+            var plate = await _plateService.GetPlatesByNumbers(numbers, cultureCode);
 
-            return MapToPlateDto(plate);
+            return plate.Select(x => MapToPlateDto(x));
         }
 
 		public async Task<PlateDTO> GetPlateByIdAsync(Guid plateId)

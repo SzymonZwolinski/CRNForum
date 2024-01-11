@@ -1,4 +1,5 @@
-﻿using Platender.Core.Models;
+﻿using Platender.Core.Enums;
+using Platender.Core.Models;
 
 namespace Platender.Core.Repositories
 {
@@ -8,6 +9,6 @@ namespace Platender.Core.Repositories
 		Task UpdatePlateAsync(Plate plate);
 		Task<bool> CheckIfPlateExistsAsync(string number);
 		Task<Plate> GetPlateAsync(Guid plateId);
-		Task<Plate> GetPlateByNumbersAsync(string number);
+		Task<IEnumerable<Plate>> GetPlatesByNumbersAsync(string number, CultureCode? cultureCode);
     }
 }

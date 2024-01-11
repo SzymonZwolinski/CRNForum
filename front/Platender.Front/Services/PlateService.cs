@@ -1,4 +1,5 @@
 ﻿using Platender.Front.Models;
+using Platender.Front.Models.Enums;
 using Platender.Front.Utilities;
 using System.Net.Http.Json;
 
@@ -15,7 +16,7 @@ namespace Platender.Front.Services
 			_httpClient = httpClient;
 		}
 
-		public async Task AddCommentToPlate(int numbers, string comment)
+		public async Task AddCommentToPlate(string numbers, string comment)
 		{
 			var result = await _httpClient.PostAsJsonAsync(_backendConfig.Url + "/plate/" + numbers, comment);
 		}
@@ -27,10 +28,13 @@ namespace Platender.Front.Services
 			
 		}
 
-		public async Task GetPlateByNumbersAsync(int numbers)
+		public async Task<IEnumerable<Plate>> GetPlatesByNumbersAsync(string numbers, CultureCode? cultureCode)
 		{
-			var result = await _httpClient.GetAsync(_backendConfig.Url + "/plate&numbers" + numbers);
+			var result =  await _httpClient.GetAsync(_backendConfig.Url + "/plate" +
+				"&numbers=" + numbers +
+				"&cultureCode="+ cultureCode.ToString());
 
+			return await result.Content.ReadFromJsonAsync<IEnumerable<Plate>>();
 		}
 
 		public async Task PostPlateAsync(Plate plate)

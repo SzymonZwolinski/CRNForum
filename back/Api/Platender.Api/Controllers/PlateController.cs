@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Platender.Application.Messages;
 using Platender.Application.Providers;
+using Platender.Application.Query;
+using Platender.Core.Enums;
+using Platender.Core.Helpers;
 
 namespace Platender.Api.Controllers
 {
@@ -16,10 +19,12 @@ namespace Platender.Api.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetPlate([FromQuery] string numbers)
+		public async Task<IActionResult> GetPlates([FromQuery] GetPlate getPlate)
 		{
-			var plate = await _plateProvider.GetPlateAsync(numbers);
-			return new JsonResult(plate);
+			var plates = await _plateProvider.GetPlatesAsync(
+				getPlate.Numbers,
+				getPlate.CultureCode.TryToParseToEnum<CultureCode>());
+			return new JsonResult(plates);
 		}
 
 		[HttpGet("{id}")]

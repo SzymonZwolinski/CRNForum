@@ -92,9 +92,9 @@ namespace Platender.Core.Services
 			return await _plateRepository.GetPlateAsync(plateId); 
 		}
 
-        public async Task<Plate> GetPlateByNumbers(string numbers)
+        public async Task<IEnumerable<Plate>> GetPlatesByNumbers(string numbers, CultureCode? cultureCode)
         {
-            return await _plateRepository.GetPlateByNumbersAsync(numbers);
+            return await _plateRepository.GetPlatesByNumbersAsync(numbers, cultureCode);
         }
     }
 }

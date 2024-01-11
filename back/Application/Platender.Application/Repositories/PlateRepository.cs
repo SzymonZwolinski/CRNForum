@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Platender.Application.DTO;
 using Platender.Application.EF;
+using Platender.Core.Enums;
 using Platender.Core.Models;
 using Platender.Core.Repositories;
 
@@ -27,8 +29,19 @@ namespace Platender.Application.Repositories
 		public async Task<Plate> GetPlateAsync(Guid plateId)
 		=> await _platenderDbContext.plates.FirstOrDefaultAsync(x => x.Id == plateId);
 
-		public async Task<Plate> GetPlateByNumbersAsync(string number)
-		=> await _platenderDbContext.plates.FirstOrDefaultAsync(x => x.Number.Equals(number, StringComparison.OrdinalIgnoreCase));
+		public async Task<IEnumerable<Plate>> GetPlatesByNumbersAsync(string number, CultureCode? cultureCode)
+		{
+			if (cultureCode == null)
+			{
+				return await _platenderDbContext.plates
+					.Where(x => x.Number.Contains(number))
+					.ToListAsync();
+			}
+            return await _platenderDbContext.plates
+                    .Where(x => x.Number.Contains(number)
+						&& x.Culture == cultureCode)
+					.ToListAsync();
+        }
 		
 		public async Task UpdatePlateAsync(Plate plate)
 		{
