@@ -21,13 +21,13 @@ namespace Platender.Api.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetPlates([FromQuery] GetPlate getPlate)
 		{
-			var plates = await _plateProvider.GetPlatesAsync(
+			 var plates = await _plateProvider.GetPlatesAsync(
 				getPlate.Numbers,
 				getPlate.CultureCode.TryToParseToEnum<CultureCode>());
 			return new JsonResult(plates);
 		}
 
-		[HttpGet("{id}")]
+		[HttpGet("{plateId}")]
 		public async Task<IActionResult> GetPlateById([FromRoute] Guid plateId)
 		{
 			var plate = await _plateProvider.GetPlateByIdAsync(plateId);

@@ -1,24 +1,39 @@
 ﻿@page "/plates"
 @using Platender.Front.Models.Enums
 
-<form method="get" @onsubmit="GetPlates">
-    <InputSelect @bind-Value="CultureCode">
-        <option value="">---</option>
-        @foreach (var cultureCode in Enum.GetValues(typeof(CultureCode)))
-        {
-            <option value="@cultureCode">@cultureCode</option>
-        }
-    </InputSelect>
-    <InputText id="numbers" @bind-Value="Numbers" class="form-control" aria-required="true"></InputText>
-    <div>
-        <button type="submit">Submit</button>
-    </div>
-</form>
-
-@if(_plates.Any())
+<div>
+    <form method="get" @onsubmit="GetPlates">
+        <InputSelect @bind-Value="CultureCode">
+            <option value="">---</option>
+            @foreach (var cultureCode in Enum.GetValues(typeof(CultureCode)))
+            {
+                <option value="@cultureCode">@cultureCode</option>
+            }
+        </InputSelect>
+        <InputText id="numbers" @bind-Value="Numbers" class="form-control" aria-required="true"></InputText>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+@if(IsGetPlatesSend)
 {
-    @foreach(var plate in _plates)
+    @if(_plates.Any())
     {
-        @plate.Number
+        @foreach(var plate in _plates)
+        {
+            @plate.Number
+        }
+    }
+    else
+    {
+        <div>
+            Plate was not found, do you want to save that plate?
+        </div>
+        <div>
+            <form @OnSubmit="PostPlate">
+            <button type="submit">Save Plate</button>
+            </form>
+        </div>
     }
 }

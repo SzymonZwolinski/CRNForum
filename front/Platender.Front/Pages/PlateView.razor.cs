@@ -10,13 +10,14 @@ namespace Platender.Front.Pages
         private IPlateService _plateService { get; set; }
 
 		[Parameter]
-		public Guid plateId { get; set; }
+		public string plateId { get; set; }
 
 		private Plate plate = new Plate();
 
-		protected override async Task OnInitializedAsync()
+		protected override async Task OnParametersSetAsync()
 		{
-			plate = await _plateService.GetPlateByIdAsync(plateId);
+			var plateIdAsGuid = new Guid(plateId);
+			plate = await _plateService.GetPlateByIdAsync(plateIdAsGuid);
 		}
 	}
 }
