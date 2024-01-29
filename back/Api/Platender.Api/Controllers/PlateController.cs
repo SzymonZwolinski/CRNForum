@@ -43,11 +43,11 @@ namespace Platender.Api.Controllers
 
 			var plateId = await _plateProvider.AddPlateAsync(plate);
 			
-			return new JsonResult($"Plate {plateId}");//Should be casted to class, but leave it for now
+			return new JsonResult($"{plateId}");
 		}
 
 		[Authorize]
-		[HttpPost("{id}/comment")]
+		[HttpPut("{plateId}/comment")]
 		public async Task<IResult> AddCommentToPlate([FromRoute] Guid plateId, [FromBody] string content)
 		{
 			InitalizeHttpContextClaims();
@@ -56,5 +56,14 @@ namespace Platender.Api.Controllers
 			await _plateProvider.AddCommentAsync(comment, UserName);
 			return Results.Ok();
 		}
+
+		/*[Authorize]
+		[HttpPut("{plateId}/comment/{commentId}/like")]
+		public async Task<IResult> AddLikeToComment([FromRoute] Guid plateId, [FromRoute] Guid commentId)
+		{
+			InitalizeHttpContextClaims();
+			await _plateProvider.add
+		}*/
+
 	}
 }

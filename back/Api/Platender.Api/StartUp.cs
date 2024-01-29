@@ -48,43 +48,29 @@ namespace Platender.Api
 				{
 					options.TokenValidationParameters = new TokenValidationParameters
 					{
-						ClockSkew = TimeSpan.Zero,
-						IgnoreTrailingSlashWhenValidatingAudience = false,
 						IssuerSigningKey = key,
-						ValidateIssuerSigningKey = false,
-						RequireExpirationTime = false,
-						RequireAudience = false,
-						RequireSignedTokens = false,
-						ValidateAudience = false,
-						ValidateIssuer = false,
-						ValidateLifetime = false,
-						ValidAudience = "api://my-audience/",
-						ValidIssuer = "api://my-issuer/"
+
 					};
 				});
 		}
 
 		public void ConfigureContainer(ContainerBuilder builder)
 		{
-			// Register your own things directly with Autofac, like:
 			builder.RegisterModule(new ContainerModule(Configuration));
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())
 				app.UseDeveloperExceptionPage();
 			else
-				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 
 			app.UseCors();
             app.UseHttpsRedirection();
-			app.UseAuthentication();
-			app.UseRouting();
+            app.UseRouting();
+            app.UseAuthentication();
 			app.UseAuthorization();
-			//app.UseMiddleware<AuthenticationMiddleware>();
 			
 
 			app.UseEndpoints(endpoints =>

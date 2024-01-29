@@ -17,14 +17,16 @@ namespace Platender.Front.Services
 			_httpClient = httpClient;
 		}
 
-		public async Task AddCommentToPlate(string numbers, string comment)
+		public async Task AddCommentToPlate(CommentDto comment)
 		{
-			var result = await _httpClient.PostAsJsonAsync(_backendConfig.Url + "/plate/" + numbers, comment);
+			var result = await _httpClient.PutAsJsonAsync(
+				_backendConfig.Url + $"/plate/{comment.PlateId}/comment",
+				comment.Content);
 		}
 
 		public async Task<Plate> GetPlateByIdAsync(Guid id)
 		{
-			var result = await _httpClient.GetAsync(_backendConfig.Url + "/plate/" + id);
+			var result = await _httpClient.GetAsync(_backendConfig.Url + $"/plate/{id}");
 			return await result.Content.ReadFromJsonAsync<Plate>();
 			
 		}

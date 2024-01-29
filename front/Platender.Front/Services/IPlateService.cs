@@ -1,4 +1,5 @@
-﻿using Platender.Front.Models;
+﻿using Platender.Front.DTO;
+using Platender.Front.Models;
 using Platender.Front.Models.Enums;
 
 namespace Platender.Front.Services
@@ -8,6 +9,6 @@ namespace Platender.Front.Services
 		Task PostPlateAsync(string numbers, CultureCode? cultureCode);
 		Task<IEnumerable<Plate>> GetPlatesByNumbersAsync(string numbers, CultureCode? cultureCode);
 		Task<Plate> GetPlateByIdAsync(Guid id);
-		Task AddCommentToPlate(string numbers, string comment);
+		Task AddCommentToPlate(CommentDto comment);
 	}
 }

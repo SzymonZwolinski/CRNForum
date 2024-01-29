@@ -19,7 +19,7 @@ namespace Platender.Api.Controllers
 			var user = HttpContext.User;
 			if (user != null) 
 			{
-				UserName = user.FindFirst(ClaimTypes.Name).Value;
+				UserName = user.FindFirst("UserName").Value;
 			}
 		}
 	}
