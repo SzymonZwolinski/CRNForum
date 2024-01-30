@@ -18,7 +18,7 @@ namespace Platender.Application.Providers
 
 		public async Task AddCommentAsync(AddComment comment, string commentingUserName)
 		{
-            await _plateService.AddCommentToPlateAsync(comment.PlateId, comment.Comment, commentingUserName);
+            await _plateService.AddCommentToPlateAsync(comment.PlateId, comment.Content, commentingUserName);
 		}
 
 		public async Task<Guid> AddPlateAsync(AddPlate addPlate)
@@ -31,29 +31,29 @@ namespace Platender.Application.Providers
                             .MapStringToEnumOrNull<CultureCode>());
         }
 
-        public async Task<IEnumerable<PlateDTO>> GetPlatesAsync(string numbers, CultureCode? cultureCode)
+        public async Task<IEnumerable<PlateDto>> GetPlatesAsync(string numbers, CultureCode? cultureCode)
         {
             var plate = await _plateService.GetPlatesByNumbers(numbers, cultureCode);
 
             return plate.Select(x => MapToPlateDto(x));
         }
 
-		public async Task<PlateDTO> GetPlateByIdAsync(Guid plateId)
+		public async Task<PlateDto> GetPlateByIdAsync(Guid plateId)
 		{
 			var plate = await _plateService.GetPlateAsync(plateId);
 
             return MapToPlateDto(plate);
 		}
 
-		private PlateDTO MapToPlateDto(Plate plate)
+		private PlateDto MapToPlateDto(Plate plate)
         {
             if(plate is null)
             {
                 return default;
             }
-            var commentDto = plate.Comments
+            var commentDto = plate.Comments?
                 .Select(x => 
-                new CommentDTO(
+                new CommentDto(
                     x.Id,
                     x.Content,
                     x.User.Username,
@@ -61,13 +61,14 @@ namespace Platender.Application.Providers
                     x.LikeCount,
                     x.DislikeCount));
 
-            return
-                new PlateDTO(
+            var test = 
+                new PlateDto(
                     plate.Id,
                     plate.Number,
                     plate.LikeRatio,
                     plate.Culture.ToString(),
                     commentDto);
+            return test;
         }
     }
 }

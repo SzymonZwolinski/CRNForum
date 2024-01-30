@@ -42,23 +42,8 @@ namespace Platender.Core.Services
 				user,
 				plate.Comments
 				.OrderBy(x => x.Sequence)
-				.First()
-				.Sequence + 1);
-		}
-
-		public void AddDislikeToCommentInPlate(Guid plateId, Guid commentId)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void AddLikeToCommentInPlate(Guid plateId, Guid commentId)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void AddLikeToPlate(Guid plateId)
-		{
-			throw new NotImplementedException();
+				.FirstOrDefault()?
+				.Sequence + 1 ?? 1);
 		}
 
 		public async Task<Guid> AddPlateAsync(string number, CultureCode? cultureCode)
@@ -71,21 +56,6 @@ namespace Platender.Core.Services
 
 		public async Task<bool> CheckIfPlateExistsAsync(string number)
 			=> await _plateRepository.CheckIfPlateExistsAsync(number);
-
-		public void RemoveDislikeToCommentInPlate(Guid plateId, Guid commentId)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void RemoveLikeFromCommentInPlate(Guid plateId, Guid commentId)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void RemoveLikeFromPlate(Guid plateId)
-		{
-			throw new NotImplementedException();
-		}
 
 		public async Task<Plate> GetPlateAsync(Guid plateId)
 		{

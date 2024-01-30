@@ -1,14 +1,14 @@
 ﻿using Autofac;
 using Microsoft.Extensions.Configuration;
-using Platender.Application.EF.Settings;
+using Platender.Infrastructure.Options;
 
 namespace Platender.Infrastructure.IoC
 {
-    public class DbContextModule : Module
+    public class SettingsModule : Module
     {
         private readonly IConfiguration _configuration;
 
-        public DbContextModule(IConfiguration configuration)
+        public SettingsModule(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -16,9 +16,9 @@ namespace Platender.Infrastructure.IoC
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            var sqlSettings = _configuration.GetSection(SqlConnectionSettings.CONFIG_NAME).Get<SqlConnectionSettings>();
+            var tokenSettings = _configuration.GetSection(TokenSettings.CONFIG_NAME).Get<TokenSettings>();
 
-            builder.RegisterInstance(sqlSettings).SingleInstance();
+            builder.RegisterInstance(tokenSettings).SingleInstance();
         }
     }
 }

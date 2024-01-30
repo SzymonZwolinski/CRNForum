@@ -28,13 +28,14 @@ namespace Platender.Front.Services
 		public async Task LoginAsync(Account loginModel)
 		{
 			var result = await _httpClient.PostAsJsonAsync(_backendConfig.Url + "/auth/Login", loginModel);
-			
+			Console.WriteLine(result.StatusCode);
 			if(!result.IsSuccessStatusCode)
 			{
 				return;
 			}
 
 			var token = await result.Content.ReadAsStringAsync();
+			Console.WriteLine(token);	
 
 			await _localStorage.SetItemAsync("authToken", token);
 			((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.UserName);

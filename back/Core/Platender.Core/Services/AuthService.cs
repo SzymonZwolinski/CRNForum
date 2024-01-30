@@ -1,23 +1,19 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using Platender.Core.Helpers;
+﻿using Platender.Core.Helpers;
 using Platender.Core.Models;
 using Platender.Core.Repositories;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
+using Platender.Core.Security;
 
 namespace Platender.Core.Services
 {
 	public class AuthService : IAuthService
 	{
 		private readonly IAuthRepository _authRepository;
-		private readonly IConfiguration _configuration;
+		private readonly IJWTTokenService _jwtTokenService;
 
-		public AuthService(IAuthRepository authRepository, IConfiguration configuration)
+		public AuthService(IAuthRepository authRepository, IJWTTokenService jwtTokenService)
 		{
 			_authRepository = authRepository;
-			_configuration = configuration;
+			_jwtTokenService = jwtTokenService;
 		}
 
 		public async Task<string> CheckLogin(string userName, string password)
@@ -39,11 +35,7 @@ namespace Platender.Core.Services
 				throw new Exception($"Invalid password for user {userName}");
 			}
 
-			return JwtTokenHelper.CreateJWTToken(
-				user,
-				_configuration
-					.GetRequiredSection("AppSettings:Token")
-					.Value);
+			return _jwtTokenService.GenerateToken(user);
 		}
 
 		public async Task<User> CreateUserAsync(

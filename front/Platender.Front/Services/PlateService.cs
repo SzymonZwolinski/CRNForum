@@ -1,4 +1,5 @@
-﻿using Platender.Front.DTO;
+﻿using Microsoft.AspNetCore.Components.Authorization;
+using Platender.Front.DTO;
 using Platender.Front.Models;
 using Platender.Front.Models.Enums;
 using Platender.Front.Utilities;
@@ -10,18 +11,23 @@ namespace Platender.Front.Services
 	{
 		private readonly HttpClient _httpClient;
 		private readonly BackendConfig _backendConfig;
+        private readonly AuthenticationStateProvider _authenticationStateProvider;
 
-		public PlateService(BackendConfig backendConfig, HttpClient httpClient)
+        public PlateService(BackendConfig backendConfig, 
+			HttpClient httpClient,
+            AuthenticationStateProvider authenticationStateProvider)
 		{
 			_backendConfig = backendConfig;
 			_httpClient = httpClient;
+			_authenticationStateProvider = authenticationStateProvider;
 		}
 
 		public async Task AddCommentToPlate(CommentDto comment)
 		{
+			await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
 			var result = await _httpClient.PutAsJsonAsync(
 				_backendConfig.Url + $"/plate/{comment.PlateId}/comment",
-				comment.Content);
+				comment);
 		}
 
 		public async Task<Plate> GetPlateByIdAsync(Guid id)

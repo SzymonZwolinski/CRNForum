@@ -1,25 +1,26 @@
 ﻿
 namespace Platender.Application.DTO
 {
-    public class PlateDTO
+    public class PlateDto
     {
         public Guid Id { get; set; }
         public string Number { get; set; }
         public int LikeRatio { get; set; }
         public string Culture { get; set; }
-        public IEnumerable<CommentDTO>? Comments { get; set; }
+        public IEnumerable<CommentDto>? Comments { get; set; }
 
-        public PlateDTO(
+        public PlateDto(
             Guid id,
             string number,
             int likeRatio,
             string culture,
-            IEnumerable<CommentDTO> comments)
+            IEnumerable<CommentDto> comments)
         {
             Id = id;
             Number = number;
             LikeRatio = likeRatio;
             Culture = culture;
+            Comments = comments;
         }
     }
 }

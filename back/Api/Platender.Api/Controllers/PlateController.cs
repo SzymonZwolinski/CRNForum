@@ -39,7 +39,7 @@ namespace Platender.Api.Controllers
 		[HttpPost]
 		public async Task<IActionResult> AddPlate([FromBody] AddPlate plate)
 		{
-			InitalizeHttpContextClaims();
+            InitalizeHttpContextClaims();
 
 			var plateId = await _plateProvider.AddPlateAsync(plate);
 			
@@ -48,22 +48,12 @@ namespace Platender.Api.Controllers
 
 		[Authorize]
 		[HttpPut("{plateId}/comment")]
-		public async Task<IResult> AddCommentToPlate([FromRoute] Guid plateId, [FromBody] string content)
+		public async Task<IResult> AddCommentToPlate([FromRoute] Guid plateId, [FromBody] AddComment comment)
 		{
 			InitalizeHttpContextClaims();
-			var comment = new AddComment(plateId, content);
-
+			
 			await _plateProvider.AddCommentAsync(comment, UserName);
 			return Results.Ok();
 		}
-
-		/*[Authorize]
-		[HttpPut("{plateId}/comment/{commentId}/like")]
-		public async Task<IResult> AddLikeToComment([FromRoute] Guid plateId, [FromRoute] Guid commentId)
-		{
-			InitalizeHttpContextClaims();
-			await _plateProvider.add
-		}*/
-
 	}
 }

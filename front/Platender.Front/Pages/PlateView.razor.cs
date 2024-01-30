@@ -28,15 +28,5 @@ namespace Platender.Front.Pages
 			_comment.PlateId = _plate.Id;
 			await _plateService.AddCommentToPlate(_comment);
 		}
-
-		private async void AddLike()
-		{
-			//_plateService.
-		}
-
-		private async void AddDislike()
-		{
-
-		}
 	}
 }
