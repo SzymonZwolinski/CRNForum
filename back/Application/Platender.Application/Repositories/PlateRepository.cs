@@ -1,4 +1,7 @@
-﻿using Platender.Core.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Platender.Application.EF;
+using Platender.Core.Enums;
+using Platender.Core.Models;
 using Platender.Core.Repositories;
 
 
@@ -6,32 +9,46 @@ namespace Platender.Application.Repositories
 {
 	public class PlateRepository : IPlateRepository
 	{
-		private List<Plate> plates = new List<Plate>();
-        public PlateRepository()
+		private readonly PlatenderDbContext _platenderDbContext;
+
+        public PlateRepository(PlatenderDbContext platenderDbContext)
         {
-			plates.Add(new Plate("test12", Core.Enums.CultureCode.PL));
-			plates.First().AddComment(new Comment("nice car men", "Dominik", 1));
+			_platenderDbContext = platenderDbContext;
         }
-        public Task AddPlateAsync(Plate plate)
+
+        public async Task AddPlateAsync(Plate plate)
 		{
-			plates.Add(plate);
-			return Task.CompletedTask;
+			await _platenderDbContext.AddAsync(plate);
+			await _platenderDbContext.SaveChangesAsync();
 		}
 
-		public Task<bool> CheckIfPlateExistsAsync(string number)
-		=> Task.Run(() => plates.Any(x => x.Number == number));
+		public async Task<bool> CheckIfPlateExistsAsync(string number)
+		=> await _platenderDbContext.plates.AnyAsync(x => x.Number == number);
 
+		public async Task<Plate> GetPlateAsync(Guid plateId)
+		=> await _platenderDbContext.plates
+			.Include(x => x.Comments)
+				.ThenInclude(x => x.User)
+			.FirstOrDefaultAsync(x => x.Id == plateId);
 
-		public Task<Plate> GetPlateAsync(Guid plateId)
-		=> Task.Run(() => plates.FirstOrDefault(x => x.Id == plateId));
-
-		public Task<Plate> GetPlateByNumbersAsync(string number)
-		=> Task.Run(() => plates.FirstOrDefault(x => x.Number.Equals(number, StringComparison.OrdinalIgnoreCase)));
-		
-
-		public Task UpdatePlateAsync(Plate plate)
+		public async Task<IEnumerable<Plate>> GetPlatesByNumbersAsync(string number, CultureCode? cultureCode)
 		{
-			throw new NotImplementedException();
+			if (cultureCode == null)
+			{
+				return await _platenderDbContext.plates
+					.Where(x => x.Number.Contains(number))
+					.ToListAsync();
+			}
+            return await _platenderDbContext.plates
+                    .Where(x => x.Number.Contains(number)
+						&& x.Culture == cultureCode)
+					.ToListAsync();
+        }
+		
+		public async Task UpdatePlateAsync(Plate plate)
+		{
+			_platenderDbContext.Update(plate);
+			await _platenderDbContext.SaveChangesAsync();
 		}
 	}
 }

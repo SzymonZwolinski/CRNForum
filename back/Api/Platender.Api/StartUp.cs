@@ -1,9 +1,9 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Platender.Application.MiddleWare;
+using Platender.Application.EF;
 using Platender.Infrastructure.IoC;
+using Platender.Infrastructure.Options;
 using System.Text;
 
 namespace Platender.Api
@@ -12,17 +12,17 @@ namespace Platender.Api
 	{
 		public IConfiguration Configuration { get; }
 
-		public StartUp(IConfiguration configuration)
+        public StartUp(IConfiguration configuration)
 		{
 			Configuration = configuration;
 		}
-
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
-
+			services.AddDbContext<PlatenderDbContext>();
+           
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>
@@ -36,53 +36,46 @@ namespace Platender.Api
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 			services.AddHttpContextAccessor();
 
+            var tokenSettings = Configuration.GetSection(TokenSettings.CONFIG_NAME).Get<TokenSettings>();
 
-			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration
-					.GetRequiredSection("AppSettings:Token")
-					.Value));
-
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-				.AddJwtBearer(options =>
-				{
-					options.TokenValidationParameters = new TokenValidationParameters
-					{
-						ClockSkew = TimeSpan.Zero,
-						IgnoreTrailingSlashWhenValidatingAudience = false,
-						IssuerSigningKey = key,
-						ValidateIssuerSigningKey = false,
-						RequireExpirationTime = false,
-						RequireAudience = false,
-						RequireSignedTokens = false,
-						ValidateAudience = false,
-						ValidateIssuer = false,
-						ValidateLifetime = false,
-						ValidAudience = "api://my-audience/",
-						ValidIssuer = "api://my-issuer/"
-					};
-				});
-		}
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(o =>
+                {
+                    o.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ClockSkew = TimeSpan.FromMinutes(1),
+                        IgnoreTrailingSlashWhenValidatingAudience = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenSettings.SigningKey)),
+                        ValidateIssuerSigningKey = tokenSettings.ValidateSigningKey,
+                        RequireExpirationTime = true,
+                        RequireAudience = true,
+                        RequireSignedTokens = true,
+                        ValidateAudience = true,
+                        ValidateIssuer = true,
+                        ValidateLifetime = true,
+                        ValidAudience = tokenSettings.Audience,
+                        ValidIssuer = tokenSettings.Issuer
+                    };
+                });
+        }
 
 		public void ConfigureContainer(ContainerBuilder builder)
 		{
-			// Register your own things directly with Autofac, like:
 			builder.RegisterModule(new ContainerModule(Configuration));
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())
 				app.UseDeveloperExceptionPage();
 			else
-				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 
 			app.UseCors();
             app.UseHttpsRedirection();
-			app.UseAuthentication();
-			app.UseRouting();
+            app.UseRouting();
+            app.UseAuthentication();
 			app.UseAuthorization();
-			//app.UseMiddleware<AuthenticationMiddleware>();
 			
 
 			app.UseEndpoints(endpoints =>

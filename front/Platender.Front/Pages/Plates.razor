@@ -1,39 +1,39 @@
-﻿@* @page "/plates"
+﻿@page "/plates"
+@using Platender.Front.Models.Enums
 
-
-<form @onsubmit="() => OnValidSubmit(numbers)">
-    <InputText @bind-Value="numbers" />
-    <button type="submit">Submit</button>
-</form>
-
-<button @onclick="ClearPlate">Clear Plate</button>
-
-<h1>Lista Talerzy</h1>
-<div class="plate-list">
-    <div class="plate-list-number @style">@plate?.Number</div>
-    <div class="plate-list-culture @style">@plate?.Culture</div>
-    <div class="plate-list-content">@plate?.Comments</div>
-</div>
-@if (isResponseNull)
-{
-    <div class="add-plate-container">
-        <div class="add-plate-form">
-        <EditForm Model="@newPlate" OnValidSubmit="@SavePlateAsync">
-            <div class="form-group">
-                <label for="Number">Number:</label>
-                <InputText @bind-Value="@newPlate!.Number"></InputText>
-            </div>
-            <div class="form-group">
-                <label for="Culture">Culture:</label>
-                <select class="form-control" @bind="@newPlate.Culture">
-                    @foreach (var culture in Enum.GetNames(typeof(CultureCode)))
-                    {
-                        <option value="@culture"> @culture </option>
-                    }
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Plate</button>
-        </EditForm>
+<div>
+    <form method="get" @onsubmit="GetPlates">
+        <InputSelect @bind-Value="CultureCode">
+            <option value="">---</option>
+            @foreach (var cultureCode in Enum.GetValues(typeof(CultureCode)))
+            {
+                <option value="@cultureCode">@cultureCode</option>
+            }
+        </InputSelect>
+        <InputText id="numbers" @bind-Value="Numbers" class="form-control" aria-required="true"></InputText>
+        <div>
+            <button type="submit">Submit</button>
         </div>
-    </div>
-} *@
+    </form>
+</div>
+@if(IsGetPlatesSend)
+{
+    @if(_plates.Any())
+    {
+        @foreach(var plate in _plates)
+        {
+            @plate.Number
+        }
+    }
+    else
+    {
+        <div>
+            Plate was not found, do you want to save that plate?
+        </div>
+        <div>
+            <form @OnSubmit="PostPlate">
+            <button type="submit">Save Plate</button>
+            </form>
+        </div>
+    }
+}

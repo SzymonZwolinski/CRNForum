@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Platender.Application.Messages;
 using Platender.Application.Providers;
+using Platender.Application.Query;
+using Platender.Core.Enums;
+using Platender.Core.Helpers;
 
 namespace Platender.Api.Controllers
 {
@@ -16,13 +19,15 @@ namespace Platender.Api.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetPlate([FromQuery] string numbers)
+		public async Task<IActionResult> GetPlates([FromQuery] GetPlate getPlate)
 		{
-			var plate = await _plateProvider.GetPlateAsync(numbers);
-			return new JsonResult(plate);
+			 var plates = await _plateProvider.GetPlatesAsync(
+				getPlate.Numbers,
+				getPlate.CultureCode.TryToParseToEnum<CultureCode>());
+			return new JsonResult(plates);
 		}
 
-		[HttpGet("{id}")]
+		[HttpGet("{plateId}")]
 		public async Task<IActionResult> GetPlateById([FromRoute] Guid plateId)
 		{
 			var plate = await _plateProvider.GetPlateByIdAsync(plateId);
@@ -34,20 +39,20 @@ namespace Platender.Api.Controllers
 		[HttpPost]
 		public async Task<IActionResult> AddPlate([FromBody] AddPlate plate)
 		{
-			InitalizeHttpContextClaims();
+            InitalizeHttpContextClaims();
 
 			var plateId = await _plateProvider.AddPlateAsync(plate);
 			
-			return new JsonResult($"Plate {plateId}");//Should be casted to class, but leave it for now
+			return new JsonResult($"{plateId}");
 		}
 
 		[Authorize]
-		[HttpPost("{id}/comment")]
-		public async Task<IResult> AddCommentToPlate([FromRoute] Guid plateId, [FromBody] string content)
+		[HttpPut("{plateId}/comment")]
+		public async Task<IResult> AddCommentToPlate([FromRoute] Guid plateId, [FromBody] AddComment comment)
 		{
-			var comment = new AddComment(plateId, content);
-
-			await _plateProvider.AddCommentAsync(comment);
+			InitalizeHttpContextClaims();
+			
+			await _plateProvider.AddCommentAsync(comment, UserName);
 			return Results.Ok();
 		}
 	}

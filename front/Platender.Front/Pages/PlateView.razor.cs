@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Platender.Front.DTO;
 using Platender.Front.Models;
 using Platender.Front.Services;
 
@@ -10,13 +11,22 @@ namespace Platender.Front.Pages
         private IPlateService _plateService { get; set; }
 
 		[Parameter]
-		public Guid plateId { get; set; }
+		public string plateId { get; set; }
 
-		private Plate plate = new Plate();
+		private Plate _plate = new Plate();
 
-		protected override async Task OnInitializedAsync()
+		private CommentDto _comment = new CommentDto();
+
+		protected override async Task OnParametersSetAsync()
 		{
-			plate = await _plateService.GetPlateByIdAsync(plateId);
+			var plateIdAsGuid = new Guid(plateId);
+			_plate = await _plateService.GetPlateByIdAsync(plateIdAsGuid);
+		}
+
+		private async void PostComment()
+		{
+			_comment.PlateId = _plate.Id;
+			await _plateService.AddCommentToPlate(_comment);
 		}
 	}
 }

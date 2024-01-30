@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Platender.Application.Commands;
 using Platender.Application.DTO;
 using Platender.Application.Providers;
@@ -25,7 +24,7 @@ namespace Platender.Api.Controllers
 					registerUserCommand.UserName,
 					registerUserCommand.Password);
 
-			return Ok(registeredUser.UserName);//Shouldnt return value
+			return Ok(registeredUser.UserName);
 		}
 
 		[HttpPost("login")]

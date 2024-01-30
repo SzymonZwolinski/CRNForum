@@ -1,29 +1,36 @@
-﻿using Platender.Core.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Platender.Application.EF;
+using Platender.Core.Models;
 using Platender.Core.Repositories;
 
 namespace Platender.Application.Repositories
 {
 	public class AuthRepository : IAuthRepository
 	{
-		private List<User> _users = new List<User>();// TODO: Change this after sql
+        private readonly PlatenderDbContext _platenderDbContext;
 
-		public Task CreateUserAsync(User user)
+        public AuthRepository(PlatenderDbContext platenderDbContext)
+        {
+            _platenderDbContext = platenderDbContext;
+        }
+
+        public async Task CreateUserAsync(User user)
 		{
-			_users.Add(user);
-			return Task.CompletedTask;
+            await _platenderDbContext.users.AddAsync(user);
+			await _platenderDbContext.SaveChangesAsync();
 		}
 
-		public Task<User> GetUserAsync(string userName)
+		public async Task<User> GetUserAsync(string userName)
 		{
-			var user = _users.FirstOrDefault(x =>
-			x.Username.Equals(userName, StringComparison.Ordinal));
+            var users = await _platenderDbContext
+                 .users
+                 .Where(x => x.Username.Equals(userName))
+                 .ToListAsync();
 
-			if (user == null) 
-			{
-				throw new ArgumentException($"User with name: {userName} does not exists");
-			}
-
-			return Task.FromResult(user);
-		}
-	}
+            return users.FirstOrDefault(x => string.Compare(
+                x.Username, 
+                userName,
+                StringComparison.Ordinal) == 0);
+        }
+    }
 }

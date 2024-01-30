@@ -4,11 +4,11 @@ namespace Platender.Application.Messages
 	public class AddComment
 	{		
 		public Guid PlateId { get; set; }
-		public string Comment { get; set; }
+		public string Content { get; set; }
 
-        public AddComment(Guid plateId, string comment)
+        public AddComment(Guid plateId, string content)
         {
-            Comment = comment;
+            Content = content;
             PlateId = plateId;
         }
     }

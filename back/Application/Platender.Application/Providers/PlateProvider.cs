@@ -16,9 +16,9 @@ namespace Platender.Application.Providers
             _plateService = plateService;
         }
 
-		public async Task AddCommentAsync(AddComment comment)
+		public async Task AddCommentAsync(AddComment comment, string commentingUserName)
 		{
-            await _plateService.AddCommentToPlateAsync(comment.PlateId, comment.Comment, "Tmp");
+            await _plateService.AddCommentToPlateAsync(comment.PlateId, comment.Content, commentingUserName);
 		}
 
 		public async Task<Guid> AddPlateAsync(AddPlate addPlate)
@@ -31,43 +31,44 @@ namespace Platender.Application.Providers
                             .MapStringToEnumOrNull<CultureCode>());
         }
 
-        public async Task<PlateDTO> GetPlateAsync(string numbers)
+        public async Task<IEnumerable<PlateDto>> GetPlatesAsync(string numbers, CultureCode? cultureCode)
         {
-            var plate = await _plateService.GetPlateByNumbers(numbers);
+            var plate = await _plateService.GetPlatesByNumbers(numbers, cultureCode);
 
-            return MapToPlateDto(plate);
+            return plate.Select(x => MapToPlateDto(x));
         }
 
-		public async Task<PlateDTO> GetPlateByIdAsync(Guid plateId)
+		public async Task<PlateDto> GetPlateByIdAsync(Guid plateId)
 		{
 			var plate = await _plateService.GetPlateAsync(plateId);
 
             return MapToPlateDto(plate);
 		}
 
-		private PlateDTO MapToPlateDto(Plate plate)
+		private PlateDto MapToPlateDto(Plate plate)
         {
             if(plate is null)
             {
                 return default;
             }
-            var commentDto = plate.Comments
+            var commentDto = plate.Comments?
                 .Select(x => 
-                new CommentDTO(
+                new CommentDto(
                     x.Id,
                     x.Content,
-                    x.AddingUserName,
+                    x.User.Username,
                     x.Sequence,
                     x.LikeCount,
                     x.DislikeCount));
 
-            return
-                new PlateDTO(
+            var test = 
+                new PlateDto(
                     plate.Id,
                     plate.Number,
                     plate.LikeRatio,
                     plate.Culture.ToString(),
                     commentDto);
+            return test;
         }
     }
 }

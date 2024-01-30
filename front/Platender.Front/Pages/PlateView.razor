@@ -1,21 +1,53 @@
 ﻿@page "/plates/{plateId}"
 <div>
-    @if (plate != null)
+    @if (_plate != null)
     {
-        <h3>Plate Details</h3>
         <div>
-            <strong>Id:</strong> @plate.Id
+            <h3>Plate Details</h3>
+            <div>
+                <strong>Id:</strong> @_plate.Id
+            </div>
+            <div>
+                <strong>Number:</strong> @_plate.Number
+            </div>
+            <div>
+                <strong>Like Ratio:</strong> @_plate.LikeRatio
+            </div>
+            <div>
+                <strong>Culture:</strong> @_plate.Culture
+            </div>
         </div>
+
         <div>
-            <strong>Number:</strong> @plate.Number
+            <div>Comments: </div>
+
+            <div>
+                Add comment:
+                <EditForm Model="_comment" OnSubmit="PostComment">
+                    <div>
+                        <label>Content:</label>
+                        <InputTextArea @bind-Value="_comment.Content"></InputTextArea>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </EditForm>
+            </div>
+            <div>
+                @if (_plate.Comments is not null)
+                {
+                    @foreach (var comment in _plate.Comments)
+                    {
+                        <div>
+                            <strong>User:</strong> @comment.AddingUserName
+                        </div>
+                        <div>
+                            <strong>Content:</strong> @comment.Content
+                        </div> 
+                    }
+                }
+            </div>      
         </div>
-        <div>
-            <strong>Like Ratio:</strong> @plate.LikeRatio
-        </div>
-        <div>
-            <strong>Culture:</strong> @plate.Culture
-        </div>
-        
     }
     else
     {
