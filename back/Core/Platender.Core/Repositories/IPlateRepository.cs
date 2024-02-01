@@ -9,6 +9,9 @@ namespace Platender.Core.Repositories
 		Task UpdatePlateAsync(Plate plate);
 		Task<bool> CheckIfPlateExistsAsync(string number);
 		Task<Plate> GetPlateAsync(Guid plateId);
-		Task<IEnumerable<Plate>> GetPlatesByNumbersAsync(string number, CultureCode? cultureCode);
+		Task<(IEnumerable<Plate>,int)> GetAllPlatesAsync(
+			string number,
+			CultureCode? cultureCode, 
+			int? Page);
     }
 }

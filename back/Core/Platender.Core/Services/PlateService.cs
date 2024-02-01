@@ -58,13 +58,15 @@ namespace Platender.Core.Services
 			=> await _plateRepository.CheckIfPlateExistsAsync(number);
 
 		public async Task<Plate> GetPlateAsync(Guid plateId)
-		{
-			return await _plateRepository.GetPlateAsync(plateId); 
-		}
-
-        public async Task<IEnumerable<Plate>> GetPlatesByNumbers(string numbers, CultureCode? cultureCode)
-        {
-            return await _plateRepository.GetPlatesByNumbersAsync(numbers, cultureCode);
-        }
+			=> await _plateRepository.GetPlateAsync(plateId); 
+		
+        public async Task<(IEnumerable<Plate>, int)> GetAllPlates(
+			string numbers,
+			CultureCode? cultureCode,
+			int? page)
+			=> await _plateRepository.GetAllPlatesAsync(
+				numbers,
+				cultureCode, 
+				page);
     }
 }

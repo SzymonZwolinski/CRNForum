@@ -1,4 +1,4 @@
-﻿namespace Platender.Application.Query
+﻿namespace Platender.Application.Messages.Queries
 {
     public class GetPlate
     {
