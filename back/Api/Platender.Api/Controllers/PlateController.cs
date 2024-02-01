@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Platender.Application.Messages;
+using Platender.Application.Messages.Queries;
 using Platender.Application.Providers;
-using Platender.Application.Query;
 using Platender.Core.Enums;
 using Platender.Core.Helpers;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Platender.Api.Controllers
 {
-	[Route("[Controller]")]
+    [Route("[Controller]")]
 	public class PlateController : BaseController
 	{
 		private readonly IPlateProvider _plateProvider;
@@ -19,13 +20,12 @@ namespace Platender.Api.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetPlates([FromQuery] GetPlate getPlate)
+		public async Task<IActionResult> GetPlate([FromQuery] GetAllPlates query)
 		{
-			 var plates = await _plateProvider.GetPlatesAsync(
-				getPlate.Numbers,
-				getPlate.CultureCode.TryToParseToEnum<CultureCode>());
-			return new JsonResult(plates);
-		}
+            var plates = await _plateProvider.GetPlatesAsync(query);
+
+            return new JsonResult(plates);
+        }
 
 		[HttpGet("{plateId}")]
 		public async Task<IActionResult> GetPlateById([FromRoute] Guid plateId)

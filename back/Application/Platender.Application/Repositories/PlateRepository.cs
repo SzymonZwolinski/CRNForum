@@ -25,25 +25,38 @@ namespace Platender.Application.Repositories
 		public async Task<bool> CheckIfPlateExistsAsync(string number)
 		=> await _platenderDbContext.plates.AnyAsync(x => x.Number == number);
 
-		public async Task<Plate> GetPlateAsync(Guid plateId)
-		=> await _platenderDbContext.plates
-			.Include(x => x.Comments)
-				.ThenInclude(x => x.User)
-			.FirstOrDefaultAsync(x => x.Id == plateId);
-
-		public async Task<IEnumerable<Plate>> GetPlatesByNumbersAsync(string number, CultureCode? cultureCode)
+        public async Task<(IEnumerable<Plate>, int)> GetAllPlatesAsync(
+			string number, 
+			CultureCode? cultureCode, 
+			int? Page)
 		{
-			if (cultureCode == null)
+			var query = _platenderDbContext
+				.plates
+				.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(number))
+            {
+                query = query.Where(x => x.Number.StartsWith(number));
+            }
+
+            if (cultureCode != null) 
 			{
-				return await _platenderDbContext.plates
-					.Where(x => x.Number.Contains(number))
-					.ToListAsync();
+				query = query.Where(x => x.Culture == cultureCode);
 			}
-            return await _platenderDbContext.plates
-                    .Where(x => x.Number.Contains(number)
-						&& x.Culture == cultureCode)
-					.ToListAsync();
-        }
+
+			return (await query
+					.Skip((Page - 1) * 10 ?? 0)
+					.Take(Page * 10 ?? 10)
+					.ToListAsync(),
+				query
+					.Count());
+		}      
+
+        public async Task<Plate> GetPlateAsync(Guid plateId)
+			=> await _platenderDbContext.plates
+				.Include(x => x.Comments)
+					.ThenInclude(x => x.User)
+				.FirstOrDefaultAsync(x => x.Id == plateId);
 		
 		public async Task UpdatePlateAsync(Plate plate)
 		{

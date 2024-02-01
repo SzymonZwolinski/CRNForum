@@ -7,7 +7,10 @@ namespace Platender.Core.Services
 	{
 		Task<bool> CheckIfPlateExistsAsync(string number);
 		Task<Plate> GetPlateAsync(Guid plateId);
-        Task<IEnumerable<Plate>> GetPlatesByNumbers(string numbers, CultureCode? cultureCode);
+		Task<(IEnumerable<Plate>, int)> GetAllPlates(
+			string numbers,
+			CultureCode? cultureCode, 
+			int? page);
         Task<Guid> AddPlateAsync(string number, CultureCode? cultureCode);
 		Task AddCommentToPlateAsync(Guid plateId, string content, string userName);
 	}
