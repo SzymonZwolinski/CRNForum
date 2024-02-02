@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Platender.Front.Helpers;
 using Platender.Front.Models;
 using Platender.Front.Models.Enums;
 using Platender.Front.Services;
@@ -13,14 +14,18 @@ namespace Platender.Front.Pages
         public string Numbers;
         public CultureCode? CultureCode;
 
-        private IEnumerable<Plate> _plates = Enumerable.Empty<Plate>();
+        private PagedData<Plate> _plates;
         private bool IsGetPlatesSend = false;
         private string SentNumbers;
         private CultureCode? SentCultureCode;
+        private int Page = 1;
         
         private async Task GetPlates()
         {
-            _plates = await _plateService.GetPlatesByNumbersAsync(Numbers, CultureCode);
+            _plates = await _plateService.GetPlatesByNumbersAsync(
+                Numbers,
+                CultureCode,
+                Page);
 
             IsGetPlatesSend = true;
             SentNumbers = Numbers;
@@ -29,10 +34,18 @@ namespace Platender.Front.Pages
 
         private async Task PostPlate()
         {
-            if(SentNumbers == Numbers && SentCultureCode == CultureCode)
+            if(SentNumbers != Numbers || SentCultureCode != CultureCode)
             {
-                await _plateService.PostPlateAsync(Numbers, CultureCode);
+                return; //TODO: Add error that indicates that plate was changed and cannot be added
             }
+
+            await _plateService.PostPlateAsync(Numbers, CultureCode);
+        }
+
+        private async Task NextPageAsync()
+        {
+            Page += 1;
+            await GetPlates();
         }
     }
 }

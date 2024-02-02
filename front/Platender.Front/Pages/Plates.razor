@@ -18,9 +18,9 @@
 </div>
 @if(IsGetPlatesSend)
 {
-    @if(_plates.Any())
+    @if(_plates.Items.Any())
     {
-        @foreach(var plate in _plates)
+        @foreach(var plate in _plates.Items)
         {
             @plate.Number
         }
@@ -31,9 +31,7 @@
             Plate was not found, do you want to save that plate?
         </div>
         <div>
-            <form @OnSubmit="PostPlate">
-            <button type="submit">Save Plate</button>
-            </form>
+            <button type="submit" @OnSubmit="PostPlate">Save Plate</button>
         </div>
     }
 }
