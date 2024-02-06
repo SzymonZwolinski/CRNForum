@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Platender.Application.Messages;
 using Platender.Application.Messages.Queries;
 using Platender.Application.Providers;
-using Platender.Core.Enums;
-using Platender.Core.Helpers;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Platender.Api.Controllers
 {

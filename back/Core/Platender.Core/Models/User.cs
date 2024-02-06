@@ -4,12 +4,14 @@ namespace Platender.Core.Models
 {
 	public class User
 	{
-        public Guid Id { get; set; }    
-        public string Username { get; set; }
-		public byte[] PasswordHash { get; set; }
-		public byte[] PasswordSalt { get; set; }
-        public UserStatus userStatus { get; set; }
-
+        public Guid Id { get; private set; }    
+        public string Username { get; private set; }
+		public byte[] PasswordHash { get; private set; }
+		public byte[] PasswordSalt { get; private set; }
+        public UserStatus UserStatus { get; private set; }
+        public IEnumerable<EventParticipators> Events => _events;
+        private List<EventParticipators> _events { get; } = new();
+            
         public User(){}
 
         public User(
@@ -21,7 +23,7 @@ namespace Platender.Core.Models
             
             PasswordHash = passwordHash;
             PasswordSalt = passwordSalt;
-            userStatus = UserStatus.New;
+            UserStatus = UserStatus.New;
         }
 
         private void SetUserName(string userName)

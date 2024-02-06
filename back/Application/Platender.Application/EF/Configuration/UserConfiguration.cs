@@ -14,7 +14,7 @@ namespace Platender.Application.EF.Configuration
             builder.Property(x => x.Username).HasMaxLength(31);
             builder.HasIndex(x => x.Username).IsUnique();
 
-            builder.Property(x => x.userStatus).HasConversion<string>().HasMaxLength(3);
+            builder.Property(x => x.UserStatus).HasConversion<string>().HasMaxLength(3);
 
             builder.Property(x => x.PasswordSalt).IsRequired();
             builder.Property(x => x.PasswordHash).IsRequired();

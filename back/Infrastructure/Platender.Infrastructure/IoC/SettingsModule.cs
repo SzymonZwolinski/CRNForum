@@ -16,6 +16,7 @@ namespace Platender.Infrastructure.IoC
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
+
             var tokenSettings = _configuration.GetSection(TokenSettings.CONFIG_NAME).Get<TokenSettings>();
 
             builder.RegisterInstance(tokenSettings).SingleInstance();

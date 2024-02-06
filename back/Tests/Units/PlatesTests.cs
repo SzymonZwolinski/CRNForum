@@ -1,6 +1,3 @@
-using Platender.Core.Enums;
-using Platender.Core.Models;
-
 namespace Tests.Units
 {
     public class PlatesTests

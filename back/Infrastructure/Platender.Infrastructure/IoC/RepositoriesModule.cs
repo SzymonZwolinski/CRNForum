@@ -9,8 +9,10 @@ namespace Platender.Infrastructure.IoC
 		protected override void Load(ContainerBuilder builder)
 		{
 			base.Load(builder);
+
 			builder.RegisterType<PlateRepository>().As<IPlateRepository>().InstancePerLifetimeScope();
 			builder.RegisterType<AuthRepository>().As<IAuthRepository>().InstancePerLifetimeScope();
+			builder.RegisterType<EventRepository>().As<IEventRepository>().InstancePerLifetimeScope();
 		}
 	}
 }

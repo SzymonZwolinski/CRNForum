@@ -23,7 +23,7 @@ namespace Platender.Application.Repositories
 		}
 
 		public async Task<bool> CheckIfPlateExistsAsync(string number)
-		=> await _platenderDbContext.plates.AnyAsync(x => x.Number == number);
+			=> await _platenderDbContext.plates.AnyAsync(x => x.Number == number);
 
         public async Task<(IEnumerable<Plate>, int)> GetAllPlatesAsync(
 			string number, 
