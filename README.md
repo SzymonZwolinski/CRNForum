@@ -9,10 +9,14 @@ This project utilizes the following technologies:
 <br>
 - <strong>C# (ASP.NET Core)</strong>: Used for the server-side implementation, following Domain-Driven Design (DDD) principles and Onion Architecture.
 <br>
-- <strong>NUnit && Shouldy</strong>: Server-side unit tests.
+<dl>
+  <dd>- <strong>NUnit && Shouldy</strong>: Server-side unit tests.</dd>
+</dl>
 <br>
-- <strong>Blazor WebAssembly</strong>: Employed for the front-end development.
-
+- <strong>Blazor WebAssembly</strong>: Front-end development. <br>
+<dl>
+<dd>- <strong>Leaflet</strong>: Interactive event map.</dd>
+</dl>
 <h2>Project Structure</h2>
 "back" folder contains server-side implementation with the useage of Onion Architecture. <br>
 
