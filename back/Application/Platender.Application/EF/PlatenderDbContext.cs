@@ -12,6 +12,7 @@ namespace Platender.Application.EF
         public DbSet<User> users { get; set; }
         public DbSet<Plate> plates { get; set; }
         public DbSet<Event> events { get; set; }
+        public DbSet<EventUser> eventUser { get; set; }
 
         public PlatenderDbContext(
             DbContextOptions<PlatenderDbContext> options,
@@ -34,6 +35,7 @@ namespace Platender.Application.EF
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new EventConfiguration());
+            modelBuilder.ApplyConfiguration(new EventUserConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

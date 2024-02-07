@@ -44,12 +44,11 @@
             var @event = Act(Title, Description, Longtitude, Latitude, Creator);
 
             //Act
-            var eventParticipator = new EventParticipators(@event, participator);
-            @event.AddParticipator(eventParticipator);
+            @event.AddParticipator(participator);
 
             //Arrange
             @event.Participators.ShouldNotBeEmpty();
-            @event.Participators.ShouldContain(eventParticipator);
+            @event.Participators.ShouldContain(participator);
         }
 
         [Fact]
@@ -58,15 +57,14 @@
             //Arrange
             var participator = new User();
             var @event = Act(Title, Description, Longtitude, Latitude, Creator);
-            var eventParticipator = new EventParticipators(@event, participator);
 
-            @event.AddParticipator(eventParticipator);
+            @event.AddParticipator(participator);
 
             //Act
-            @event.RemoveParticipator(eventParticipator);
+            @event.RemoveParticipator(participator);
 
             //Arrange
-            @event.Participators.ShouldNotContain(eventParticipator);
+            @event.Participators.ShouldNotContain(participator);
         }
         #endregion
 

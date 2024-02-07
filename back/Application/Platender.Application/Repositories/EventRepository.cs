@@ -16,8 +16,7 @@ namespace Platender.Application.Repositories
 
         public async Task CreateEventAsync(Event @event)
         {
-            _platenderDbContext.Add(@event);
-
+            await _platenderDbContext.AddAsync(@event);
             await _platenderDbContext.SaveChangesAsync();
         }
 
@@ -30,7 +29,7 @@ namespace Platender.Application.Repositories
             => await _platenderDbContext.events
                 .Include(x => x.Participators)
                 .Where(x =>
-                    x.Participators.Any(y => y.User == user) 
+                    x.Participators.Any(x => x.User == user)
                     || x.Creator == user)
                 .ToListAsync();
 

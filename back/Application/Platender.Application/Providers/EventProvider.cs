@@ -19,6 +19,8 @@ namespace Platender.Application.Providers
                 addEvent.Description,
                 addEvent.Longtitude, 
                 addEvent.Latitude,
+                addEvent.EventAt,
+                addEvent.TimeZone,
                 userName);
         }
     }

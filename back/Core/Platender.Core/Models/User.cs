@@ -9,9 +9,8 @@ namespace Platender.Core.Models
 		public byte[] PasswordHash { get; private set; }
 		public byte[] PasswordSalt { get; private set; }
         public UserStatus UserStatus { get; private set; }
-        public IEnumerable<EventParticipators> Events => _events;
-        private List<EventParticipators> _events { get; } = new();
-            
+        public ICollection<EventUser> EventUsers { get; private set; }
+
         public User(){}
 
         public User(
@@ -19,6 +18,7 @@ namespace Platender.Core.Models
             byte[] passwordHash,
             byte[] passwordSalt)
         {
+            Id = Guid.NewGuid();
             SetUserName(userName);
             
             PasswordHash = passwordHash;

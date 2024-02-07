@@ -19,7 +19,7 @@ namespace Platender.Core.Services
             var @event = await _eventRepository.GetEventByIdAsync(eventId);
             var user = await _authRepository.GetUserAsync(userName);
 
-            @event.AddParticipator(new EventParticipators(@event, user));
+            @event.AddParticipator(user);
 
             await _eventRepository.UpdateEventAsync(@event);
         }
@@ -29,6 +29,8 @@ namespace Platender.Core.Services
             string description,
             decimal x, 
             decimal y,
+            DateTime eventAt,
+            decimal timeZone,
             string creatorUserName)
         {
             var creator = await _authRepository.GetUserAsync(creatorUserName);
@@ -37,6 +39,8 @@ namespace Platender.Core.Services
                 description,
                 x, 
                 y, 
+                eventAt,
+                timeZone,
                 creator);
 
             await _eventRepository.CreateEventAsync(@event);

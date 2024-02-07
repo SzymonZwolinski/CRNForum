@@ -8,32 +8,46 @@ namespace Platender.Core.Models
         public string Description { get; private set; }
         public decimal Longtitude { get; private set; }
         public decimal Latitude { get; private set; }
+        public DateTime EventAt { get; private set; }
+        public decimal TimeZone { get; private set; }
+        public DateTime CreatedAt { get; private set; }
         public User Creator { get; private set; }
-        public IEnumerable<EventParticipators> Participators => _participators;
-        private HashSet<EventParticipators> _participators { get; } = new();
+        public ICollection<EventUser> Participators { get; set; } = new HashSet<EventUser>();
+
+
+        public Event()
+        {
+
+        }
 
         public Event(
             string title,
             string description,
             decimal Longtitude,
             decimal latitude,
+            DateTime eventAt,
+            decimal timezone,
             User creator)
         {
             SetTitle(title);
             SetDescription(description);
             SetCoordinates(Longtitude, latitude);
             SetCreator(creator);
+            SetEventAt(eventAt);
+            SetTimeZone(timezone);
+
+            CreatedAt = DateTime.UtcNow;
         }
 
         #region Setters
         private void SetTitle(string title)
         {
-            if(string.IsNullOrWhiteSpace(title))
+            if (string.IsNullOrWhiteSpace(title))
             {
                 throw new ArgumentNullException("Event title cannot be null or whitespace");
             }
 
-            if(title.Length > 63)
+            if (title.Length > 63)
             {
                 throw new ArgumentOutOfRangeException("Event title cannot be longer than 63 chars");
             }
@@ -43,7 +57,7 @@ namespace Platender.Core.Models
 
         private void SetDescription(string description)
         {
-            if(description.Length > 255)
+            if (description.Length > 255)
             {
                 throw new ArgumentOutOfRangeException("Event description cannot be longer than 255 chars");
             }
@@ -51,7 +65,7 @@ namespace Platender.Core.Models
             Description = description;
         }
 
-        private void SetCoordinates(decimal langtitude, decimal latitude) 
+        private void SetCoordinates(decimal langtitude, decimal latitude)
         {
             Longtitude = langtitude;
             Latitude = latitude;
@@ -66,17 +80,39 @@ namespace Platender.Core.Models
 
             Creator = creator;
         }
+
+        private void SetEventAt(DateTime eventAt)
+        {
+            if ((eventAt < DateTime.UtcNow) || ((eventAt - DateTime.UtcNow).TotalDays > 6 * 30))
+            {
+                throw new ArgumentOutOfRangeException("Event cannot be created for date less than today or more than 6 months ahead");
+            }
+            EventAt = eventAt;
+        }
+
+        private void SetTimeZone(decimal timeZone)
+        {
+            if(timeZone > 14 || timeZone < -12)
+            {
+                throw new ArgumentOutOfRangeException("Timezone cannot be more than 14 and less than -12");
+            }
+
+            TimeZone = timeZone;
+        }
         #endregion
 
-        public void AddParticipator(EventParticipators participator)
-            => _participators.Add(participator);
+        public void AddParticipator(User participator)
+            => Participators.Add(new EventUser(this));
         
-        public void RemoveParticipator(EventParticipators participator)
+        public void RemoveParticipator(User participator)
         {
-            if(_participators.Contains(participator))
+            /*if(Participators.Any(x => x.UserId == participator))
             {
-                _participators.Remove(participator);
-            }
+                var participatorToRemove = Participators
+                    .FirstOrDefault(x => x.User == participator);
+
+                Participators.Remove(participatorToRemove);
+            }*/
         }
 
 
