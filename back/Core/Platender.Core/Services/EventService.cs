@@ -27,18 +27,18 @@ namespace Platender.Core.Services
         public async Task CreateEventAsync(
             string title,
             string description,
-            decimal x, 
-            decimal y,
+            float longtitude,
+            float latitude,
             DateTime eventAt,
-            decimal timeZone,
+            float timeZone,
             string creatorUserName)
         {
             var creator = await _authRepository.GetUserAsync(creatorUserName);
             var @event = new Event(
                 title, 
                 description,
-                x, 
-                y, 
+                longtitude, 
+                latitude, 
                 eventAt,
                 timeZone,
                 creator);
@@ -46,11 +46,20 @@ namespace Platender.Core.Services
             await _eventRepository.CreateEventAsync(@event);
         }
 
-        public async Task<IEnumerable<Event>> GetUserEventsAsync(string userName)
+        public async Task<IEnumerable<Event>> GetAllEventsAsync(DateTime? eventAtFrom, DateTime? eventAtTo)
+            => await _eventRepository.GetEventsAsync(eventAtFrom, eventAtTo);
+        
+        public async Task<IEnumerable<Event>> GetUserEventsAsync(
+            DateTime? eventAtFrom,
+            DateTime? eventAtTo, 
+            string userName)
         {
             var user = await _authRepository.GetUserAsync(userName);
 
-            return await _eventRepository.GetEventsForUserAsync(user);
+            return await _eventRepository.GetEventsForUserAsync(
+                eventAtFrom,
+                eventAtTo,
+                user);
         }
     }
 }

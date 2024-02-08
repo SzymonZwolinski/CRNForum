@@ -10,7 +10,7 @@ namespace Platender.Api.Controllers
 		{
             var user = HttpContext.User;
 
-            if (user != null)
+            if (user != null && user.Identity.IsAuthenticated)
             {
                 UserName = user.FindFirst("UserName").Value;
 			}

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Platender.Application.Messages;
+using Platender.Application.Messages.Queries;
 using Platender.Application.Providers;
 
 namespace Platender.Api.Controllers
@@ -24,6 +25,24 @@ namespace Platender.Api.Controllers
             await _eventProvider.CreateEventAsync(addEvent, UserName);
 
             return Results.Created();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserEvents([FromQuery] GetEvents getEvents)
+        {
+            InitalizeHttpContextClaims();
+
+            var events = await _eventProvider.GetUserEvents(getEvents, UserName);
+
+            return new JsonResult(events);
+        }
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllEvents([FromQuery] GetEvents getEvents)
+        {
+            var events = await _eventProvider.GetAllEvents(getEvents);
+
+            return new JsonResult(events);
         }
     }
 }

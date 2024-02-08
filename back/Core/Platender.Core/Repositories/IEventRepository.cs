@@ -6,7 +6,11 @@ namespace Platender.Core.Repositories
     {
         Task CreateEventAsync(Event @event);
         Task UpdateEventAsync(Event @event);
-        Task<IEnumerable<Event>> GetEventsForUserAsync(User user);
+        Task<IEnumerable<Event>> GetEventsForUserAsync(
+            DateTime? EventAtFrom,
+            DateTime? EventAtTo, 
+            User user);
         Task<Event> GetEventByIdAsync(Guid id);
+        Task<IEnumerable<Event>> GetEventsAsync(DateTime? EventAtFrom, DateTime? EventAtTo);
     }
 }

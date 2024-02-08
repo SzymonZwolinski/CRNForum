@@ -1,6 +1,6 @@
-﻿namespace Platender.Application.Messages
+﻿namespace Platender.Front.Dto
 {
-    public class AddEvent
+    public class EventDto
     {
         public string Title { get; set; }
         public string Description { get; set; }
@@ -8,5 +8,7 @@
         public float Latitude { get; set; }
         public DateTime EventAt { get; set; }
         public float TimeZone { get; set; }
+        public string Creator { get; set; }
+        public int Participators { get; set; }
     }
 }

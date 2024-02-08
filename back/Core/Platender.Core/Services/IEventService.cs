@@ -7,12 +7,16 @@ namespace Platender.Core.Services
         Task CreateEventAsync(
             string title,
             string description,
-            decimal longtitude, 
-            decimal latitude, 
+            float longtitude,
+            float latitude, 
             DateTime eventAt,
-            decimal timeZone,
+            float timeZone,
             string creatorUserName);
         Task AddUserToEventAsync(string userName, Guid eventId);
-        Task<IEnumerable<Event>> GetUserEventsAsync(string userName);
+        Task<IEnumerable<Event>> GetUserEventsAsync(
+            DateTime? eventAtFrom,
+            DateTime? eventAtTo,
+            string userName);
+        Task<IEnumerable<Event>> GetAllEventsAsync(DateTime? eventAtFrom, DateTime? eventAtTo);
     }
 }

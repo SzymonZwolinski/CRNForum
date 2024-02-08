@@ -6,10 +6,10 @@ namespace Platender.Core.Models
         public Guid Id { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
-        public decimal Longtitude { get; private set; }
-        public decimal Latitude { get; private set; }
+        public float Longtitude { get; private set; }
+        public float Latitude { get; private set; }
         public DateTime EventAt { get; private set; }
-        public decimal TimeZone { get; private set; }
+        public float TimeZone { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public User Creator { get; private set; }
         public ICollection<EventUser> Participators { get; set; } = new HashSet<EventUser>();
@@ -23,10 +23,10 @@ namespace Platender.Core.Models
         public Event(
             string title,
             string description,
-            decimal Longtitude,
-            decimal latitude,
+            float Longtitude,
+            float latitude,
             DateTime eventAt,
-            decimal timezone,
+            float timezone,
             User creator)
         {
             SetTitle(title);
@@ -65,7 +65,7 @@ namespace Platender.Core.Models
             Description = description;
         }
 
-        private void SetCoordinates(decimal langtitude, decimal latitude)
+        private void SetCoordinates(float langtitude, float latitude)
         {
             Longtitude = langtitude;
             Latitude = latitude;
@@ -90,7 +90,7 @@ namespace Platender.Core.Models
             EventAt = eventAt;
         }
 
-        private void SetTimeZone(decimal timeZone)
+        private void SetTimeZone(float timeZone)
         {
             if(timeZone > 14 || timeZone < -12)
             {
