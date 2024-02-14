@@ -34,9 +34,9 @@ namespace Platender.Front.Pages
 
         private async Task PostPlate()
         {
-            if(SentNumbers != Numbers || SentCultureCode != CultureCode)
+            if(SentNumbers != Numbers || SentCultureCode != CultureCode) 
             {
-                return; //TODO: Add error that indicates that plate was changed and cannot be added
+                return; 
             }
 
             await _plateService.PostPlateAsync(Numbers, CultureCode);

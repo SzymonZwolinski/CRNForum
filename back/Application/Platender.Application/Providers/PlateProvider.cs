@@ -76,5 +76,14 @@ namespace Platender.Application.Providers
                 commentDto);
 
         }
+
+        public async Task AddSpotAsync(AddSpot plate, string spotterUserName)
+        {
+            await _plateService.AddSpotToPlateAsync(
+                plate.PlateId,
+                plate.Image,
+                plate.Description,
+                spotterUserName);
+        }
     }
 }

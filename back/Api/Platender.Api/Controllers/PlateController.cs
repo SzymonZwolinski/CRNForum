@@ -48,8 +48,20 @@ namespace Platender.Api.Controllers
 		public async Task<IResult> AddCommentToPlate([FromRoute] Guid plateId, [FromBody] AddComment comment)
 		{
 			InitalizeHttpContextClaims();
+			comment.PlateId = plateId;
 			
 			await _plateProvider.AddCommentAsync(comment, UserName);
+			return Results.Ok();
+		}
+
+		[Authorize]
+		[HttpPut("{plateId}/spot")]
+		public async Task<IResult> AddSpotToPlate([FromRoute] Guid plateId, [FromBody] AddSpot spot)
+		{
+			InitalizeHttpContextClaims();
+			spot.PlateId = plateId;
+
+			await _plateProvider.AddSpotAsync(spot, UserName);
 			return Results.Ok();
 		}
 	}

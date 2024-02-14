@@ -68,5 +68,31 @@ namespace Platender.Core.Services
 				numbers,
 				cultureCode, 
 				page);
+
+        public async Task AddSpotToPlateAsync(
+			Guid plateId,
+			byte[] image, 
+			string content,
+			string userName)
+        {
+			var user = await _authRepository.GetUserAsync(userName);
+			var plate = await _plateRepository.GetPlateAsync(plateId);
+			var spot = CreateSpot(
+				user,
+				image, 
+				content);
+
+			plate.AddSpott(spot);
+
+			await _plateRepository.UpdatePlateAsync(plate);
+        }
+
+		private Spotts CreateSpot(
+			User user, 
+			byte[] image,
+			string description)
+		{
+			return new Spotts(user, image, description);
+		}
     }
 }

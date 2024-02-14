@@ -2,8 +2,8 @@
 {
     public class EventTests
     {
-        private Event Act(string title, string description, decimal longtitude, decimal latitude, User creator)
-            => new Event(title, description, longtitude, latitude, creator);
+        private Event Act(string title, string description, float longtitude, float latitude, DateTime time, float timeZone, User creator)
+            => new Event(title, description, longtitude, latitude, time, timeZone, creator);
 
         #region Positive
         [Fact]
@@ -11,7 +11,7 @@
         {
             //Arrange
             //Act
-            var @event = Act(Title, Description, Longtitude, Latitude, Creator);
+            var @event = Act(Title, Description, Longtitude, Latitude, Time, TimeZone, Creator);
 
             //Assert
             @event.ShouldNotBeNull();
@@ -29,7 +29,7 @@
             var description = string.Empty;
 
             //Act
-            var @event = Act(Title, description, Longtitude, Latitude, Creator);
+            var @event = Act(Title, description, Longtitude, Latitude, Time, TimeZone, Creator);
 
             //Assert
             @event.ShouldNotBeNull();
@@ -41,14 +41,16 @@
         {
             //Arrange
             var participator = new User();
-            var @event = Act(Title, Description, Longtitude, Latitude, Creator);
+            var @event = Act(Title, Description, Longtitude, Latitude, Time, TimeZone, Creator);
 
             //Act
             @event.AddParticipator(participator);
 
             //Arrange
             @event.Participators.ShouldNotBeEmpty();
-            @event.Participators.ShouldContain(participator);
+
+            var firstParticipator = @event.Participators.AsEnumerable().First();
+            firstParticipator.User.ShouldBe(participator);
         }
 
         [Fact]
@@ -56,7 +58,7 @@
         {
             //Arrange
             var participator = new User();
-            var @event = Act(Title, Description, Longtitude, Latitude, Creator);
+            var @event = Act(Title, Description, Longtitude, Latitude, Time, TimeZone, Creator);
 
             @event.AddParticipator(participator);
 
@@ -64,7 +66,7 @@
             @event.RemoveParticipator(participator);
 
             //Arrange
-            @event.Participators.ShouldNotContain(participator);
+            @event.Participators.ShouldBeEmpty();
         }
         #endregion
 
@@ -76,7 +78,7 @@
             var title = string.Empty;
 
             //Act
-            var exception = Record.Exception(() => Act(title, Description, Longtitude, Latitude, Creator));
+            var exception = Record.Exception(() => Act(title, Description, Longtitude, Latitude, Time, TimeZone, Creator));
 
             //Assert
             exception.ShouldNotBeNull();
@@ -90,7 +92,7 @@
             var title = TestStringHelper.GenerateStrWithLen(64);
 
             //Act
-            var exception = Record.Exception( () => Act(title, Description, Longtitude, Latitude, Creator));
+            var exception = Record.Exception( () => Act(title, Description, Longtitude, Latitude, Time, TimeZone, Creator));
 
             //Assert
             exception.ShouldNotBeNull();
@@ -104,7 +106,7 @@
             var description = TestStringHelper.GenerateStrWithLen(256);
 
             //Act
-            var exception = Record.Exception(() => Act(Title, description, Longtitude, Latitude, Creator));
+            var exception = Record.Exception(() => Act(Title, description, Longtitude, Latitude, Time, TimeZone, Creator));
 
             //Assert
             exception.ShouldNotBeNull();
@@ -118,7 +120,7 @@
             var creator = (User)null;
 
             //Act
-            var exception = Record.Exception(() => Act(Title, Description, Longtitude, Latitude, creator));
+            var exception = Record.Exception(() => Act(Title, Description, Longtitude, Latitude, Time, TimeZone, creator));
 
             //Assert
             exception.ShouldNotBeNull();
@@ -130,8 +132,10 @@
         User Creator => new User();
         string Title = "Wydarzenie Testowe";
         string Description = "Wydarzenie które odbedzie sie testowo";
-        decimal Longtitude = 26.097369m;
-        decimal Latitude = 44.444941m;
+        float Longtitude = 26.097369f;
+        float Latitude = 44.444941f;
+        DateTime Time = DateTime.UtcNow;
+        float TimeZone = 1;
         #endregion
     }
 }

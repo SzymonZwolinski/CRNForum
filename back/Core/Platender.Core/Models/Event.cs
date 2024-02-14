@@ -106,13 +106,13 @@ namespace Platender.Core.Models
         
         public void RemoveParticipator(User participator)
         {
-            /*if(Participators.Any(x => x.UserId == participator))
+            if (Participators.Any(x => x.UserId == participator.Id))
             {
                 var participatorToRemove = Participators
                     .FirstOrDefault(x => x.User == participator);
 
                 Participators.Remove(participatorToRemove);
-            }*/
+            }
         }
 
 

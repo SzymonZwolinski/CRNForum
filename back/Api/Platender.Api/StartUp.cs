@@ -77,7 +77,6 @@ namespace Platender.Api
             app.UseAuthentication();
 			app.UseAuthorization();
 			
-
 			app.UseEndpoints(endpoints =>
 			{
 				//endpoints.MapGet("/", context => context.Response.WriteAsync("Gateway"));

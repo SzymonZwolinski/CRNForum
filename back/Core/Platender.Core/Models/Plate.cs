@@ -11,6 +11,8 @@ namespace Platender.Core.Models
 		public CultureCode? Culture { get; private set; }
 		public IEnumerable<Comment> Comments => _comments;
 		private List<Comment> _comments { get; } = new List<Comment>();
+        public IEnumerable<Spotts> Spotts => _spotts;
+        private List<Spotts> _spotts { get; } = new List<Spotts>();
 
         public Plate(){}
 
@@ -57,6 +59,11 @@ namespace Platender.Core.Models
 
 		public void AddComment(Comment comment)
 		{
+			if (comment is null)
+			{
+				throw new ArgumentNullException("Comment cannot be null");
+			}
+
 			_comments.Add(comment);
 		}
 
@@ -100,6 +107,26 @@ namespace Platender.Core.Models
 			{
 				_comments.First(x => x.Id == ComentId).RemoveDislike();
 			}
+		}
+
+		public void AddSpott(Spotts spot)
+		{
+			if(spot is null)
+			{
+				throw new ArgumentNullException("Spot cannot be null");
+			}
+
+			_spotts.Add(spot);
+		}
+
+		public void RemoveSpot(Spotts spot)
+		{
+			if(spot is null)
+			{
+				throw new ArgumentNullException("Spot cannot be null");
+			}
+
+			_spotts.Remove(spot);
 		}
 		#endregion
 	}
