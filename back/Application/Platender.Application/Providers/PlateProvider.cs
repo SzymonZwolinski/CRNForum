@@ -58,23 +58,12 @@ namespace Platender.Application.Providers
             {
                 return default;
             }
-            var commentDto = plate.Comments?
-                .Select(x =>
-                new CommentDto(
-                    x.Id,
-                    x.Content,
-                    x.User.Username,
-                    x.Sequence,
-                    x.LikeCount,
-                    x.DislikeCount));
-
+          
             return new PlateDto(
                 plate.Id,
                 plate.Number,
                 plate.LikeRatio,
-                plate.Culture.ToString(),
-                commentDto);
-
+                plate.Culture.ToString());
         }
 
         public async Task AddSpotAsync(AddSpot plate, string spotterUserName)
@@ -85,5 +74,42 @@ namespace Platender.Application.Providers
                 plate.Description,
                 spotterUserName);
         }
+
+        public async Task<PagedData<CommentDto>> GetPlateCommentsAsync(Guid plateId, int? page)
+        {
+            var (comments, amount) = await _plateService.GetPlateCommentsAsync(plateId, page);
+
+            return new PagedData<CommentDto>(
+                comments.Select(x => MapToCommentDto(x)),
+                amount);
+        }
+
+        private CommentDto MapToCommentDto(Comment comment) 
+            => new CommentDto(
+                comment.Id, 
+                comment.Content,
+                comment.User.Username,
+                comment.Sequence,
+                comment.LikeCount,
+                comment.DislikeCount,
+                comment.CreatedAt);
+
+        public async Task<PagedData<SpottDto>> GetPlateSpottsAsync(Guid plateId, int? page)
+        {
+            var (spotts, amount) = await _plateService.GetPlateSpottsAsync(plateId, page);
+
+            return new PagedData<SpottDto>(
+                spotts.Select(x => MapToSpottDto(x)),
+                amount );
+        }
+
+        private SpottDto MapToSpottDto(Spotts spott)
+            => new SpottDto(
+                spott.Id,
+                spott.Description,
+                spott.Image,
+                spott.User.Username,
+                spott.CreatedAt);
+        
     }
 }

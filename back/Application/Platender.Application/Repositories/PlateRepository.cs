@@ -28,10 +28,9 @@ namespace Platender.Application.Repositories
         public async Task<(IEnumerable<Plate>, int)> GetAllPlatesAsync(
 			string number, 
 			CultureCode? cultureCode, 
-			int? Page)
+			int? page)
 		{
-			var query = _platenderDbContext
-				.plates
+			var query = _platenderDbContext.plates
 				.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(number))
@@ -45,20 +44,53 @@ namespace Platender.Application.Repositories
 			}
 
 			return (await query
-					.Skip((Page - 1) * 10 ?? 0)
-					.Take(Page * 10 ?? 10)
+					.Skip((page - 1) * 10 ?? 0)
+					.Take(page * 10 ?? 10)
 					.ToListAsync(),
-				query
-					.Count());
+				query.Count());
 		}      
 
         public async Task<Plate> GetPlateAsync(Guid plateId)
 			=> await _platenderDbContext.plates
+				.FirstOrDefaultAsync(x => x.Id == plateId);
+
+		public async Task<(IEnumerable<Comment>,int)> GetPlateCommentsAsync(Guid plateId, int? page)
+		{
+            var query = _platenderDbContext.plates
 				.Include(x => x.Comments)
 					.ThenInclude(x => x.User)
-				.FirstOrDefaultAsync(x => x.Id == plateId);
-		
-		public async Task UpdatePlateAsync(Plate plate)
+				.Where(x => x.Id == plateId);
+
+            var commentsQuery = query.SelectMany(x => x.Comments);
+
+			return
+				(await commentsQuery
+					.OrderBy(x => x.CreatedAt)
+					.Skip((page - 1) * 10 ?? 0)
+					.Take(page * 10 ?? 10)
+					.ToListAsync(),
+				commentsQuery.Count());
+        }
+
+        public async Task<(IEnumerable<Spotts>, int)> GetPlateSpottsAsync(Guid plateId, int? page)
+        {
+            var query = _platenderDbContext.plates
+                .Include(x => x.Spotts)
+                    .ThenInclude(x => x.User)
+                .Where(x => x.Id == plateId);
+
+            var spottsQuery = query.SelectMany(x => x.Spotts);
+
+            return
+                (await spottsQuery
+                    .OrderBy(x => x.CreatedAt)
+                    .Skip((page - 1) * 10 ?? 0)
+                    .Take(page * 10 ?? 10)
+                    .ToListAsync(),
+                spottsQuery.Count());
+        }
+
+        public async Task UpdatePlateAsync(Plate plate)
 		{
 			_platenderDbContext.Update(plate);
 			await _platenderDbContext.SaveChangesAsync();

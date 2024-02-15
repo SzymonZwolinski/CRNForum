@@ -94,5 +94,11 @@ namespace Platender.Core.Services
 		{
 			return new Spotts(user, image, description);
 		}
+
+        public async Task<(IEnumerable<Comment>, int)> GetPlateCommentsAsync(Guid plateId, int? page)
+			=> await _plateRepository.GetPlateCommentsAsync(plateId, page);
+
+		public async Task<(IEnumerable<Spotts>, int)> GetPlateSpottsAsync(Guid plateId, int? page)
+			=> await _plateRepository.GetPlateSpottsAsync(plateId, page);
     }
 }

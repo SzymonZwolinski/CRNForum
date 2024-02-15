@@ -12,5 +12,7 @@ namespace Platender.Application.Providers
 		Task<Guid> AddPlateAsync(AddPlate plate);
         Task AddCommentAsync(AddComment comment, string commentingUserName);
         Task AddSpotAsync(AddSpot plate, string commentingUserName);
+        Task<PagedData<CommentDto>> GetPlateCommentsAsync(Guid plateId, int? page);
+        Task<PagedData<SpottDto>> GetPlateSpottsAsync(Guid plateId, int? page);
     }
 }

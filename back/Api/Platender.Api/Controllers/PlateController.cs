@@ -32,7 +32,23 @@ namespace Platender.Api.Controllers
 			return new JsonResult(plate);
 		}
 
-		[Authorize]
+		[HttpGet("{plateId}/comments")]
+		public async Task<IActionResult> GetPlateComments([FromRoute] Guid plateId, [FromQuery] int page)
+		{
+			var plateComments = await _plateProvider.GetPlateCommentsAsync(plateId, page);
+
+			return new JsonResult(plateComments);
+		}
+
+        [HttpGet("{plateId}/spotts")]
+        public async Task<IActionResult> GetPlateSpotts([FromRoute] Guid plateId, [FromQuery] int page)
+        {
+            var plateSpotts = await _plateProvider.GetPlateSpottsAsync(plateId, page);
+
+            return new JsonResult(plateSpotts);
+        }
+
+        [Authorize]
 		[HttpPost]
 		public async Task<IActionResult> AddPlate([FromBody] AddPlate plate)
 		{
