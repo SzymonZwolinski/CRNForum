@@ -110,6 +110,5 @@ namespace Platender.Application.Providers
                 spott.Image,
                 spott.User.Username,
                 spott.CreatedAt);
-        
     }
 }

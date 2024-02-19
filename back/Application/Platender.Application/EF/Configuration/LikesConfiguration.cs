@@ -4,11 +4,11 @@ using Platender.Core.Models;
 
 namespace Platender.Application.EF.Configuration
 {
-    internal class EventUserConfiguration : IEntityTypeConfiguration<EventUser>
+    internal class LikesConfiguration : IEntityTypeConfiguration<Likes>
     {
-        public void Configure(EntityTypeBuilder<EventUser> builder)
+        public void Configure(EntityTypeBuilder<Likes> builder)
         {
-            builder.HasKey(x => new { x.EventId, x.UserId });
+            builder.HasKey(x => new { x.Id, x.TypeId });
         }
     }
 }
