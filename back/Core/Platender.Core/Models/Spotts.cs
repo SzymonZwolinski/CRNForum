@@ -8,6 +8,8 @@
         public Plate Plate { get; private set; }
         public User User { get; private set; }
         public DateTime CreatedAt { get; private set; }
+        public IEnumerable<SpottLike> SpottLikes => _spottLikes;
+        private List<SpottLike> _spottLikes { get;  set; } = new();
 
         public Spotts(){}
 
@@ -43,5 +45,11 @@
             Description = description;
         }
         #endregion
+
+        public void AddLike(SpottLike spottLike)
+            => _spottLikes.Add(spottLike);
+
+        public void RemoveLike(SpottLike spottLike)
+            => _spottLikes.Remove(spottLike);
     }
 }

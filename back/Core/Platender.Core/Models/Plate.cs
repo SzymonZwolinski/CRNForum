@@ -13,6 +13,8 @@ namespace Platender.Core.Models
 		private List<Comment> _comments { get; } = new List<Comment>();
         public IEnumerable<Spotts> Spotts => _spotts;
         private List<Spotts> _spotts { get; } = new List<Spotts>();
+		public IEnumerable<PlateLike> PlateLikes => _plateLikes;
+		private List<PlateLike> _plateLikes { get; set; } = new();
 
         public Plate(){}
 
@@ -77,37 +79,11 @@ namespace Platender.Core.Models
 			}
 		}
 
-		public void LikeComment(Guid ComentId)
-		{
-			if (_comments.Any(x => x.Id == ComentId))
-			{
-				_comments.First(x => x.Id == ComentId).AddLike();
-			}
-		}
+		public void AddLike(PlateLike plateLike)
+			=> _plateLikes.Add(plateLike);
 
-		public void DislikeComment(Guid ComentId)
-		{
-			if (_comments.Any(x => x.Id == ComentId))
-			{
-				_comments.First(x => x.Id == ComentId).AddDislike();
-			}
-		}
-
-		public void UnLikeComment(Guid ComentId)
-		{
-			if (_comments.Any(x => x.Id == ComentId))
-			{
-				_comments.First(x => x.Id == ComentId).RemoveLike();
-			}
-		}
-
-		public void UnDislikeComment(Guid ComentId)
-		{
-			if (_comments.Any(x => x.Id == ComentId))
-			{
-				_comments.First(x => x.Id == ComentId).RemoveDislike();
-			}
-		}
+		public void RemoveLike(PlateLike plateLike)
+			=> _plateLikes.Remove(plateLike);
 
 		public void AddSpott(Spotts spot)
 		{

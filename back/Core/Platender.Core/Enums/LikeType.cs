@@ -2,7 +2,13 @@
 {
     public enum LikeType
     {
+        /// <summary>
+        /// Like
+        /// </summary>
         Lik,
-        dis
+        /// <summary>
+        /// Dislike
+        /// </summary>
+        Dis
     }
 }

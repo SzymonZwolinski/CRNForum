@@ -11,8 +11,8 @@ using Platender.Application.EF;
 namespace Platender.Infrastructure.Migrations
 {
     [DbContext(typeof(PlatenderDbContext))]
-    [Migration("20240219202322_LikesCreate")]
-    partial class LikesCreate
+    [Migration("20240223215616_PlateAndSpottLikeCreate")]
+    partial class PlateAndSpottLikeCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,29 +119,6 @@ namespace Platender.Infrastructure.Migrations
                     b.ToTable("eventUser");
                 });
 
-            modelBuilder.Entity("Platender.Core.Models.Likes", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("TypeId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("AssociatedLikeType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LikeKind")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserAddress")
-                        .IsRequired()
-                        .HasColumnType("varchar(45)");
-
-                    b.HasKey("Id", "TypeId");
-
-                    b.ToTable("likes");
-                });
-
             modelBuilder.Entity("Platender.Core.Models.Plate", b =>
                 {
                     b.Property<Guid>("Id")
@@ -163,6 +140,46 @@ namespace Platender.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("plates");
+                });
+
+            modelBuilder.Entity("Platender.Core.Models.PlateLike", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("LikeType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("PlateId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("UserIPAddress")
+                        .IsRequired()
+                        .HasColumnType("varchar(45)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("plateLike");
+                });
+
+            modelBuilder.Entity("Platender.Core.Models.SpottLike", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("LikeType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("SpottId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("UserIPAddress")
+                        .IsRequired()
+                        .HasColumnType("varchar(45)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("spottLike");
                 });
 
             modelBuilder.Entity("Platender.Core.Models.Spotts", b =>
@@ -278,6 +295,28 @@ namespace Platender.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Platender.Core.Models.PlateLike", b =>
+                {
+                    b.HasOne("Platender.Core.Models.Plate", "Plate")
+                        .WithMany("PlateLikes")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Plate");
+                });
+
+            modelBuilder.Entity("Platender.Core.Models.SpottLike", b =>
+                {
+                    b.HasOne("Platender.Core.Models.Spotts", "Spott")
+                        .WithMany("SpottLikes")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Spott");
+                });
+
             modelBuilder.Entity("Platender.Core.Models.Spotts", b =>
                 {
                     b.HasOne("Platender.Core.Models.Plate", "Plate")
@@ -306,7 +345,14 @@ namespace Platender.Infrastructure.Migrations
                 {
                     b.Navigation("Comments");
 
+                    b.Navigation("PlateLikes");
+
                     b.Navigation("Spotts");
+                });
+
+            modelBuilder.Entity("Platender.Core.Models.Spotts", b =>
+                {
+                    b.Navigation("SpottLikes");
                 });
 
             modelBuilder.Entity("Platender.Core.Models.User", b =>
