@@ -7,7 +7,7 @@ using Platender.Application.Providers;
 namespace Platender.Api.Controllers
 {
     [Route("[Controller]")]
-	public class PlateController : BaseController
+	public partial class PlateController : BaseController
 	{
 		private readonly IPlateProvider _plateProvider;
 

@@ -7,7 +7,6 @@ namespace Platender.Core.Models
 		//Plate jest to "produkt" który może posiadać opis + komenatrze
 		public Guid Id { get; private set; }
 		public string Number { get; private set; }
-		public int LikeRatio { get; private set; }
 		public CultureCode? Culture { get; private set; }
 		public IEnumerable<Comment> Comments => _comments;
 		private List<Comment> _comments { get; } = new List<Comment>();
@@ -22,7 +21,6 @@ namespace Platender.Core.Models
 		{
 			SetNumber(number);
 			SetCultureCode(culture);
-			LikeRatio = 0;
 		}
 
 		#region Setters
@@ -49,16 +47,6 @@ namespace Platender.Core.Models
 		#endregion
 
 		#region GettersAndControlMethods
-		public void AddToLikeRatio()
-		{
-			LikeRatio++;
-		}
-
-		public void SubtractFromLikeRatio()
-		{
-			LikeRatio--;
-		}
-
 		public void AddComment(Comment comment)
 		{
 			if (comment is null)

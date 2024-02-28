@@ -6,6 +6,7 @@ using Platender.Core.Extensions.EnumExtensions;
 using Platender.Core.Helpers;
 using Platender.Core.Models;
 using Platender.Core.Services;
+using System.Net;
 
 namespace Platender.Application.Providers
 {
@@ -24,14 +25,11 @@ namespace Platender.Application.Providers
 		}
 
 		public async Task<Guid> AddPlateAsync(AddPlate addPlate)
-        {
-
-            return await _plateService
+            => await _plateService
                 .AddPlateAsync(
                     addPlate.Numbers, 
                     addPlate.CultureCode
                             .MapStringToEnumOrNull<CultureCode>());
-        }
 
         public async Task<PagedData<PlateDto>> GetPlatesAsync(GetAllPlates getAllPlates)
         {
@@ -62,7 +60,6 @@ namespace Platender.Application.Providers
             return new PlateDto(
                 plate.Id,
                 plate.Number,
-                plate.LikeRatio,
                 plate.Culture.ToString());
         }
 
@@ -110,5 +107,18 @@ namespace Platender.Application.Providers
                 spott.Image,
                 spott.User.Username,
                 spott.CreatedAt);
+
+        public async Task AddOrRemoveReactionToPlateAsync(AddReaction plateLike, IPAddress userIpAddress)
+            => await _plateService.AddOrRemoveReactionToPlateAsync(
+                plateLike.PlateId,
+                userIpAddress,
+                plateLike.LikeType);
+
+        public async Task AddOrRemoveReactionToSpottAsync(AddReaction spottLike, IPAddress userIpAddress)
+            => await _plateService.AddOrRemoveReactionToSpottAsync(
+                spottLike.PlateId,
+                spottLike.SpottId,
+                userIpAddress, 
+                spottLike.LikeType);
     }
 }

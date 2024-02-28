@@ -1,5 +1,6 @@
 ﻿using Platender.Core.Enums;
 using Platender.Core.Models;
+using System.Net;
 
 namespace Platender.Core.Services
 {
@@ -12,6 +13,15 @@ namespace Platender.Core.Services
 			CultureCode? cultureCode, 
 			int? page);
         Task<Guid> AddPlateAsync(string number, CultureCode? cultureCode);
+		Task AddOrRemoveReactionToPlateAsync(
+			Guid plateId,
+			IPAddress userIP,
+			LikeType likeType);
+		Task AddOrRemoveReactionToSpottAsync(
+			Guid plateId, 
+			Guid spottId,
+			IPAddress userIP, 
+			LikeType likeType);
 		Task AddCommentToPlateAsync(Guid plateId, string content, string userName);
 		Task AddSpotToPlateAsync(Guid plateId, byte[] image, string content, string userName);
 		Task<(IEnumerable<Comment>, int)> GetPlateCommentsAsync(Guid plateId, int? page);

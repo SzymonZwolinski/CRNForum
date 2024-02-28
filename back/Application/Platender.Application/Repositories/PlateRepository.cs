@@ -90,6 +90,17 @@ namespace Platender.Application.Repositories
                 spottsQuery.Count());
         }
 
+		public async Task<Plate> GetPlateWithLikesAsync(Guid plateId)
+			=> await _platenderDbContext.plates
+				.Include(x => x.PlateLikes)
+				.FirstOrDefaultAsync(x => x.Id == plateId);
+
+        public async Task<Plate> GetPlateWithSpottLikesAsync(Guid plateId)
+			=> await _platenderDbContext.plates
+				.Include(x => x.Spotts)
+					.ThenInclude(x => x.SpottLikes)
+				.FirstOrDefaultAsync(x=> x.Id == plateId);
+
         public async Task UpdatePlateAsync(Plate plate)
 		{
 			_platenderDbContext.Update(plate);
