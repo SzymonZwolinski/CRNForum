@@ -49,5 +49,6 @@ namespace Platender.Api.Controllers
 
             return Results.Ok();
         }
+
     }
 }

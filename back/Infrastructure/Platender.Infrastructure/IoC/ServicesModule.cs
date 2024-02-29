@@ -15,6 +15,7 @@ namespace Platender.Infrastructure.IoC
             builder.RegisterType<AuthService>().As<IAuthService>().InstancePerLifetimeScope();
             builder.RegisterType<JWTTokenService>().As<IJWTTokenService>().InstancePerLifetimeScope();
             builder.RegisterType<EventService>().As<IEventService>().InstancePerLifetimeScope();    
+            builder.RegisterType<LikesService>().As<ILikesService>().InstancePerLifetimeScope();
         }
     }
 }

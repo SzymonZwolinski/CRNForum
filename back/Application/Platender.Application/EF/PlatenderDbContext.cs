@@ -13,9 +13,7 @@ namespace Platender.Application.EF
         public DbSet<Plate> plates { get; set; }
         public DbSet<Event> events { get; set; }
         public DbSet<EventUser> eventUser { get; set; }
-        public DbSet<PlateLike> plateLike { get; set; }
-        public DbSet<SpottLike> spottLike { get; set; }
-
+        public DbSet<Spotts> spotts { get; set; }
 
         public PlatenderDbContext(
             DbContextOptions<PlatenderDbContext> options,

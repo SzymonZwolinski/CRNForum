@@ -1,4 +1,5 @@
 using Autofac.Extensions.DependencyInjection;
+using Platender.Infrastructure.ScheduledTasks;
 
 namespace Platender.Api
 {
@@ -13,7 +14,11 @@ namespace Platender.Api
 		{
 			return Host.CreateDefaultBuilder(args)
 				.UseServiceProviderFactory(new AutofacServiceProviderFactory())
-				.ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<StartUp>(); });
+				.ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<StartUp>(); })
+				.ConfigureServices(services =>
+				{
+					services.AddHostedService<CreateTopLikesViewsTask>();
+				});
 		}
 	}
 }
