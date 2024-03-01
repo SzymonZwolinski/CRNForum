@@ -3,20 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 using Platender.Application.Messages;
 using Platender.Application.Messages.Queries;
 using Platender.Application.Providers;
-using Platender.Core.Enums;
-using Platender.Core.Helpers;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Platender.Api.Controllers
 {
     [Route("[Controller]")]
-	public class PlateController : BaseController
+	public partial class PlateController : BaseController
 	{
 		private readonly IPlateProvider _plateProvider;
+		private readonly ILikesProvider _likesProvider;
 
-		public PlateController(IPlateProvider plateProvider)
+		public PlateController(IPlateProvider plateProvider, ILikesProvider likesProvider)
 		{
 			_plateProvider = plateProvider;
+			_likesProvider = likesProvider;
 		}
 
 		[HttpGet]
@@ -35,7 +34,23 @@ namespace Platender.Api.Controllers
 			return new JsonResult(plate);
 		}
 
-		[Authorize]
+		[HttpGet("{plateId}/comments")]
+		public async Task<IActionResult> GetPlateComments([FromRoute] Guid plateId, [FromQuery] int page)
+		{
+			var plateComments = await _plateProvider.GetPlateCommentsAsync(plateId, page);
+
+			return new JsonResult(plateComments);
+		}
+
+        [HttpGet("{plateId}/spotts")]
+        public async Task<IActionResult> GetPlateSpotts([FromRoute] Guid plateId, [FromQuery] int page)
+        {
+            var plateSpotts = await _plateProvider.GetPlateSpottsAsync(plateId, page);
+
+            return new JsonResult(plateSpotts);
+        }
+
+        [Authorize]
 		[HttpPost]
 		public async Task<IActionResult> AddPlate([FromBody] AddPlate plate)
 		{
@@ -51,8 +66,20 @@ namespace Platender.Api.Controllers
 		public async Task<IResult> AddCommentToPlate([FromRoute] Guid plateId, [FromBody] AddComment comment)
 		{
 			InitalizeHttpContextClaims();
+			comment.PlateId = plateId;
 			
 			await _plateProvider.AddCommentAsync(comment, UserName);
+			return Results.Ok();
+		}
+
+		[Authorize]
+		[HttpPut("{plateId}/spot")]
+		public async Task<IResult> AddSpotToPlate([FromRoute] Guid plateId, [FromBody] AddSpot spot)
+		{
+			InitalizeHttpContextClaims();
+			spot.PlateId = plateId;
+
+			await _plateProvider.AddSpotAsync(spot, UserName);
 			return Results.Ok();
 		}
 	}

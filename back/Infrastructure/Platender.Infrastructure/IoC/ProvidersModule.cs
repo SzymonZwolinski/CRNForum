@@ -8,8 +8,11 @@ namespace Platender.Infrastructure.IoC
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
+
             builder.RegisterType<PlateProvider>().As<IPlateProvider>().InstancePerLifetimeScope();
             builder.RegisterType<AuthProvider>().As<IAuthProvider>().InstancePerLifetimeScope(); 
+            builder.RegisterType<EventProvider>().As<IEventProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<LikesProvider>().As<ILikesProvider>().InstancePerLifetimeScope();
         }
     }
 }

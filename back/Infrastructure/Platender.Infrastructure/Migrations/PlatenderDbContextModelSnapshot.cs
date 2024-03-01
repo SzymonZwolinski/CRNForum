@@ -30,6 +30,9 @@ namespace Platender.Infrastructure.Migrations
                         .HasMaxLength(1023)
                         .HasColumnType("varchar(1023)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<int>("DislikeCount")
                         .HasColumnType("int");
 
@@ -54,6 +57,65 @@ namespace Platender.Infrastructure.Migrations
                     b.ToTable("Comment");
                 });
 
+            modelBuilder.Entity("Platender.Core.Models.Event", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("EventAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<float>("Latitude")
+                        .HasPrecision(5)
+                        .HasColumnType("float");
+
+                    b.Property<float>("Longtitude")
+                        .HasPrecision(5)
+                        .HasColumnType("float");
+
+                    b.Property<float>("TimeZone")
+                        .HasPrecision(2)
+                        .HasColumnType("float");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(63)
+                        .HasColumnType("varchar(63)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("events");
+                });
+
+            modelBuilder.Entity("Platender.Core.Models.EventUser", b =>
+                {
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("EventId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("eventUser");
+                });
+
             modelBuilder.Entity("Platender.Core.Models.Plate", b =>
                 {
                     b.Property<Guid>("Id")
@@ -61,9 +123,6 @@ namespace Platender.Infrastructure.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<int?>("Culture")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LikeRatio")
                         .HasColumnType("int");
 
                     b.Property<string>("Number")
@@ -75,6 +134,84 @@ namespace Platender.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("plates");
+                });
+
+            modelBuilder.Entity("Platender.Core.Models.PlateLike", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("LikeType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("PlateId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("UserIPAddress")
+                        .IsRequired()
+                        .HasColumnType("varchar(45)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlateId");
+
+                    b.ToTable("PlateLike");
+                });
+
+            modelBuilder.Entity("Platender.Core.Models.SpottLike", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("LikeType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("SpottId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("UserIPAddress")
+                        .IsRequired()
+                        .HasColumnType("varchar(45)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SpottId");
+
+                    b.ToTable("SpottLike");
+                });
+
+            modelBuilder.Entity("Platender.Core.Models.Spotts", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<byte[]>("Image")
+                        .IsRequired()
+                        .HasColumnType("longblob");
+
+                    b.Property<Guid>("PlateId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlateId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("spotts");
                 });
 
             modelBuilder.Entity("Platender.Core.Models.User", b =>
@@ -91,15 +228,15 @@ namespace Platender.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longblob");
 
+                    b.Property<string>("UserStatus")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("varchar(3)");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(31)
                         .HasColumnType("varchar(31)");
-
-                    b.Property<string>("userStatus")
-                        .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("varchar(3)");
 
                     b.HasKey("Id");
 
@@ -128,9 +265,99 @@ namespace Platender.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Platender.Core.Models.Event", b =>
+                {
+                    b.HasOne("Platender.Core.Models.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("Platender.Core.Models.EventUser", b =>
+                {
+                    b.HasOne("Platender.Core.Models.Event", "Event")
+                        .WithMany("Participators")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Platender.Core.Models.User", "User")
+                        .WithMany("EventUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Platender.Core.Models.PlateLike", b =>
+                {
+                    b.HasOne("Platender.Core.Models.Plate", "Plate")
+                        .WithMany("PlateLikes")
+                        .HasForeignKey("PlateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Plate");
+                });
+
+            modelBuilder.Entity("Platender.Core.Models.SpottLike", b =>
+                {
+                    b.HasOne("Platender.Core.Models.Spotts", "Spott")
+                        .WithMany("SpottLikes")
+                        .HasForeignKey("SpottId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Spott");
+                });
+
+            modelBuilder.Entity("Platender.Core.Models.Spotts", b =>
+                {
+                    b.HasOne("Platender.Core.Models.Plate", "Plate")
+                        .WithMany("Spotts")
+                        .HasForeignKey("PlateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Platender.Core.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Plate");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Platender.Core.Models.Event", b =>
+                {
+                    b.Navigation("Participators");
+                });
+
             modelBuilder.Entity("Platender.Core.Models.Plate", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("PlateLikes");
+
+                    b.Navigation("Spotts");
+                });
+
+            modelBuilder.Entity("Platender.Core.Models.Spotts", b =>
+                {
+                    b.Navigation("SpottLikes");
+                });
+
+            modelBuilder.Entity("Platender.Core.Models.User", b =>
+                {
+                    b.Navigation("EventUsers");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using Platender.Front.DTO;
+using Platender.Front.Helpers;
 using Platender.Front.Models;
 using Platender.Front.Models.Enums;
 using Platender.Front.Utilities;
@@ -37,18 +38,23 @@ namespace Platender.Front.Services
 			
 		}
 
-		public async Task<IEnumerable<Plate>> GetPlatesByNumbersAsync(string numbers, CultureCode? cultureCode)
+		public async Task<PagedData<Plate>> GetPlatesByNumbersAsync(
+			string numbers,
+			CultureCode? cultureCode,
+			int page)
 		{
 			var result =  await _httpClient.GetAsync(_backendConfig.Url + "/plate" +"?"+
-				"numbers=" + numbers +
+				"page=" + page +
+				"&numbers=" + numbers +
 				"&cultureCode="+ cultureCode.ToString());
 
-			return await result.Content.ReadFromJsonAsync<IEnumerable<Plate>>();
+			return await result.Content.ReadFromJsonAsync<PagedData<Plate>>();
 		}
 
 		public async Task PostPlateAsync(string numbers, CultureCode? cultureCode)
 		{
 			var plate = new PlateDto(numbers, cultureCode);
+			
 			var result = await _httpClient.PostAsJsonAsync(_backendConfig.Url + "/Plate", plate);
 		}
 	}

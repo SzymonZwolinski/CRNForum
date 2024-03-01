@@ -8,6 +8,7 @@
         public int Sequence { get; set; }
         public int LikeCount { get; set; }
         public int DislikeCount { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public CommentDto(
             Guid id,
@@ -15,7 +16,8 @@
             string addingUserName,
             int sequence,
             int likeCount,
-            int dislikeCount)
+            int dislikeCount,
+            DateTime createdAt)
         {
             Id = id;
             Content = content;
@@ -23,6 +25,7 @@
             Sequence = sequence;
             LikeCount = likeCount;
             DislikeCount = dislikeCount;
+            CreatedAt = createdAt;
         }
     }
 }

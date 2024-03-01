@@ -1,7 +1,4 @@
-﻿using Platender.Core.Enums;
-using Platender.Core.Models;
-
-namespace Tests.Units
+﻿namespace Tests.Units
 {
    
     public class PlateCommentsTests
@@ -43,7 +40,7 @@ namespace Tests.Units
         public void when_creating_comment_with_too_long_content_should_throw_an_exception()
         {
             //Arrange
-            var content = GenerateStrWithLen(1024);
+            var content = TestStringHelper.GenerateStrWithLen(1024);
             var user = User;
 
             //Act
@@ -75,7 +72,6 @@ namespace Tests.Units
         string Content = "Testowy komentarz ;)";
         int Sequence = 1;
         User User => new User();
-        private string GenerateStrWithLen(int len) => new string('*', len);
         #endregion
     }
 }

@@ -7,10 +7,13 @@ namespace Platender.Core.Models
 		//Plate jest to "produkt" który może posiadać opis + komenatrze
 		public Guid Id { get; private set; }
 		public string Number { get; private set; }
-		public int LikeRatio { get; private set; }
 		public CultureCode? Culture { get; private set; }
 		public IEnumerable<Comment> Comments => _comments;
 		private List<Comment> _comments { get; } = new List<Comment>();
+        public IEnumerable<Spotts> Spotts => _spotts;
+        private List<Spotts> _spotts { get; } = new List<Spotts>();
+		public IEnumerable<PlateLike> PlateLikes => _plateLikes;
+		private List<PlateLike> _plateLikes { get; set; } = new();
 
         public Plate(){}
 
@@ -18,7 +21,6 @@ namespace Platender.Core.Models
 		{
 			SetNumber(number);
 			SetCultureCode(culture);
-			LikeRatio = 0;
 		}
 
 		#region Setters
@@ -45,18 +47,13 @@ namespace Platender.Core.Models
 		#endregion
 
 		#region GettersAndControlMethods
-		public void AddToLikeRatio()
-		{
-			LikeRatio++;
-		}
-
-		public void SubtractFromLikeRatio()
-		{
-			LikeRatio--;
-		}
-
 		public void AddComment(Comment comment)
 		{
+			if (comment is null)
+			{
+				throw new ArgumentNullException("Comment cannot be null");
+			}
+
 			_comments.Add(comment);
 		}
 
@@ -70,36 +67,30 @@ namespace Platender.Core.Models
 			}
 		}
 
-		public void LikeComment(Guid ComentId)
+		public void AddLike(PlateLike plateLike)
+			=> _plateLikes.Add(plateLike);
+
+		public void RemoveLike(PlateLike plateLike)
+			=> _plateLikes.Remove(plateLike);
+
+		public void AddSpott(Spotts spot)
 		{
-			if (_comments.Any(x => x.Id == ComentId))
+			if(spot is null)
 			{
-				_comments.First(x => x.Id == ComentId).AddLike();
+				throw new ArgumentNullException("Spot cannot be null");
 			}
+
+			_spotts.Add(spot);
 		}
 
-		public void DislikeComment(Guid ComentId)
+		public void RemoveSpot(Spotts spot)
 		{
-			if (_comments.Any(x => x.Id == ComentId))
+			if(spot is null)
 			{
-				_comments.First(x => x.Id == ComentId).AddDislike();
+				throw new ArgumentNullException("Spot cannot be null");
 			}
-		}
 
-		public void UnLikeComment(Guid ComentId)
-		{
-			if (_comments.Any(x => x.Id == ComentId))
-			{
-				_comments.First(x => x.Id == ComentId).RemoveLike();
-			}
-		}
-
-		public void UnDislikeComment(Guid ComentId)
-		{
-			if (_comments.Any(x => x.Id == ComentId))
-			{
-				_comments.First(x => x.Id == ComentId).RemoveDislike();
-			}
+			_spotts.Remove(spot);
 		}
 		#endregion
 	}

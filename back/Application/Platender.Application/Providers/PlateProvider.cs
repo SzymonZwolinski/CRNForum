@@ -6,6 +6,7 @@ using Platender.Core.Extensions.EnumExtensions;
 using Platender.Core.Helpers;
 using Platender.Core.Models;
 using Platender.Core.Services;
+using System.Net;
 
 namespace Platender.Application.Providers
 {
@@ -24,14 +25,11 @@ namespace Platender.Application.Providers
 		}
 
 		public async Task<Guid> AddPlateAsync(AddPlate addPlate)
-        {
-
-            return await _plateService
+            => await _plateService
                 .AddPlateAsync(
                     addPlate.Numbers, 
                     addPlate.CultureCode
                             .MapStringToEnumOrNull<CultureCode>());
-        }
 
         public async Task<PagedData<PlateDto>> GetPlatesAsync(GetAllPlates getAllPlates)
         {
@@ -58,23 +56,69 @@ namespace Platender.Application.Providers
             {
                 return default;
             }
-            var commentDto = plate.Comments?
-                .Select(x =>
-                new CommentDto(
-                    x.Id,
-                    x.Content,
-                    x.User.Username,
-                    x.Sequence,
-                    x.LikeCount,
-                    x.DislikeCount));
-
+          
             return new PlateDto(
                 plate.Id,
                 plate.Number,
-                plate.LikeRatio,
-                plate.Culture.ToString(),
-                commentDto);
-
+                plate.Culture.ToString());
         }
+
+        public async Task AddSpotAsync(AddSpot plate, string spotterUserName)
+        {
+            await _plateService.AddSpotToPlateAsync(
+                plate.PlateId,
+                plate.Image,
+                plate.Description,
+                spotterUserName);
+        }
+
+        public async Task<PagedData<CommentDto>> GetPlateCommentsAsync(Guid plateId, int? page)
+        {
+            var (comments, amount) = await _plateService.GetPlateCommentsAsync(plateId, page);
+
+            return new PagedData<CommentDto>(
+                comments.Select(x => MapToCommentDto(x)),
+                amount);
+        }
+
+        private CommentDto MapToCommentDto(Comment comment) 
+            => new CommentDto(
+                comment.Id, 
+                comment.Content,
+                comment.User.Username,
+                comment.Sequence,
+                comment.LikeCount,
+                comment.DislikeCount,
+                comment.CreatedAt);
+
+        public async Task<PagedData<SpottDto>> GetPlateSpottsAsync(Guid plateId, int? page)
+        {
+            var (spotts, amount) = await _plateService.GetPlateSpottsAsync(plateId, page);
+
+            return new PagedData<SpottDto>(
+                spotts.Select(x => MapToSpottDto(x)),
+                amount );
+        }
+
+        private SpottDto MapToSpottDto(Spotts spott)
+            => new SpottDto(
+                spott.Id,
+                spott.Description,
+                spott.Image,
+                spott.User.Username,
+                spott.CreatedAt);
+
+        public async Task AddOrRemoveReactionToPlateAsync(AddReaction plateLike, IPAddress userIpAddress)
+            => await _plateService.AddOrRemoveReactionToPlateAsync(
+                plateLike.PlateId,
+                userIpAddress,
+                plateLike.LikeType);
+
+        public async Task AddOrRemoveReactionToSpottAsync(AddReaction spottLike, IPAddress userIpAddress)
+            => await _plateService.AddOrRemoveReactionToSpottAsync(
+                spottLike.PlateId,
+                spottLike.SpottId,
+                userIpAddress, 
+                spottLike.LikeType);
     }
 }

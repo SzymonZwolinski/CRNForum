@@ -16,7 +16,7 @@ namespace Platender.Application.Repositories
 
         public async Task CreateUserAsync(User user)
 		{
-            await _platenderDbContext.users.AddAsync(user);
+            await _platenderDbContext.AddAsync(user);
 			await _platenderDbContext.SaveChangesAsync();
 		}
 
@@ -24,6 +24,7 @@ namespace Platender.Application.Repositories
 		{
             var users = await _platenderDbContext
                  .users
+                 .Include(x => x.EventUsers)
                  .Where(x => x.Username.Equals(userName))
                  .ToListAsync();
 

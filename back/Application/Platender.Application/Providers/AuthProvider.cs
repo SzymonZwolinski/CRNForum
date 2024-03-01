@@ -31,7 +31,7 @@ namespace Platender.Application.Providers
 
 		private UserDto MapUserToUserDto(User user)
 		{
-			return new UserDto(user.Username, user.userStatus.ToString());
+			return new UserDto(user.Username, user.UserStatus.ToString());
 		}
 
 		private void CheckPassword(string password)

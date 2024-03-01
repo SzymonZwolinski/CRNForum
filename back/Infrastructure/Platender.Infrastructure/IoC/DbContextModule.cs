@@ -16,6 +16,7 @@ namespace Platender.Infrastructure.IoC
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
+
             var sqlSettings = _configuration.GetSection(SqlConnectionSettings.CONFIG_NAME).Get<SqlConnectionSettings>();
 
             builder.RegisterInstance(sqlSettings).SingleInstance();

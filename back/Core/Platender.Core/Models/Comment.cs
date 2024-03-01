@@ -9,6 +9,7 @@
 		public int Sequence { get; private set; }
 		public int LikeCount { get; private set; }
 		public int DislikeCount { get; private set; }
+		public DateTime CreatedAt { get; private set; }
 
         public Comment(){}
 
@@ -18,8 +19,9 @@
 			int sequence)
         {
 			SetContent(content);
-			User = user;
+			SetUser(user);
 			Sequence = sequence;
+			CreatedAt = DateTime.UtcNow;
 			LikeCount = 0;
 			DislikeCount = 0;
 		}
@@ -38,6 +40,16 @@
 			}
 
 			Content = content;
+		}
+
+		private void SetUser(User user)
+		{
+			if(user is null)
+			{
+				throw new ArgumentNullException("User cannot be null");
+			}
+
+			User = user;
 		}
 
 		#endregion

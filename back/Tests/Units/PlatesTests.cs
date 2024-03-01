@@ -1,6 +1,3 @@
-using Platender.Core.Enums;
-using Platender.Core.Models;
-
 namespace Tests.Units
 {
     public class PlatesTests
@@ -19,7 +16,6 @@ namespace Tests.Units
 
             //Assert
             plate.Number.ShouldBe(Number);
-            plate.LikeRatio.ShouldBe(0);
             plate.Culture.ShouldBe(CultureCode);
             plate.Comments.ShouldBeEmpty();
         }
@@ -36,7 +32,6 @@ namespace Tests.Units
             //Assert
             plate.Culture.ShouldBeNull();
             plate.Number.ShouldBe(Number);
-            plate.LikeRatio.ShouldBe(0);
             plate.Comments.ShouldBeEmpty();
         }
 
