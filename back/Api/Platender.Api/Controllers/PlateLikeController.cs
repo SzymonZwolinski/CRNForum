@@ -50,5 +50,20 @@ namespace Platender.Api.Controllers
             return Results.Ok();
         }
 
+        [HttpGet("top")]
+        public async Task<IActionResult> GetTopLikedPlates()
+        {
+            var plates = await _likesProvider.GetPlateLikeAsync();
+
+            return new JsonResult(plates);
+        }
+
+        [HttpGet("spotts/top")]
+        public async Task<IActionResult> GetTopLikedSpotts()
+        {
+            var spotts = await _likesProvider.GetSpottLikeAsync();
+
+            return new JsonResult(spotts);
+        }
     }
 }

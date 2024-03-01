@@ -10,10 +10,12 @@ namespace Platender.Api.Controllers
 	public partial class PlateController : BaseController
 	{
 		private readonly IPlateProvider _plateProvider;
+		private readonly ILikesProvider _likesProvider;
 
-		public PlateController(IPlateProvider plateProvider)
+		public PlateController(IPlateProvider plateProvider, ILikesProvider likesProvider)
 		{
 			_plateProvider = plateProvider;
+			_likesProvider = likesProvider;
 		}
 
 		[HttpGet]

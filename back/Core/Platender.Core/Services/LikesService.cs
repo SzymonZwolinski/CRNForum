@@ -1,5 +1,5 @@
 ﻿
-using Platender.Core.Models;
+using Platender.Core.Models.Query;
 using Platender.Core.Repositories;
 
 namespace Platender.Core.Services
@@ -7,7 +7,6 @@ namespace Platender.Core.Services
     public class LikesService : ILikesService
     {
         private readonly ILikesQueryRepository _likesQueryRepository;
-        private readonly ISpottsRepository _spottsRepository;
 
         public LikesService(ILikesQueryRepository likesQueryRepository)
         {
@@ -17,11 +16,10 @@ namespace Platender.Core.Services
         public async Task CreateOrReplaceSpottsAndPlatesViewAsync()
             => await _likesQueryRepository.CreateOrReplaceSpottsAndPlatesLikesViewAsync();
 
-        public async Task<IEnumerable<Spotts>> GetTopSpottLikesAsync()
-        {
-            var topLikes = await _likesQueryRepository.GetAllSpottLikesAsync();
-            //TODO: Join topLikes with Spotts and return it somehow...
-            
-        }
+        public async Task<IEnumerable<PlateLikeQuery>> GetTopPlateLikesAsync()
+            => await _likesQueryRepository.GetAllPlatesLikesAsync();
+
+        public async Task<IEnumerable<SpottLikeQuery>> GetTopSpottLikesAsync()
+            => await _likesQueryRepository.GetAllSpottLikesAsync();
     }
 }

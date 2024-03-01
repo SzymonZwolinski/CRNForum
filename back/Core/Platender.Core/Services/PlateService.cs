@@ -109,11 +109,11 @@ namespace Platender.Core.Services
         {
 			var plate = await _plateRepository.GetPlateWithLikesAsync(plateId);
 
-			if(plate.PlateLikes.Any(x => x.UserIPAddress == userIP))
+			if(plate.PlateLikes.Any(x => x.UserIPAddress.Equals(userIP)))
 			{
 				plate.RemoveLike(
 					plate.PlateLikes
-					.First(x => x.UserIPAddress == userIP));
+					.First(x => x.UserIPAddress.Equals(userIP)));
 
                 await _plateRepository.UpdatePlateAsync(plate);
 
@@ -140,10 +140,10 @@ namespace Platender.Core.Services
 
 			var spott = plate.Spotts.FirstOrDefault(x => x.Id == spottId);
 
-			if(spott.SpottLikes.Any(x => x.UserIPAddress == userIP))
+			if(spott.SpottLikes.Any(x => x.UserIPAddress.Equals(userIP)))
 			{
 				spott.RemoveLike(spott.SpottLikes
-					.First(x => x.UserIPAddress == userIP));
+					.First(x => x.UserIPAddress.Equals(userIP)));
 
                 await _plateRepository.UpdatePlateAsync(plate);
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Platender.Application.EF;
-using Platender.Core.Models;
+using Platender.Core.Models.Query;
 using Platender.Core.Repositories;
 
 namespace Platender.Application.Repositories
@@ -20,21 +20,21 @@ namespace Platender.Application.Repositories
             await _dbContext.Database.ExecuteSqlRawAsync(CreateOrReplacePlateLikesViewQuery);
         }
 
-        public async Task<IEnumerable<PlateLike>> GetAllPlatesLikesAsync()
-            => await _dbContext.Set<PlateLike>()
-                .FromSqlRaw(GetAllPlateLikeQuery)
+        public async Task<IEnumerable<PlateLikeQuery>> GetAllPlatesLikesAsync()
+            => await _dbContext.Database
+                .SqlQueryRaw<PlateLikeQuery>(GetAllPlateLikeQuery)
                 .ToListAsync();
 
-        public async Task<IEnumerable<SpottLike>> GetAllSpottLikesAsync()
-            => await _dbContext.Set<SpottLike>()
-                .FromSqlRaw(GetAllSpottsLikeQuery)
+        public async Task<IEnumerable<SpottLikeQuery>> GetAllSpottLikesAsync()
+            => await _dbContext.Database
+                .SqlQueryRaw<SpottLikeQuery>(GetAllSpottsLikeQuery)
                 .ToListAsync();
 
         private const string CreateOrReplaceSpottLikesViewQuery =
             @"CREATE OR REPLACE VIEW Top_Spotts AS
                 SELECT COUNT(*) AS Count, SpottId
-                FROM spottlike
-                WHERE LikeType = 'lik'
+                FROM SpottLike 
+                WHERE LikeType = 0
                 GROUP BY SpottId
                 ORDER BY Count DESC
                 LIMIT 10";
@@ -42,18 +42,21 @@ namespace Platender.Application.Repositories
         private const string CreateOrReplacePlateLikesViewQuery =
             @"CREATE OR REPLACE VIEW Top_Plates AS
                 SELECT COUNT(*) AS Count, PlateId
-                FROM platelike
-                WHERE LikeType = 'lik'
+                FROM PlateLike
+                WHERE LikeType = 0
                 GROUP BY PlateId
                 ORDER BY Count DESC
                 LIMIT 10";
 
         private const string GetAllPlateLikeQuery =
-            @"SELECT Count, PlateId
-                FROM Top_Plates";
+            @"SELECT tp.Count, tp.PlateId, p.Number, p.Culture
+                FROM top_plates tp
+                JOIN plates p ON tp.PlateId = p.Id";
 
         private const string GetAllSpottsLikeQuery =
-            @"Select Count, SpottId
-                From Top_Plates";
+            @"SELECT ts.Count, ts.SpottId, s.PlateId, p.Number, p.Culture, s.Image, s.Description
+                FROM Top_Spotts ts
+                JOIN spotts s ON s.Id = ts.SpottId
+                JOIN plates p ON s.PlateId = p.Id";
     }
 }

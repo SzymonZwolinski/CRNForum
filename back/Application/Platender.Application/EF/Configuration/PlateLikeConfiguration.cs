@@ -13,7 +13,7 @@ namespace Platender.Application.EF.Configuration
 
             builder.HasOne(x => x.Plate)
                 .WithMany(x => x.PlateLikes)
-                .HasForeignKey(x => x.Id);
+                .HasForeignKey(x => x.PlateId);
         }
     }
 }

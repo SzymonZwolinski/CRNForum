@@ -12,7 +12,7 @@ namespace Platender.Application.EF.Configuration
 
             builder.HasOne(x => x.Spott)
                 .WithMany(x => x.SpottLikes)
-                .HasForeignKey(x => x.Id);
+                .HasForeignKey(x => x.SpottId);
         }
     }
 }

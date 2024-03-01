@@ -14,7 +14,6 @@ namespace Platender.Infrastructure.IoC
 			builder.RegisterType<AuthRepository>().As<IAuthRepository>().InstancePerLifetimeScope();
 			builder.RegisterType<EventRepository>().As<IEventRepository>().InstancePerLifetimeScope();
 			builder.RegisterType<LikesQueryRepository>().As<ILikesQueryRepository>().InstancePerLifetimeScope();
-			builder.RegisterType<SpottsRepository>().As<ISpottsRepository>().InstancePerLifetimeScope();
 		}
 	}
 }
