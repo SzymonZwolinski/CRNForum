@@ -42,3 +42,6 @@ Contains unit tests.<br>
 To make it work on your local enviroment you need to change Appsettings.Json to match your data.<br>
 "TokenOptions" Section should be deserialized to TokenSettings class.<br>
 "Sql" Section should be deserialized to SqlConnectionSettings class.
+<h2>Scheduled Task</h2>
+Like system require specific db views to be created. This views are created via scheduled task (Infrastructure layer) everyday at 3 AM.<br>
+This can be changed in class-code (DateTime in CreateTopLikesViewsTask).
