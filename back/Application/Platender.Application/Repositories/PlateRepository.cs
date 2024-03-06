@@ -54,32 +54,14 @@ namespace Platender.Application.Repositories
 			=> await _platenderDbContext.plates
 				.FirstOrDefaultAsync(x => x.Id == plateId);
 
-		public async Task<(IEnumerable<Comment>,int)> GetPlateCommentsAsync(Guid plateId, int? page)
-		{
-            var query = _platenderDbContext.plates
-				.Include(x => x.Comments)
-					.ThenInclude(x => x.User)
-				.Where(x => x.Id == plateId);
-
-            var commentsQuery = query.SelectMany(x => x.Comments);
-
-			return
-				(await commentsQuery
-					.OrderBy(x => x.CreatedAt)
-					.Skip((page - 1) * 10 ?? 0)
-					.Take(page * 10 ?? 10)
-					.ToListAsync(),
-				commentsQuery.Count());
-        }
-
-        public async Task<(IEnumerable<Spotts>, int)> GetPlateSpottsAsync(Guid plateId, int? page)
+        public async Task<(IEnumerable<Comment>, int)> GetPlateSpottsAsync(Guid plateId, int? page)
         {
             var query = _platenderDbContext.plates
-                .Include(x => x.Spotts)
+                .Include(x => x.Comments)
                     .ThenInclude(x => x.User)
                 .Where(x => x.Id == plateId);
 
-            var spottsQuery = query.SelectMany(x => x.Spotts);
+            var spottsQuery = query.SelectMany(x => x.Comments);
 
             return
                 (await spottsQuery
@@ -97,8 +79,8 @@ namespace Platender.Application.Repositories
 
         public async Task<Plate> GetPlateWithSpottLikesAsync(Guid plateId)
 			=> await _platenderDbContext.plates
-				.Include(x => x.Spotts)
-					.ThenInclude(x => x.SpottLikes)
+				.Include(x => x.Comments)
+					.ThenInclude(x => x.CommentLike)
 				.FirstOrDefaultAsync(x=> x.Id == plateId);
 
         public async Task UpdatePlateAsync(Plate plate)

@@ -4,7 +4,7 @@ namespace Platender.Application.Providers
 {
     public interface ILikesProvider
     {
-        Task<IEnumerable<SpottLikeDto>> GetSpottLikeAsync();
+        Task<IEnumerable<CommentLikeDto>> GetSpottLikeAsync();
         Task<IEnumerable<PlateLikeDto>> GetPlateLikeAsync();
     }
 }

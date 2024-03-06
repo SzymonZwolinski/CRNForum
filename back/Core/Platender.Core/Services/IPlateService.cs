@@ -22,9 +22,7 @@ namespace Platender.Core.Services
 			Guid spottId,
 			IPAddress userIP, 
 			LikeType likeType);
-		Task AddCommentToPlateAsync(Guid plateId, string content, string userName);
 		Task AddSpotToPlateAsync(Guid plateId, byte[] image, string content, string userName);
-		Task<(IEnumerable<Comment>, int)> GetPlateCommentsAsync(Guid plateId, int? page);
-        Task<(IEnumerable<Spotts>, int)> GetPlateSpottsAsync(Guid plateId, int? page);
+        Task<(IEnumerable<Comment>, int)> GetPlateSpottsAsync(Guid plateId, int? page);
     }
 }

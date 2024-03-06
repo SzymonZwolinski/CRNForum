@@ -4,7 +4,7 @@ using Platender.Core.Models;
 
 namespace Platender.Application.EF.Configuration
 {
-    internal class CommentConfiguration : IEntityTypeConfiguration<Comment>
+    internal class CommentsConfiguration : IEntityTypeConfiguration<Comment>
     {
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
@@ -12,7 +12,7 @@ namespace Platender.Application.EF.Configuration
 
             builder.HasOne(x => x.Plate).WithMany(x => x.Comments);
 
-            builder.Property(x => x.Content).HasMaxLength(1023);
+            builder.Property(x => x.Description).HasMaxLength(255);
         }
     }
 }

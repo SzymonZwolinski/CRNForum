@@ -17,7 +17,6 @@ namespace Tests.Units
             //Assert
             plate.Number.ShouldBe(Number);
             plate.Culture.ShouldBe(CultureCode);
-            plate.Comments.ShouldBeEmpty();
         }
 
         [Fact]
@@ -32,7 +31,6 @@ namespace Tests.Units
             //Assert
             plate.Culture.ShouldBeNull();
             plate.Number.ShouldBe(Number);
-            plate.Comments.ShouldBeEmpty();
         }
 
         #endregion

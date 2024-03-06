@@ -4,27 +4,21 @@
     {
         public Guid Id { get; set; }
         public string Content { get; set; }
-        public string AddingUserName { get; set; } 
-        public int Sequence { get; set; }
-        public int LikeCount { get; set; }
-        public int DislikeCount { get; set; }
+        public byte[] Image { get; set; }
+        public string AddingUserName { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public CommentDto(
             Guid id,
             string content,
+            byte[] image,
             string addingUserName,
-            int sequence,
-            int likeCount,
-            int dislikeCount,
             DateTime createdAt)
         {
             Id = id;
             Content = content;
+            Image = image;
             AddingUserName = addingUserName;
-            Sequence = sequence;
-            LikeCount = likeCount;
-            DislikeCount = dislikeCount;
             CreatedAt = createdAt;
         }
     }

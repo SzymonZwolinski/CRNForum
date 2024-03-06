@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Platender.Application.EF;
+using Platender.Core.Enums;
 using Platender.Core.Models.Query;
 using Platender.Core.Repositories;
 
@@ -32,10 +33,11 @@ namespace Platender.Application.Repositories
 
         private const string CreateOrReplaceSpottLikesViewQuery =
             @"CREATE OR REPLACE VIEW Top_Spotts AS
-                SELECT COUNT(*) AS Count, SpottId
-                FROM SpottLike 
-                WHERE LikeType = 0
-                GROUP BY SpottId
+                SELECT COUNT(*) AS Count, cl.CommentId
+                FROM CommentsLike cl
+                JOIN Comment s ON cl.CommentId = s.Id
+                WHERE cl.LikeType = 'Lik' && s.Image IS NOT NULL
+                GROUP BY CommentId
                 ORDER BY Count DESC
                 LIMIT 10";
 
@@ -54,9 +56,9 @@ namespace Platender.Application.Repositories
                 JOIN plates p ON tp.PlateId = p.Id";
 
         private const string GetAllSpottsLikeQuery =
-            @"SELECT ts.Count, ts.SpottId, s.PlateId, p.Number, p.Culture, s.Image, s.Description
+            @"SELECT ts.Count, ts.CommentId, s.PlateId, p.Number, p.Culture, s.Image, s.Description
                 FROM Top_Spotts ts
-                JOIN spotts s ON s.Id = ts.SpottId
-                JOIN plates p ON s.PlateId = p.Id";
+                JOIN comment s ON s.Id = ts.CommentId
+                JOIN plates p ON s.PlateId = p.Id;";
     }
 }

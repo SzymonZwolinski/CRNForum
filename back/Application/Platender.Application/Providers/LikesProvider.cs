@@ -20,15 +20,15 @@ namespace Platender.Application.Providers
             return plates.Select(x => MapToPlateLikeDto(x));
         }
 
-        public async Task<IEnumerable<SpottLikeDto>> GetSpottLikeAsync()
+        public async Task<IEnumerable<CommentLikeDto>> GetSpottLikeAsync()
         {
             var spotts = await _likeService.GetTopSpottLikesAsync();
 
             return spotts.Select(x => MapToSpottLikeDto(x));
         }
 
-        private SpottLikeDto MapToSpottLikeDto(SpottLikeQuery spott)
-            => new SpottLikeDto(
+        private CommentLikeDto MapToSpottLikeDto(SpottLikeQuery spott)
+            => new CommentLikeDto(
                 spott.Count, 
                 spott.SpottId,
                 spott.PlateId, 

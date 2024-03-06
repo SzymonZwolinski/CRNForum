@@ -1,19 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-
 using Platender.Core.Models;
 
 namespace Platender.Application.EF.Configuration
 {
-    internal class PlateLikeConfiguration : IEntityTypeConfiguration<PlateLike>
+    internal class CommentsLikeConfiguration : IEntityTypeConfiguration<CommentsLike>
     {
-        public void Configure(EntityTypeBuilder<PlateLike> builder)
+        public void Configure(EntityTypeBuilder<CommentsLike> builder)
         {
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.Plate)
-                .WithMany(x => x.PlateLikes)
-                .HasForeignKey(x => x.PlateId);
+            builder.HasOne(x => x.Comment)
+                .WithMany(x => x.CommentLike)
+                .HasForeignKey(x => x.CommentId);
 
             builder.Property(x => x.LikeType)
                 .HasConversion<string>()

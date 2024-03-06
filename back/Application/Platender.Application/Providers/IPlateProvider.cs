@@ -12,10 +12,8 @@ namespace Platender.Application.Providers
         Task<PlateDto> GetPlateByIdAsync(Guid plateId);
 		Task<Guid> AddPlateAsync(AddPlate plate);
         Task AddOrRemoveReactionToPlateAsync(AddReaction plateLike, IPAddress userIpAddress);
-        Task AddCommentAsync(AddComment comment, string commentingUserName);
-        Task AddSpotAsync(AddSpot plate, string commentingUserName);
-        Task<PagedData<CommentDto>> GetPlateCommentsAsync(Guid plateId, int? page);
-        Task<PagedData<SpottDto>> GetPlateSpottsAsync(Guid plateId, int? page);
+        Task AddSpotAsync(AddComment plate, string commentingUserName);
+        Task<PagedData<CommentDto>> GetPlateSpottsAsync(Guid plateId, int? page);
         Task AddOrRemoveReactionToSpottAsync(AddReaction spottLike, IPAddress userIpAddress);
     }
 }

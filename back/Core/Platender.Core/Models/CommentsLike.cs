@@ -4,19 +4,19 @@ using System.Net;
 
 namespace Platender.Core.Models
 {
-    public class SpottLike : Like
+    public class CommentsLike : Like
     {
-        public Spotts Spott { get; private set; }
-        public Guid SpottId { get; private set; }
+        public Comment Comment { get; private set; }
+        public Guid CommentId { get; private set; }
 
-        public SpottLike() {}
+        public CommentsLike() {}
 
-        public SpottLike(
-            Spotts spott,
+        public CommentsLike(
+            Comment comment,
             IPAddress iPAddress,
             LikeType likeType)
         {
-            Spott = spott;
+            Comment = comment;
             UserIPAddress = iPAddress;
             LikeType = likeType;
         }

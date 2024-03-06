@@ -10,13 +10,13 @@ namespace Platender.Api.Controllers
 
 		protected void InitalizeHttpContextClaims()
 		{
-            var user = HttpContext.User;
+			var user = HttpContext.User;
 
-            if (user is not null && user.Identity.IsAuthenticated)
-            {
-                UserName = user.FindFirst("UserName").Value;
+			if(user is not null && user.Identity.IsAuthenticated)
+			{
+				UserName = user.FindFirst("UserName").Value;
 			}
-        }
+		}
 
 		protected void InitializeHttpContextIP()
 		{
@@ -26,6 +26,6 @@ namespace Platender.Api.Controllers
 			{
 				UserIP = userIP;
 			}
-        }
+		}
 	}
 }

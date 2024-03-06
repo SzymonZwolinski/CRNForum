@@ -1,78 +1,63 @@
 ﻿namespace Platender.Core.Models
 {
-	public class Comment
-	{
-		public Guid Id { get; private set; }
-		public Plate Plate { get; private set; }
-		public string Content { get; private set; }
-		public User User { get; private set; } 
-		public int Sequence { get; private set; }
-		public int LikeCount { get; private set; }
-		public int DislikeCount { get; private set; }
-		public DateTime CreatedAt { get; private set; }
+    public class Comment
+    {
+        public Guid Id { get; private set; }
+        public byte[]? Image { get; private set; }
+        public string Description { get; private set; }
+        public Plate Plate { get; private set; }
+        public User User { get; private set; }
+        public DateTime CreatedAt { get; private set; }
+        public IEnumerable<CommentsLike> CommentLike => _commentLike;
+        private List<CommentsLike> _commentLike { get;  set; } = new();
+        private bool IsSpott => Image?.Length > 0;
 
         public Comment(){}
 
         public Comment(
-			string content,
-			User user,
-			int sequence)
+            User user,
+            byte[]? image,
+            string description)
         {
-			SetContent(content);
-			SetUser(user);
-			Sequence = sequence;
-			CreatedAt = DateTime.UtcNow;
-			LikeCount = 0;
-			DislikeCount = 0;
-		}
+            SetUser(user);
+            SetDescription(description);
+            Image = image; //TODO: LIMIT MAX SIZE / RESIZE TO MAX
+            CreatedAt = DateTime.UtcNow;
+        }
 
-		#region Setters
-		private void SetContent(string content)
-		{
-			if(string.IsNullOrWhiteSpace(content))
-			{
-				throw new ArgumentNullException("Comment content cannot be null or empty");
-			}
+        public Comment(User user, string description)
+        {
+            SetUser(user);
+            SetDescription(description);
+            CreatedAt = DateTime.UtcNow;
+        }
 
-			if(content.Length > 1023)
-			{
-				throw new ArgumentOutOfRangeException("Comment cannot be longer than 1024 chars");
-			}
+        #region setters
+        private void SetUser(User user)
+        {
+            if(user is null) 
+            {
+                throw new ArgumentNullException("User cannot be null");
+            }
 
-			Content = content;
-		}
+            User = user;
+        }
 
-		private void SetUser(User user)
-		{
-			if(user is null)
-			{
-				throw new ArgumentNullException("User cannot be null");
-			}
+        private void SetDescription(string description) 
+        {
+            if(description.Length > 1023) 
+            {
+                throw new ArgumentOutOfRangeException("Description cannot be longer than 255 chars");
+            }
 
-			User = user;
-		}
+            Description = description;
+        }
+        #endregion
 
-		#endregion
-		#region GettersAndControlMethods
-		public void AddLike()
-		{
-			LikeCount++;
-		}
+        public void AddLike(CommentsLike spottLike)
+            => _commentLike.Add(spottLike);
 
-		public void RemoveLike()
-		{
-			LikeCount--;
-		}
-
-		public void AddDislike() 
-		{
-			DislikeCount++;
-		}
-
-		public void RemoveDislike()
-		{
-			DislikeCount--; 
-		}
-		#endregion
-	}
+        public void RemoveLike(CommentsLike spottLike)
+            => _commentLike.Remove(spottLike);
+    }
 }

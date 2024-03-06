@@ -1,15 +1,19 @@
-﻿
-namespace Platender.Application.Messages
+﻿namespace Platender.Application.Messages
 {
-	public class AddComment
-	{		
-		public Guid PlateId { get; set; }
-		public string Content { get; set; }
+    public class AddComment
+    {
+        public Guid PlateId { get; set; }
+        public byte[] Image { get; set; }
+        public string Description { get; set; }
 
-        public AddComment(Guid plateId, string content)
+        public AddComment(
+            Guid plateId,
+            byte[] image,
+            string description)
         {
-            Content = content;
             PlateId = plateId;
+            Image = image;
+            Description = description;  
         }
     }
 }
