@@ -1,0 +1,20 @@
+<MudPaper Style="background-color: #818181; text-align: center">
+	<MudCardContent Style="border-radius: 10px">
+		<div class="drivers-card-title">
+			TOP 10 BEST DRIVERS
+		</div>
+		<div class="drivers-card-inside rounded-border" style="text-align: center; text-transform: uppercase; background-color: #f7f8f3; border: 1px solid #000000; border-radius: 10px; margin-left: 50px; margin-right: 50px">
+			@foreach(var driver in BestDrivers)
+			{
+				<MudText>@driver</MudText>
+			}
+		</div>
+	</MudCardContent>
+	<MudCardActions Style="display: flex; justify-content: center;">
+		<MudButton Variant="Variant.Filled" ClickPropagation="false" Color="MudBlazor.Color.Success">View More!</MudButton>
+	</MudCardActions>
+</MudPaper>
+
+@code {
+	private List<String> BestDrivers = new(){"test", "adam malysz"};
+}

@@ -1,0 +1,32 @@
+﻿.page {
+    padding: 0 25px 0 25px;
+    font-size: 10px;
+}
+
+.rounded-border {
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.drivers-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.drivers-card {
+    min-width: 15rem; 
+    background-color: lightgray;
+}
+
+.drivers-card .drivers-card-title { 
+    text-align: center;
+}
+
+.drivers-card .drivers-card-inside {
+    margin: 0 10% 0 10%;
+    background-color: ghostwhite;
+}
+
+.spotts-container {
+    border: 1px solid black;
+}

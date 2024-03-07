@@ -1,6 +1,28 @@
-﻿@page "/"
-<h3>MainPage</h3>
+@page "/"
+@page "/main"
 
-@code {
-
-}
+	<div class="content-container">
+		<div class="drivers-container" style="display: flex; justify-content: flex-start;">
+			<div class="drivers-card rounded-border">
+				<TableComponent></TableComponent>
+			</div>
+			<div class="drivers-card rounded-border">
+				<MudCard>
+					<MudCardContent>
+						<div class="drivers-card-title">
+							TOP 10 BEST DRIVERS
+						</div>
+						<div class="drivers-card-inside rounded-border">
+							tesytwetsdt
+						</div>
+					</MudCardContent>
+					<MudCardActions>
+						<MudButton Variant="Variant.Text" Color="Color.Primary">View More!</MudButton>
+					</MudCardActions>
+				</MudCard>	
+			</div>
+		</div>
+		<div class="spotts-container">
+			
+		</div>
+	</div>
