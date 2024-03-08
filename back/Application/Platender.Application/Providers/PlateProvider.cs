@@ -19,11 +19,6 @@ namespace Platender.Application.Providers
             _plateService = plateService;
         }
 
-		public async Task AddCommentAsync(AddComment comment, string commentingUserName)
-		{
-            await _plateService.AddCommentToPlateAsync(comment.PlateId, comment.Content, commentingUserName);
-		}
-
 		public async Task<Guid> AddPlateAsync(AddPlate addPlate)
             => await _plateService
                 .AddPlateAsync(
@@ -63,7 +58,7 @@ namespace Platender.Application.Providers
                 plate.Culture.ToString());
         }
 
-        public async Task AddSpotAsync(AddSpot plate, string spotterUserName)
+        public async Task AddSpotAsync(AddComment plate, string spotterUserName)
         {
             await _plateService.AddSpotToPlateAsync(
                 plate.PlateId,
@@ -72,36 +67,17 @@ namespace Platender.Application.Providers
                 spotterUserName);
         }
 
-        public async Task<PagedData<CommentDto>> GetPlateCommentsAsync(Guid plateId, int? page)
-        {
-            var (comments, amount) = await _plateService.GetPlateCommentsAsync(plateId, page);
-
-            return new PagedData<CommentDto>(
-                comments.Select(x => MapToCommentDto(x)),
-                amount);
-        }
-
-        private CommentDto MapToCommentDto(Comment comment) 
-            => new CommentDto(
-                comment.Id, 
-                comment.Content,
-                comment.User.Username,
-                comment.Sequence,
-                comment.LikeCount,
-                comment.DislikeCount,
-                comment.CreatedAt);
-
-        public async Task<PagedData<SpottDto>> GetPlateSpottsAsync(Guid plateId, int? page)
+        public async Task<PagedData<CommentDto>> GetPlateSpottsAsync(Guid plateId, int? page)
         {
             var (spotts, amount) = await _plateService.GetPlateSpottsAsync(plateId, page);
 
-            return new PagedData<SpottDto>(
+            return new PagedData<CommentDto>(
                 spotts.Select(x => MapToSpottDto(x)),
                 amount );
         }
 
-        private SpottDto MapToSpottDto(Spotts spott)
-            => new SpottDto(
+        private CommentDto MapToSpottDto(Comment spott)
+            => new CommentDto(
                 spott.Id,
                 spott.Description,
                 spott.Image,

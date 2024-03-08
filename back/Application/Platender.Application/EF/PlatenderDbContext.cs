@@ -13,7 +13,6 @@ namespace Platender.Application.EF
         public DbSet<Plate> plates { get; set; }
         public DbSet<Event> events { get; set; }
         public DbSet<EventUser> eventUser { get; set; }
-        public DbSet<Spotts> spotts { get; set; }
 
         public PlatenderDbContext(
             DbContextOptions<PlatenderDbContext> options,
@@ -33,12 +32,11 @@ namespace Platender.Application.EF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new PlateConfiguration());
-            modelBuilder.ApplyConfiguration(new CommentConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new EventConfiguration());
             modelBuilder.ApplyConfiguration(new EventUserConfiguration());
             modelBuilder.ApplyConfiguration(new PlateLikeConfiguration());
-            modelBuilder.ApplyConfiguration(new SpottsLikeConfiguration());
+            modelBuilder.ApplyConfiguration(new CommentsLikeConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

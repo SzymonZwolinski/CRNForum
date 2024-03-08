@@ -34,14 +34,6 @@ namespace Platender.Api.Controllers
 			return new JsonResult(plate);
 		}
 
-		[HttpGet("{plateId}/comments")]
-		public async Task<IActionResult> GetPlateComments([FromRoute] Guid plateId, [FromQuery] int page)
-		{
-			var plateComments = await _plateProvider.GetPlateCommentsAsync(plateId, page);
-
-			return new JsonResult(plateComments);
-		}
-
         [HttpGet("{plateId}/spotts")]
         public async Task<IActionResult> GetPlateSpotts([FromRoute] Guid plateId, [FromQuery] int page)
         {
@@ -63,18 +55,7 @@ namespace Platender.Api.Controllers
 
 		[Authorize]
 		[HttpPut("{plateId}/comment")]
-		public async Task<IResult> AddCommentToPlate([FromRoute] Guid plateId, [FromBody] AddComment comment)
-		{
-			InitalizeHttpContextClaims();
-			comment.PlateId = plateId;
-			
-			await _plateProvider.AddCommentAsync(comment, UserName);
-			return Results.Ok();
-		}
-
-		[Authorize]
-		[HttpPut("{plateId}/spot")]
-		public async Task<IResult> AddSpotToPlate([FromRoute] Guid plateId, [FromBody] AddSpot spot)
+		public async Task<IResult> AddCommentToPlate([FromRoute] Guid plateId, [FromBody] AddComment spot)
 		{
 			InitalizeHttpContextClaims();
 			spot.PlateId = plateId;

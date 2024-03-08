@@ -4,14 +4,11 @@ namespace Platender.Core.Models
 {
 	public class Plate
 	{
-		//Plate jest to "produkt" który może posiadać opis + komenatrze
 		public Guid Id { get; private set; }
 		public string Number { get; private set; }
 		public CultureCode? Culture { get; private set; }
-		public IEnumerable<Comment> Comments => _comments;
-		private List<Comment> _comments { get; } = new List<Comment>();
-        public IEnumerable<Spotts> Spotts => _spotts;
-        private List<Spotts> _spotts { get; } = new List<Spotts>();
+        public IEnumerable<Comment> Comments => _comments;
+        private List<Comment> _comments { get; } = new List<Comment>();
 		public IEnumerable<PlateLike> PlateLikes => _plateLikes;
 		private List<PlateLike> _plateLikes { get; set; } = new();
 
@@ -47,50 +44,30 @@ namespace Platender.Core.Models
 		#endregion
 
 		#region GettersAndControlMethods
-		public void AddComment(Comment comment)
-		{
-			if (comment is null)
-			{
-				throw new ArgumentNullException("Comment cannot be null");
-			}
-
-			_comments.Add(comment);
-		}
-
-		public void RemoveComment(Guid ComentId) 
-		{
-			var commentToDelete = _comments.FirstOrDefault(x => x.Id == ComentId);
-
-			if(commentToDelete is not null)
-			{
-				_comments.Remove(commentToDelete);
-			}
-		}
-
 		public void AddLike(PlateLike plateLike)
 			=> _plateLikes.Add(plateLike);
 
 		public void RemoveLike(PlateLike plateLike)
 			=> _plateLikes.Remove(plateLike);
 
-		public void AddSpott(Spotts spot)
+		public void AddSpott(Comment spot)
 		{
 			if(spot is null)
 			{
 				throw new ArgumentNullException("Spot cannot be null");
 			}
 
-			_spotts.Add(spot);
+			_comments.Add(spot);
 		}
 
-		public void RemoveSpot(Spotts spot)
+		public void RemoveSpot(Comment spot)
 		{
 			if(spot is null)
 			{
 				throw new ArgumentNullException("Spot cannot be null");
 			}
 
-			_spotts.Remove(spot);
+			_comments.Remove(spot);
 		}
 		#endregion
 	}

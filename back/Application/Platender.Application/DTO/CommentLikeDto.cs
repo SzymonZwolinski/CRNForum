@@ -1,6 +1,6 @@
 ﻿namespace Platender.Application.DTO
 {
-    public class SpottLikeDto
+    public class CommentLikeDto
     {
         public int Count { get; set; }
         public Guid SpottId { get; set; }
@@ -10,7 +10,7 @@
         public byte[] Image { get; set; }
         public string Description { get; set; }
 
-        public SpottLikeDto(
+        public CommentLikeDto(
             int count, 
             Guid spottId,
             Guid plateId, 

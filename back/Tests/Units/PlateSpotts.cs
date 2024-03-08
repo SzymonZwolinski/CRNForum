@@ -4,7 +4,7 @@
     {
         private Plate Act(User user, byte[] image, string content)
         {
-            var spot = new Spotts(user, image, content);
+            var spot = new Comment(user, image, content);
             var plate = new Plate();
 
             plate.AddSpott(spot);
@@ -20,9 +20,9 @@
             //Act
             var plate = Act(user, Image, Content);
             //Assert
-            plate.Spotts.ShouldNotBeEmpty();
+            plate.Comments.ShouldNotBeEmpty();
 
-            var firstSpott = plate.Spotts.First();
+            var firstSpott = plate.Comments.First();
             firstSpott.User.ShouldBe(user);
             firstSpott.Image.ShouldBe(Image);
             firstSpott.Description.ShouldBe(Content);
@@ -36,9 +36,9 @@
             //Act
             var plate = Act(user, Image, string.Empty);
             //Assert
-            plate.Spotts.ShouldNotBeEmpty();
+            plate.Comments.ShouldNotBeEmpty();
 
-            var firstSpott = plate.Spotts.First();
+            var firstSpott = plate.Comments.First();
             firstSpott.User.ShouldBe(user);
             firstSpott.Image.ShouldBe(Image);
             firstSpott.Description.ShouldBeNullOrWhiteSpace();

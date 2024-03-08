@@ -16,37 +16,6 @@ namespace Platender.Core.Services
 			_authRepository = authRepository;	
 		}
 
-		public async Task AddCommentToPlateAsync(
-			Guid plateId, 
-			string content,
-			string userName)
-		{
-			var user = await _authRepository.GetUserAsync(userName);
-			var plate = await _plateRepository.GetPlateAsync(plateId);
-			var comment = CreateComment(
-				plate,
-				content,
-				user);
-
-			plate.AddComment(comment);
-
-			await _plateRepository.UpdatePlateAsync(plate);
-		}
-
-		private Comment CreateComment(
-			Plate plate,
-			string content,
-			User user)
-		{
-			return new Comment(
-				content,
-				user,
-				plate.Comments
-				.OrderBy(x => x.Sequence)
-				.FirstOrDefault()?
-				.Sequence + 1 ?? 1);
-		}
-
 		public async Task<Guid> AddPlateAsync(string number, CultureCode? cultureCode)
 		{
 			var plate = new Plate(number, cultureCode);
@@ -88,18 +57,15 @@ namespace Platender.Core.Services
 			await _plateRepository.UpdatePlateAsync(plate);
         }
 
-		private Spotts CreateSpot(
+		private Comment CreateSpot(
 			User user, 
 			byte[] image,
 			string description)
 		{
-			return new Spotts(user, image, description);
+			return new Comment(user, image, description);
 		}
 
-        public async Task<(IEnumerable<Comment>, int)> GetPlateCommentsAsync(Guid plateId, int? page)
-			=> await _plateRepository.GetPlateCommentsAsync(plateId, page);
-
-		public async Task<(IEnumerable<Spotts>, int)> GetPlateSpottsAsync(Guid plateId, int? page)
+		public async Task<(IEnumerable<Comment>, int)> GetPlateSpottsAsync(Guid plateId, int? page)
 			=> await _plateRepository.GetPlateSpottsAsync(plateId, page);
 
         public async Task AddOrRemoveReactionToPlateAsync(
@@ -133,16 +99,16 @@ namespace Platender.Core.Services
         {
 			var plate = await _plateRepository.GetPlateWithSpottLikesAsync(plateId);
 
-			if(!plate.Spotts.Any(x => x.Id == spottId))
+			if(!plate.Comments.Any(x => x.Id == spottId))
 			{
 				return;
 			}
 
-			var spott = plate.Spotts.FirstOrDefault(x => x.Id == spottId);
+			var spott = plate.Comments.FirstOrDefault(x => x.Id == spottId);
 
-			if(spott.SpottLikes.Any(x => x.UserIPAddress.Equals(userIP)))
+			if(spott.CommentLike.Any(x => x.UserIPAddress.Equals(userIP)))
 			{
-				spott.RemoveLike(spott.SpottLikes
+				spott.RemoveLike(spott.CommentLike
 					.First(x => x.UserIPAddress.Equals(userIP)));
 
                 await _plateRepository.UpdatePlateAsync(plate);
@@ -150,7 +116,7 @@ namespace Platender.Core.Services
                 return;
 			}
 
-			spott.AddLike(new SpottLike(spott, userIP, likeType));
+			spott.AddLike(new CommentsLike(spott, userIP, likeType));
 
 			await _plateRepository.UpdatePlateAsync(plate);
         }
