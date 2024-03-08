@@ -1,28 +1,20 @@
 @page "/"
 @page "/main"
 
-	<div class="content-container">
-		<div class="drivers-container" style="display: flex; justify-content: flex-start;">
-			<div class="drivers-card rounded-border">
-				<TableComponent></TableComponent>
-			</div>
-			<div class="drivers-card rounded-border">
-				<MudCard>
-					<MudCardContent>
-						<div class="drivers-card-title">
-							TOP 10 BEST DRIVERS
-						</div>
-						<div class="drivers-card-inside rounded-border">
-							tesytwetsdt
-						</div>
-					</MudCardContent>
-					<MudCardActions>
-						<MudButton Variant="Variant.Text" Color="Color.Primary">View More!</MudButton>
-					</MudCardActions>
-				</MudCard>	
-			</div>
+@using Platender.Front.Components
+
+<div class="content-container">
+	<div class="drivers-container" style="display: flex; justify-content: space-evenly;">
+		<div class="drivers-card rounded-border">
+			<TableComponent BestDrivers="BestDrivers" Title="TOP 10 BEST DRIVERS" ButtonText="VIEW MORE!" >
+			</TableComponent>
 		</div>
-		<div class="spotts-container">
-			
+		<div class="drivers-card rounded-border">
+			<TableComponent BestDrivers="BestDrivers" Title="TOP 10 WORST DRIVERS" ButtonText="VIEW MORE!" >
+			</TableComponent>
 		</div>
 	</div>
+	<div class="spotts-container padding-top-4-rem padding-vertical-middle" style="">
+		<ImageCarousel Title="Spotts"></ImageCarousel>
+	</div>
+</div>
