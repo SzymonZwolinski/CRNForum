@@ -15,6 +15,9 @@ This project utilizes the following technologies:
 <br>
 - <strong>Blazor WebAssembly</strong>: Front-end development. <br>
 <dl>
+<dd>- <strong>MudBlazor</strong>: Component Library</dd>
+</dl>
+<dl>
 <dd>- <strong>Leaflet</strong>: Interactive event map.</dd>
 </dl>
 <h2>Project Structure</h2>
