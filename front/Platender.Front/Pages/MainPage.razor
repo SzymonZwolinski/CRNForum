@@ -18,3 +18,24 @@
 		<ImageCarousel Title="Spotts"></ImageCarousel>
 	</div>
 </div>
+<div>
+	TopLikedPlates:
+@foreach (var data in TopLikedPlates)
+{
+	<div>
+		@data.PlateId;
+	</div>
+}
+</div>
+
+<div>
+	TopLikedSpotts
+	@foreach (var data in TopLikedSpotts)
+	{
+		<div>
+			@data.PlateId
+		</div>
+	}
+
+</div>
+

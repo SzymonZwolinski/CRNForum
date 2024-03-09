@@ -1,10 +1,9 @@
-﻿using Platender.Front.Models.Enums;
-
-namespace Platender.Front.DTO
+﻿namespace Platender.Front.DTO
 {
     public class CommentDto
     {
         public Guid PlateId { get; set; }
+        public byte[] Image { get; set; }
         public string Content { get; set; }
     }
 }
