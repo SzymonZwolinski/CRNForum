@@ -30,7 +30,7 @@ namespace Platender.Application.Providers
         private CommentLikeDto MapToSpottLikeDto(SpottLikeQuery spott)
             => new CommentLikeDto(
                 spott.Count, 
-                spott.SpottId,
+                spott.CommentId,
                 spott.PlateId, 
                 spott.Number,
                 spott.Culture,

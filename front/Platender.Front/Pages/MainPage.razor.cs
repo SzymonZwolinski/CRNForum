@@ -19,7 +19,6 @@ namespace Platender.Front.Pages
 			protected override async Task OnParametersSetAsync()
 			{
 				TopLikedPlates = await _plateService.GetTopLikedPlatesAsync();
-				StateHasChanged();
 
 				TopLikedSpotts = await _plateService.GetTopLikedSpottsAsync();
 				StateHasChanged();
