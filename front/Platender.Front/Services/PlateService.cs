@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
+using Platender.Front.Dto;
 using Platender.Front.DTO;
 using Platender.Front.Helpers;
 using Platender.Front.Models;
@@ -51,10 +52,28 @@ namespace Platender.Front.Services
 			return await result.Content.ReadFromJsonAsync<PagedData<Plate>>();
 		}
 
-		public async Task PostPlateAsync(string numbers, CultureCode? cultureCode)
+        public async Task<List<PlateLikeDto>> GetTopLikedPlatesAsync()
+        {
+			var result = await _httpClient.GetAsync(_backendConfig.Url + "/plate/top");
+
+			return await result.Content.ReadFromJsonAsync<List<PlateLikeDto>>();
+        }
+
+        public async Task<List<CommentLikeDto>> GetTopLikedSpottsAsync()
+        {
+            var result = await _httpClient.GetAsync(_backendConfig.Url + "/plate/spotts/top");
+
+            return await result.Content.ReadFromJsonAsync<List<CommentLikeDto>>();
+        }
+
+        public async Task PostPlateAsync(string numbers, CultureCode? cultureCode)
 		{
-			var plate = new PlateDto(numbers, cultureCode);
-			
+			await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+
+			var plate = new PlateDto(
+				numbers,
+				cultureCode.HasValue ? cultureCode.ToString() : null);
+
 			var result = await _httpClient.PostAsJsonAsync(_backendConfig.Url + "/Plate", plate);
 		}
 	}

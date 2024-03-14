@@ -6,7 +6,9 @@
 		<div class="drivers-card-inside rounded-border" style="text-align: center; text-transform: uppercase; background-color: #f7f8f3; border: 1px solid #000000; border-radius: 10px; margin-left: 50px; margin-right: 50px; width: 400px">
 			@foreach(var driver in BestDrivers)
 			{
-				<MudText>@driver</MudText>
+				<div style="padding: 2%; border-radius: 10px">
+					<EUPlate PlateId="@driver.PlateId" CultureCode="@driver.Culture" Number="@driver.Numbers" OnClickAction="@MoveToPlate"></EUPlate>
+				</div>
 			}
 		</div>
 	</MudCardContent>
@@ -16,10 +18,18 @@
 </MudPaper>
 
 @code {
-	[Parameter]
-	public List<String> BestDrivers { get; set; }
-	[Parameter]
+    [Parameter]
+    public List<Dto.PlateLikeDto> BestDrivers { get; set; }
+    [Parameter]
 	public string Title { get; set; }
 	[Parameter]
 	public string ButtonText { get; set; }
+	[Inject]
+	private NavigationManager _navigationManager { get; set; }
+
+	private void MoveToPlate(Guid plateId)
+	{
+		Console.WriteLine("dziala");
+		_navigationManager.NavigateTo("/plates/" + plateId.ToString());
+	}
 }
