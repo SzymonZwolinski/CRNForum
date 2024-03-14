@@ -68,8 +68,12 @@ namespace Platender.Front.Services
 
         public async Task PostPlateAsync(string numbers, CultureCode? cultureCode)
 		{
-			var plate = new PlateDto(numbers, cultureCode);
-			
+			await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+
+			var plate = new PlateDto(
+				numbers,
+				cultureCode.HasValue ? cultureCode.ToString() : null);
+
 			var result = await _httpClient.PostAsJsonAsync(_backendConfig.Url + "/Plate", plate);
 		}
 	}

@@ -11,7 +11,10 @@ namespace Platender.Front.Pages
         [Inject]
         private IPlateService _plateService { get; set; }
 
-        public string Numbers;
+		[Inject]
+		private NavigationManager _navigationManager { get; set; }
+
+		public string Numbers;
         public CultureCode? CultureCode;
 
         private PagedData<Plate> _plates;
@@ -30,6 +33,7 @@ namespace Platender.Front.Pages
             IsGetPlatesSend = true;
             SentNumbers = Numbers;
             SentCultureCode = CultureCode;
+            StateHasChanged();
         }
 
         private async Task PostPlate()
@@ -46,6 +50,11 @@ namespace Platender.Front.Pages
         {
             Page += 1;
             await GetPlates();
+        }
+
+        private void MoveToPlate(Guid plateId)
+        {
+            _navigationManager.NavigateTo("/plates/"+ plateId.ToString());
         }
     }
 }

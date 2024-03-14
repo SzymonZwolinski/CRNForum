@@ -11,7 +11,6 @@ namespace Platender.Front.Pages
 			[Inject]
 			private IPlateService _plateService { get; set; }
 
-			private List<string> BestDrivers = new();
 			private IList<string> _source = new List<string>() { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
 			private List<PlateLikeDto> TopLikedPlates = new();
 			private	List<CommentLikeDto> TopLikedSpotts = new();

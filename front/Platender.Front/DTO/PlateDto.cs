@@ -5,9 +5,9 @@ namespace Platender.Front.DTO
     public class PlateDto
     {
         public string Numbers { get; set; }
-        public CultureCode? CultureCode { get; set; }
+        public string CultureCode { get; set; }
 
-        public PlateDto(string numbers, CultureCode? cultureCode)
+        public PlateDto(string numbers, string cultureCode)
         {
             Numbers = numbers;
             CultureCode = cultureCode;
