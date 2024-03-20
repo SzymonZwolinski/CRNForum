@@ -38,12 +38,7 @@
                 {
                     @foreach (var comment in _plate.Comments)
                     {
-                        <div>
-                            <strong>User:</strong> @comment.AddingUserName
-                        </div>
-                        <div>
-                            <strong>Content:</strong> @comment.Content
-                        </div> 
+                        <Comment Username="@comment.AddingUserName" Content="@comment.Content" ShowActionButtons="false"></Comment>
                     }
                 }
             </div>      

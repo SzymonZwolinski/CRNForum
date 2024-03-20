@@ -1,16 +1,47 @@
 <MudCard>
     <MudCardContent>
-        <MudText>Username</MudText>
-        <div>
-        <MudPaper Elevation="0">
-            <MudText>Content</MudText>
-        </MudPaper>
-            <MudText>LikeAmount</MudText>
-            <MudText>DisLikeAmount</MudText>
+        <div style="display: flex; flex-wrap: nowrap; justify-content: space-between;">
+            <MudText>@Username</MudText>
+            <MudText Style="color: #0cff04">LikeAmount</MudText>
+            <MudText Style="color: #ff0000">DisLikeAmount</MudText>
         </div>
+        <MudPaper Elevation="0" Style="padding-left: 25px; padding-right: 25px; border-radius: 10px; border: 1px solid #000000">
+            <MudText>@Content</MudText>
+        </MudPaper>
     </MudCardContent>
-    <MudCardActions>
-    <MudButton Variant="Variant.Filled" ClickPropagation="false" Color="MudBlazor.Color.Success">Like</MudButton>
-    <MudButton Variant="Variant.Filled" ClickPropagation="false" Color="MudBlazor.Color.Warning">Dislike</MudButton>
-    </MudCardActions>
+    @if(ShowActionButtons)
+    {
+        <MudCardActions>
+            <MudButton Variant="Variant.Filled" ClickPropagation="false" Color="MudBlazor.Color.Success" @onclick=HandleFirstButtonClick>@FirstButtonName</MudButton>
+            <MudButton Variant="Variant.Filled" ClickPropagation="false" Color="MudBlazor.Color.Warning" @onclick=HandleSecondButtonClick>@SecondButtonName</MudButton>
+        </MudCardActions>
+    }
 </MudCard>
+
+@code {
+    [Parameter]
+    public string Username { get; set; }
+    [Parameter]
+    public string Content { get; set; }
+    [Parameter]
+    public bool ShowActionButtons { get; set; }
+    [Parameter]
+    public string FirstButtonName { get; set; }
+    [Parameter]
+    public string SecondButtonName { get; set; }
+    [Parameter]
+    public Action FirstButtonAction { get; set; }
+    [Parameter]
+    public Action SecondButtonAction { get; set; } 
+
+    private void HandleFirstButtonClick()
+    {
+        FirstButtonAction?.Invoke();
+    }
+
+    private void HandleSecondButtonClick()
+    {
+        SecondButtonAction?.Invoke();
+    }
+
+}

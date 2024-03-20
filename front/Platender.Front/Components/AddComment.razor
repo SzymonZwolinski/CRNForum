@@ -1,0 +1,43 @@
+@using Platender.Front.Event
+<MudPaper Style="background-color: #7f8389">
+    <div>
+        <div style="display: flex">
+        @foreach (var image in images)
+        {
+            <MudImage style="width: 150px; margin-right: 1rem; margin-top: 1rem" src="@image" />
+        }
+        </div>
+        <div style="display: flex; flex-direction: column;">
+            Username
+            <div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
+                Like
+                Dislike
+            </div>
+        </div>
+        <div style="padding: 15px; padding-top: 0px; padding-bottom: 0px; padding-right: 5px; display: flex">
+            <MudTextField T='string' Lines="5" Variant="MudBlazor.Variant.Filled" @onpastemultimedia="HandlePasteMultimedia" AutoGrow="false" DisableUnderLine="false" Error="false" FullWidth="true" HelperTextOnFocus="false" Immediate="false" Style="background-color: #ffffff;" Clearable="false" @bind-Value=@CommentContent />
+        </div>
+        <MudButton Style="margin-left: 75%" ButtonType="MudBlazor.ButtonType.Submit" Color="MudBlazor.Color.Success" Variant="MudBlazor.Variant.Filled" @onclick=@CheckData >Comment</MudButton>
+    </div>
+</MudPaper>
+@code {
+    private string CommentContent;
+    private List<string> images = new List<string>();
+
+    private void HandlePasteMultimedia(PasteMultimediaEventArgs e)
+    {
+        if (e.IsMultimedia)
+        {
+            images.Add(e.Data);
+        }
+    }
+
+    private void CheckData()
+    {
+        var file = @"G:\szyfr\test.png";
+        foreach(var t in images)
+        {
+            File.WriteAllText(file, t);
+        }
+    }
+}

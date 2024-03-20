@@ -1,0 +1,23 @@
+<MudCard>
+    <MudCardActions>
+        <div>
+            <MudIconButton></MudIconButton>
+        </div>
+    </MudCardActions>
+    <MudCardContent>
+        <MudImage style="width: 150px; margin-right: 1rem; margin-top: 1rem" src="@image" />
+    </MudCardContent>
+</MudCard>
+
+@code {
+    [Parameter]
+    public string image { get; set; }
+
+    [Parameter]
+	public Action OnClickAction { get; set; }  
+
+    private void HandleClick()
+    {
+        OnClickAction?.Invoke();
+    }
+}
