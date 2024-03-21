@@ -8,10 +8,9 @@
         }
         </div>
         <div style="display: flex; flex-direction: column;">
-            Username
+            
             <div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
-                Like
-                Dislike
+            
             </div>
         </div>
         <div style="padding: 15px; padding-top: 0px; padding-bottom: 0px; padding-right: 5px; display: flex">
@@ -32,12 +31,11 @@
         }
     }
 
-    private void CheckData()
+    private async void CheckData()
     {
-        var file = @"G:\szyfr\test.png";
-        foreach(var t in images)
-        {
-            File.WriteAllText(file, t);
-        }
+        using var httpClient = new HttpClient();
+        var fileBytes = await httpClient.GetByteArrayAsync(images.FirstOrDefault());
+
+        Console.WriteLine(fileBytes.Length);
     }
 }

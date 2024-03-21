@@ -23,12 +23,11 @@
             isMultimedia = true;
             const url = window.URL || window.webkitURL;
             data = url.createObjectURL(file);
-            console.log(data.)
-        }
+         }
 
         return {
             isMultimedia,
-            data
+            data            
         }
     }
 })
