@@ -54,22 +54,22 @@ namespace Platender.Application.Repositories
 			=> await _platenderDbContext.plates
 				.FirstOrDefaultAsync(x => x.Id == plateId);
 
-        public async Task<(IEnumerable<Comment>, int)> GetPlateSpottsAsync(Guid plateId, int? page)
+        public async Task<(IEnumerable<Comment>, int)> GetPlateCommentsAsync(Guid plateId, int? page)
         {
             var query = _platenderDbContext.plates
                 .Include(x => x.Comments)
                     .ThenInclude(x => x.User)
                 .Where(x => x.Id == plateId);
 
-            var spottsQuery = query.SelectMany(x => x.Comments);
+            var commentsQuery = query.SelectMany(x => x.Comments);
 
             return
-                (await spottsQuery
+                (await commentsQuery
                     .OrderBy(x => x.CreatedAt)
                     .Skip((page - 1) * 10 ?? 0)
                     .Take(page * 10 ?? 10)
                     .ToListAsync(),
-                spottsQuery.Count());
+                commentsQuery.Count());
         }
 
 		public async Task<Plate> GetPlateWithLikesAsync(Guid plateId)

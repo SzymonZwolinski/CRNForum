@@ -39,12 +39,20 @@ namespace Platender.Front.Services
 			
 		}
 
-		public async Task<PagedData<Plate>> GetPlatesByNumbersAsync(
+        public async Task<PagedData<Comment>> GetPlateCommentsAsync(Guid PlateId, int Page)
+        {
+            var result = await _httpClient.GetAsync(_backendConfig.Url + $"/plate/{PlateId}/comments" + "?" +
+			"page=" + Page);
+
+			return await result.Content.ReadFromJsonAsync<PagedData<Comment>>();
+        }
+
+        public async Task<PagedData<Plate>> GetPlatesByNumbersAsync(
 			string numbers,
 			CultureCode? cultureCode,
 			int page)
 		{
-			var result =  await _httpClient.GetAsync(_backendConfig.Url + "/plate" +"?"+
+			var result =  await _httpClient.GetAsync(_backendConfig.Url + "/plate" + "?" +
 				"page=" + page +
 				"&numbers=" + numbers +
 				"&cultureCode="+ cultureCode.ToString());

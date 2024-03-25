@@ -13,7 +13,7 @@ namespace Platender.Application.Providers
 		Task<Guid> AddPlateAsync(AddPlate plate);
         Task AddOrRemoveReactionToPlateAsync(AddReaction plateLike, IPAddress userIpAddress);
         Task AddSpotAsync(AddComment plate, string commentingUserName);
-        Task<PagedData<CommentDto>> GetPlateSpottsAsync(Guid plateId, int? page);
+        Task<PagedData<CommentDto>> GetPlateCommentsAsync(Guid plateId, int? page);
         Task AddOrRemoveReactionToSpottAsync(AddReaction spottLike, IPAddress userIpAddress);
     }
 }

@@ -16,12 +16,16 @@
         <div style="padding: 15px; padding-top: 0px; padding-bottom: 0px; padding-right: 5px; display: flex">
             <MudTextField T='string' Lines="5" Variant="MudBlazor.Variant.Filled" @onpastemultimedia="HandlePasteMultimedia" AutoGrow="false" DisableUnderLine="false" Error="false" FullWidth="true" HelperTextOnFocus="false" Immediate="false" Style="background-color: #ffffff;" Clearable="false" @bind-Value=@CommentContent />
         </div>
-        <MudButton Style="margin-left: 75%" ButtonType="MudBlazor.ButtonType.Submit" Color="MudBlazor.Color.Success" Variant="MudBlazor.Variant.Filled" @onclick=@CheckData >Comment</MudButton>
+        <MudButton Style="margin-left: 75%" ButtonType="MudBlazor.ButtonType.Submit" Color="MudBlazor.Color.Success" Variant="MudBlazor.Variant.Filled" @onclick=@InvokeSubmitButtonAction >Comment</MudButton>
     </div>
 </MudPaper>
+
 @code {
-    private string CommentContent;
-    private List<string> images = new List<string>();
+    [Parameter]
+    public Action SubmitButtonAction { get; set; }
+
+    public string CommentContent;
+    public List<string> images = new List<string>();
 
     private void HandlePasteMultimedia(PasteMultimediaEventArgs e)
     {
@@ -38,4 +42,10 @@
 
         Console.WriteLine(fileBytes.Length);
     }
+
+    private void InvokeSubmitButtonAction()
+    {
+        SubmitButtonAction?.Invoke();
+    }
+
 }

@@ -15,6 +15,6 @@ namespace Platender.Core.Repositories
 			string number,
 			CultureCode? cultureCode, 
 			int? page);
-		Task<(IEnumerable<Comment>, int)> GetPlateSpottsAsync(Guid plateId, int? page);
+		Task<(IEnumerable<Comment>, int)> GetPlateCommentsAsync(Guid plateId, int? page);
     }
 }

@@ -67,9 +67,9 @@ namespace Platender.Application.Providers
                 spotterUserName);
         }
 
-        public async Task<PagedData<CommentDto>> GetPlateSpottsAsync(Guid plateId, int? page)
+        public async Task<PagedData<CommentDto>> GetPlateCommentsAsync(Guid plateId, int? page)
         {
-            var (spotts, amount) = await _plateService.GetPlateSpottsAsync(plateId, page);
+            var (spotts, amount) = await _plateService.GetPlateCommentsAsync(plateId, page);
 
             return new PagedData<CommentDto>(
                 spotts.Select(x => MapToSpottDto(x)),

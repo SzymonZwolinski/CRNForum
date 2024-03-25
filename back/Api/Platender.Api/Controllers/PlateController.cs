@@ -34,12 +34,12 @@ namespace Platender.Api.Controllers
 			return new JsonResult(plate);
 		}
 
-        [HttpGet("{plateId}/spotts")]
-        public async Task<IActionResult> GetPlateSpotts([FromRoute] Guid plateId, [FromQuery] int page)
+        [HttpGet("{plateId}/comments")]
+        public async Task<IActionResult> GetPlateComments([FromRoute] Guid plateId, [FromQuery] int page)
         {
-            var plateSpotts = await _plateProvider.GetPlateSpottsAsync(plateId, page);
+            var plateComments = await _plateProvider.GetPlateCommentsAsync(plateId, page);
 
-            return new JsonResult(plateSpotts);
+            return new JsonResult(plateComments);
         }
 
         [Authorize]

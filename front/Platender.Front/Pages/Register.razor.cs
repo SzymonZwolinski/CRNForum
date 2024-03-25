@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Platender.Front.Models;
 using Platender.Front.Services;
 
@@ -13,6 +14,19 @@ namespace Platender.Front.Pages
 
 		private Account InputAccount;
 
+		bool success;
+		string[] errors = { };
+		MudTextField<string> pwField1;
+		MudForm form;
+
+		private IEnumerable<string> PasswordStrength(string pw)
+		{
+			if (string.IsNullOrWhiteSpace(pw))
+			{
+				yield return "Password is required!";
+				yield break;
+			}
+		}
 
 		protected override Task OnInitializedAsync()
 		{
