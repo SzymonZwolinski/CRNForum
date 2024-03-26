@@ -38,9 +38,13 @@ namespace Platender.Front.Pages
 
 		private async void PostComment()
 		{
+			var images = await AddCommentField.GetPostedImages();
+
 			_comment.PlateId = _plate.Id;
 			_comment.Description = AddCommentField.CommentContent;
+			_comment.Image = images.FirstOrDefault();
 			
+			Console.WriteLine(_comment.Image);
 			await _plateService.AddCommentToPlate(_comment);
 		}
 	}

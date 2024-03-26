@@ -35,6 +35,29 @@
         }
     }
 
+    public async Task<List<byte[]>> GetPostedImages()
+    {
+         using (var httpClient = new HttpClient())
+        {
+            var postedImages = new List<byte[]>();
+            var tasks = new List<Task<byte[]>>();
+        
+            foreach(var file in images)
+            {
+                tasks.Add(httpClient.GetByteArrayAsync(file));
+            }
+
+            await Task.WhenAll(tasks);
+
+            foreach(var task in tasks)
+            {
+                postedImages.Add(await task);
+            }
+
+            return postedImages;
+        }
+    }
+
     private async void CheckData()
     {
         using var httpClient = new HttpClient();
