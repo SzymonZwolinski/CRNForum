@@ -4,16 +4,28 @@
         <div style="display: flex">
         @foreach (var image in images)
         {
-            <MudImage style="width: 150px; margin-right: 1rem; margin-top: 1rem" src="@image" />
+            <div style="width: 150px; margin-right: 1rem; margin-top: 1rem">
+                <ImageCard image=@image />
+            </div>
         }
         </div>
         <div style="display: flex; flex-direction: column;">
             
             <div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
-            
+                <MudFileUpload T="IBrowserFile" Accept=".png, .jpg, .jpeg" FilesChanged="UploadFiles2" MaximumFileCount="100">
+                    <ButtonTemplate>
+                        <MudButton HtmlTag="label"
+                                Variant="Variant.Filled"
+                                Color="Color.Primary"
+                                StartIcon="@Icons.Material.Filled.CloudUpload"
+                                for="@context.Id">
+                            Upload spotts
+                        </MudButton>
+                    </ButtonTemplate>
+                </MudFileUpload>
             </div>
         </div>
-        <div style="padding: 15px; padding-top: 0px; padding-bottom: 0px; padding-right: 5px; display: flex">
+        <div style="padding: 15px; padding-top: 0px; padding-bottom: 0px; padding-right: 5px; display: flex" ondrop="">
             <MudTextField T='string' Lines="5" Variant="MudBlazor.Variant.Filled" @onpastemultimedia="HandlePasteMultimedia" AutoGrow="false" DisableUnderLine="false" Error="false" FullWidth="true" HelperTextOnFocus="false" Immediate="false" Style="background-color: #ffffff;" Clearable="false" @bind-Value=@CommentContent />
         </div>
         <MudButton Style="margin-left: 75%" ButtonType="MudBlazor.ButtonType.Submit" Color="MudBlazor.Color.Success" Variant="MudBlazor.Variant.Filled" @onclick=@InvokeSubmitButtonAction >Comment</MudButton>
@@ -24,8 +36,24 @@
     [Parameter]
     public Action SubmitButtonAction { get; set; }
 
+    [Inject]
+    private IJSRuntime  JSRuntime { get; set; }
+
     public string CommentContent;
     public List<string> images = new List<string>();
+
+
+    List<IBrowserFile> uploadedFiles = new List<IBrowserFile>();
+
+    async Task UploadFiles2(IBrowserFile file)
+    {
+        var buffer = new byte[file.Size];
+        await file.OpenReadStream().ReadAsync(buffer);
+        var base64 = Convert.ToBase64String(buffer);
+
+        var blobUrl = await JSRuntime.InvokeAsync<string>("convertToBlob", file.Name, base64);
+        images.Add(blobUrl);
+    }
 
     private void HandlePasteMultimedia(PasteMultimediaEventArgs e)
     {

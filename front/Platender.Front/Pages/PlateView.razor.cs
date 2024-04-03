@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 using Platender.Front.Components;
 using Platender.Front.DTO;
 using Platender.Front.Helpers;
