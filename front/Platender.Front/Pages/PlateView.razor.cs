@@ -12,6 +12,9 @@ namespace Platender.Front.Pages
         [Inject]
         private IPlateService _plateService { get; set; }
 
+		[Inject]
+		private IAuthService _authService { get; set; }
+
 		[Parameter]
 		public string plateId { get; set; }
 
@@ -44,8 +47,9 @@ namespace Platender.Front.Pages
 			_comment.Description = AddCommentField.CommentContent;
 			_comment.Image = images.FirstOrDefault();
 			
-			Console.WriteLine(_comment.Image);
 			await _plateService.AddCommentToPlate(_comment);
+			var loggedUserName = await _authService.GetAuthorizedUserNameAsync();
+			_comments.Add(new Models.Comment(_comment.Description, loggedUserName, DateTime.Now));
 		}
 	}
 }

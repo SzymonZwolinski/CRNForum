@@ -1,4 +1,4 @@
-﻿Blazor.registerCustomEventType("pastemultimedia", {
+Blazor.registerCustomEventType("pastemultimedia", {
     browserEventName: 'paste',
     createEventArgs: event => {
         let isMultimedia = false;

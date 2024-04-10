@@ -2,8 +2,8 @@
     
     <MudCardContent style="padding-top: 0;">
         <div style="position: relative;">
-        <MudImage Width="175" Height="175" src="@image" ObjectFit="ObjectFit.Contain" />
-        <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="MudBlazor.Color.Error" Style="position: absolute; top: 0; right: 0; width: 10px; height: 10px; padding: 0px"></MudIconButton>
+            <MudImage Width="175" Height="175" src="@image" ObjectFit="ObjectFit.Contain" />
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="MudBlazor.Color.Error" OnClick="HandleClick" Style="position: absolute; top: 0; right: 0; width: 10px; height: 10px; padding: 0px"></MudIconButton>
         </div>
     </MudCardContent>
 </MudCard>
@@ -12,11 +12,14 @@
     [Parameter]
     public string image { get; set; }
 
-    [Parameter]
-	public Action OnClickAction { get; set; }  
+	[Parameter]
+    public EventCallback<string> OnDeleteClickAction { get; set; }
 
-    private void HandleClick()
+    private async Task HandleClick()
     {
-        OnClickAction?.Invoke();
+        if (OnDeleteClickAction.HasDelegate)
+        {
+            await OnDeleteClickAction.InvokeAsync(image);
+        }
     }
 }

@@ -4,49 +4,21 @@
     @if (_plate != null)
     {
         <div>
-            <h3>Plate Details</h3>
-            <div>
-                <strong>Id:</strong> @_plate.Id
-            </div>
-            <div>
-                <strong>Number:</strong> @_plate.Number
-            </div>
-            <div>
-                <strong>Like Ratio:</strong> @_plate.LikeRatio
-            </div>
-            <div>
-                <strong>Culture:</strong> @_plate.Culture
-            </div>
+            <EUPlate CultureCode="@_plate.Culture" Number="@_plate.Number"/>
         </div>
-
-        <div>
-            <div>Comments: </div>
-
-            <div>
-                Add comment:
-                <EditForm Model="_comment" OnSubmit="PostComment">
-                    <div>
-                        <label>Content:</label>
-                        <InputTextArea @bind-Value="_comment.Description"></InputTextArea>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-success">Submit</button>
-                    </div>
-                </EditForm>
-            </div>
-            <div>
-                @if (_comments is not null || _comments.Any())
-                {
-                    @foreach (var comment in _comments)
-                    {
-                        <Comment Username="@comment.AddingUserName" Content="@comment.Description" ShowActionButtons="false"></Comment>
-                    }
-                }
-            </div>      
-        </div>
-        <div>
+       <div>
             <Platender.Front.Components.AddComment @ref=AddCommentField SubmitButtonAction=@PostComment></Platender.Front.Components.AddComment>
         </div>
+        <div>Comments: </div>
+        <div>
+            @if (_comments is not null || _comments.Any())
+            {
+                @foreach (var comment in _comments)
+                {
+                    <Comment Username="@comment.AddingUserName" Content="@comment.Description" ShowActionButtons="false"></Comment>
+                }
+            }
+        </div>             
     }
     else
     {
@@ -56,9 +28,7 @@
 
 <div>
     <MudPaper>
-        <div>
-            <EUPlate CultureCode="@_plate.Culture" Number="@_plate.Number"/>
-        </div>
+        
     </MudPaper>
     <div>
 

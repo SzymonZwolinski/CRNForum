@@ -1,18 +1,20 @@
 @using Platender.Front.Event
+@using Platender.Front.Models
+@using Platender.Front.Services
 <MudPaper Style="background-color: #7f8389">
     <div>
         <div style="display: flex">
         @foreach (var image in images)
         {
             <div style="width: 150px; margin-right: 1rem; margin-top: 1rem">
-                <ImageCard image=@image />
+                <ImageCard image=@image OnDeleteClickAction="RemoveImage"/>
             </div>
         }
         </div>
         <div style="display: flex; flex-direction: column;">
             
             <div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
-                <MudFileUpload T="IBrowserFile" Accept=".png, .jpg, .jpeg" FilesChanged="UploadFiles2" MaximumFileCount="100">
+                <MudFileUpload T="IBrowserFile" Accept=".png, .jpg, .jpeg" FilesChanged="AddImageFromButton" MaximumFileCount="100">
                     <ButtonTemplate>
                         <MudButton HtmlTag="label"
                                 Variant="Variant.Filled"
@@ -28,24 +30,32 @@
         <div style="padding: 15px; padding-top: 0px; padding-bottom: 0px; padding-right: 5px; display: flex" ondrop="">
             <MudTextField T='string' Lines="5" Variant="MudBlazor.Variant.Filled" @onpastemultimedia="HandlePasteMultimedia" AutoGrow="false" DisableUnderLine="false" Error="false" FullWidth="true" HelperTextOnFocus="false" Immediate="false" Style="background-color: #ffffff;" Clearable="false" @bind-Value=@CommentContent />
         </div>
-        <MudButton Style="margin-left: 75%" ButtonType="MudBlazor.ButtonType.Submit" Color="MudBlazor.Color.Success" Variant="MudBlazor.Variant.Filled" @onclick=@InvokeSubmitButtonAction >Comment</MudButton>
+        <MudButton Style="margin-left: 75%" ButtonType="MudBlazor.ButtonType.Submit" Color="MudBlazor.Color.Success" Variant="MudBlazor.Variant.Filled" OnClick="InvokeSubmitButtonAction" >Comment</MudButton>
     </div>
 </MudPaper>
 
 @code {
-    [Parameter]
-    public Action SubmitButtonAction { get; set; }
-
     [Inject]
     private IJSRuntime  JSRuntime { get; set; }
-
+    [Parameter]
+    public Action SubmitButtonAction { get; set; }
+    [Parameter]
+    public User? CurrentUser { get; set; }
     public string CommentContent;
     public List<string> images = new List<string>();
+    public List<IBrowserFile> uploadedFiles = new List<IBrowserFile>();
+    private bool IsUserLogged;
+    
 
+    protected override async Task OnInitializedAsync()
+    {
+        if(CurrentUser is not null)
+        {
+            IsUserLogged = CurrentUser.UserState == UserState.BasicAuth;
+        }
+    }
 
-    List<IBrowserFile> uploadedFiles = new List<IBrowserFile>();
-
-    async Task UploadFiles2(IBrowserFile file)
+    public async Task AddImageFromButton(IBrowserFile file)
     {
         var buffer = new byte[file.Size];
         await file.OpenReadStream().ReadAsync(buffer);
@@ -61,6 +71,12 @@
         {
             images.Add(e.Data);
         }
+    }
+
+    public async Task RemoveImage(string image)
+    {
+        await JSRuntime.InvokeVoidAsync("releaseBlobUrl", image);       
+        //TODO: Find a solution to fix memory leak, somehow this revokeURL does not work?
     }
 
     public async Task<List<byte[]>> GetPostedImages()
@@ -86,17 +102,8 @@
         }
     }
 
-    private async void CheckData()
-    {
-        using var httpClient = new HttpClient();
-        var fileBytes = await httpClient.GetByteArrayAsync(images.FirstOrDefault());
-
-        Console.WriteLine(fileBytes.Length);
-    }
-
     private void InvokeSubmitButtonAction()
     {
         SubmitButtonAction?.Invoke();
     }
-
 }

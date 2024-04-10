@@ -14,10 +14,11 @@ namespace Platender.Front.Services
 		private readonly ILocalStorageService _localStorage;
 		private readonly BackendConfig _backendConfig;
 
-		public AuthService(HttpClient httpClient,
-					   AuthenticationStateProvider authenticationStateProvider,
-					   ILocalStorageService localStorage,
-					   BackendConfig backendConfig)
+		public AuthService(
+			HttpClient httpClient,
+			AuthenticationStateProvider authenticationStateProvider,
+			ILocalStorageService localStorage,
+			BackendConfig backendConfig)
 		{
 			_httpClient = httpClient;
 			_authenticationStateProvider = authenticationStateProvider;
@@ -35,11 +36,11 @@ namespace Platender.Front.Services
 			}
 
 			var token = await result.Content.ReadAsStringAsync();
-			Console.WriteLine(token);	
 
 			await _localStorage.SetItemAsync("authToken", token);
 			((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.UserName);
 			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+			Console.WriteLine(_httpClient.DefaultRequestHeaders.Authorization.ToString());
 			return; //TODO: Add status
 		}
 
@@ -58,5 +59,5 @@ namespace Platender.Front.Services
 
 			return;
 		}
-	}
+    }
 }
