@@ -11,13 +11,21 @@
         </div>
         <div>Comments: </div>
         <div>
+            <InfinityScroll ObserverTargetId="observerTarget" ObservableTargetReached="(e) => HandleEndOfInfinityLoad()">
             @if (_comments is not null || _comments.Any())
             {
                 @foreach (var comment in _comments)
                 {
-                    <Comment Username="@comment.AddingUserName" Content="@comment.Description" ShowActionButtons="false"></Comment>
+                    if(IsCommentSent && _comments.First() == comment)
+                    {
+                        <Comment Username="@comment.AddingUserName" Content="@comment.Description" Image="@comment.Byte64Image" ShowActionButtons="false" Date="Now" style="background-color: yellow;"></Comment>
+                        continue;
+                    }
+                    <Comment Username="@comment.AddingUserName" Content="@comment.Description" Image="@comment.Byte64Image" Date="@comment.CreatedAt.ToString()" ShowActionButtons="true"></Comment>
                 }
+                <li class="list-group-item" id="observerTarget"></li>
             }
+            </InfinityScroll>
         </div>             
     }
     else

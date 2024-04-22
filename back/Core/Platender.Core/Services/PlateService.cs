@@ -42,7 +42,7 @@ namespace Platender.Core.Services
         public async Task AddSpotToPlateAsync(
 			Guid plateId,
 			byte[] image, 
-			string content,
+			string? content,
 			string userName)
         {
 			var user = await _authRepository.GetUserAsync(userName);
@@ -60,7 +60,7 @@ namespace Platender.Core.Services
 		private Comment CreateSpot(
 			User user, 
 			byte[] image,
-			string description)
+			string? description)
 		{
 			return new Comment(user, image, description);
 		}

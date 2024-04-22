@@ -1,28 +1,39 @@
-<MudCard>
+<MudCard style=@style>
     <MudCardContent>
         <div style="display: flex; flex-wrap: nowrap; justify-content: space-between;">
             <MudText>@Username</MudText>
-            <MudText Style="color: #0cff04">LikeAmount</MudText>
+           
             <MudText Style="color: #ff0000">DisLikeAmount</MudText>
+            <MudText Style="color: #000000">@Date</MudText>
         </div>
         <MudPaper Elevation="0" Style="padding-left: 25px; padding-right: 25px; border-radius: 10px; border: 1px solid #000000">
+            <MudImage Src=@Image></MudImage>
             <MudText>@Content</MudText>
         </MudPaper>
     </MudCardContent>
     @if(ShowActionButtons)
     {
-        <MudCardActions>
-            <MudButton Variant="Variant.Filled" ClickPropagation="false" Color="MudBlazor.Color.Success" @onclick=HandleFirstButtonClick>@FirstButtonName</MudButton>
-            <MudButton Variant="Variant.Filled" ClickPropagation="false" Color="MudBlazor.Color.Warning" @onclick=HandleSecondButtonClick>@SecondButtonName</MudButton>
+        <MudCardActions style="display: flex; flex-direction: row-reverse;">
+            <MudIconButton Icon="@Icons.Material.Filled.ThumbUpOffAlt" @onclick=HandleFirstButtonClick></MudIconButton>
+            <MudText Style="color: #0cff04">LikeAmount</MudText>
+            <MudIconButton Icon="@Icons.Material.Filled.ThumbDownOffAlt" @onclick=HandleSecondButtonClick></MudIconButton>
+            <MudText Style="color: #ff0000">DisLikeAmount</MudText>
+
         </MudCardActions>
     }
 </MudCard>
 
 @code {
     [Parameter]
-    public string Username { get; set; }
+    public string? style { get;set; }
     [Parameter]
-    public string Content { get; set; }
+    public string? Username { get; set; }
+    [Parameter]
+    public string? Content { get; set; }
+    [Parameter]
+    public string? Image { get; set; }
+    [Parameter]
+    public string? Date { get; set; }
     [Parameter]
     public bool ShowActionButtons { get; set; }
     [Parameter]
@@ -32,7 +43,7 @@
     [Parameter]
     public Action FirstButtonAction { get; set; }
     [Parameter]
-    public Action SecondButtonAction { get; set; } 
+    public Action SecondButtonAction { get; set; }  
 
     private void HandleFirstButtonClick()
     {

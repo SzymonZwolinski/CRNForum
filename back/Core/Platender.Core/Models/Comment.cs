@@ -10,14 +10,14 @@
         public DateTime CreatedAt { get; private set; }
         public IEnumerable<CommentsLike> CommentLike => _commentLike;
         private List<CommentsLike> _commentLike { get;  set; } = new();
-        private bool IsSpott => Image?.Length > 0;
+        public bool IsSpott => Image?.Length > 0;
 
         public Comment(){}
 
         public Comment(
             User user,
             byte[]? image,
-            string description)
+            string? description)
         {
             SetUser(user);
             Image = image; //TODO: LIMIT MAX SIZE / RESIZE TO MAX
@@ -37,7 +37,7 @@
             User = user;
         }
 
-        private void SetDescription(string description) 
+        private void SetDescription(string? description) 
         {
             if(!IsSpott && (string.IsNullOrWhiteSpace(description) || description.Length > 1023)) 
             {

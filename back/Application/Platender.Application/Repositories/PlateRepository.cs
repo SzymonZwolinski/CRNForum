@@ -45,7 +45,7 @@ namespace Platender.Application.Repositories
 
 			return (await query
 					.Skip((page - 1) * 10 ?? 0)
-					.Take(page * 10 ?? 10)
+					.Take(10)
 					.ToListAsync(),
 				query.Count());
 		}      
@@ -67,7 +67,7 @@ namespace Platender.Application.Repositories
                 (await commentsQuery
                     .OrderBy(x => x.CreatedAt)
                     .Skip((page - 1) * 10 ?? 0)
-                    .Take(page * 10 ?? 10)
+                    .Take(10)
                     .ToListAsync(),
                 commentsQuery.Count());
         }

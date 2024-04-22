@@ -36,7 +36,6 @@ namespace Platender.Front.Services
 		{
 			var result = await _httpClient.GetAsync(_backendConfig.Url + $"/plate/{id}");
 			return await result.Content.ReadFromJsonAsync<Plate>();
-			
 		}
 
         public async Task<PagedData<Comment>> GetPlateCommentsAsync(Guid PlateId, int Page)

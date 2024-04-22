@@ -1,4 +1,4 @@
-﻿using Blazored.LocalStorage;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Platender.Front.Models;
 using Platender.Front.Utilities;
@@ -29,7 +29,6 @@ namespace Platender.Front.Services
 		public async Task LoginAsync(Account loginModel)
 		{
 			var result = await _httpClient.PostAsJsonAsync(_backendConfig.Url + "/auth/Login", loginModel);
-			Console.WriteLine(result.StatusCode);
 			if(!result.IsSuccessStatusCode)
 			{
 				return;
@@ -40,7 +39,6 @@ namespace Platender.Front.Services
 			await _localStorage.SetItemAsync("authToken", token);
 			((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.UserName);
 			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
-			Console.WriteLine(_httpClient.DefaultRequestHeaders.Authorization.ToString());
 			return; //TODO: Add status
 		}
 

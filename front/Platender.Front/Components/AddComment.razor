@@ -1,6 +1,7 @@
 @using Platender.Front.Event
 @using Platender.Front.Models
 @using Platender.Front.Services
+
 <MudPaper Style="background-color: #7f8389">
     <div>
         <div style="display: flex">
@@ -28,20 +29,36 @@
             </div>
         </div>
         <div style="padding: 15px; padding-top: 0px; padding-bottom: 0px; padding-right: 5px; display: flex" ondrop="">
-            <MudTextField T='string' Lines="5" Variant="MudBlazor.Variant.Filled" @onpastemultimedia="HandlePasteMultimedia" AutoGrow="false" DisableUnderLine="false" Error="false" FullWidth="true" HelperTextOnFocus="false" Immediate="false" Style="background-color: #ffffff;" Clearable="false" @bind-Value=@CommentContent />
+            @if(IsUserLogged)
+            {
+                <MudTextField  T='string' Lines="5" Variant="MudBlazor.Variant.Filled" @onpastemultimedia="HandlePasteMultimedia" FullWidth="true" Style="background-color: #ffffff;" Clearable="false" @bind-Value=@CommentContent />
+            }
+            else
+            {
+                <MudTextField T="string" Text="Log in to comment" Disabled="true" FullWidth="true" Style="background-color: #ffffff;"></MudTextField>
+            }
         </div>
-        <MudButton Style="margin-left: 75%" ButtonType="MudBlazor.ButtonType.Submit" Color="MudBlazor.Color.Success" Variant="MudBlazor.Variant.Filled" OnClick="InvokeSubmitButtonAction" >Comment</MudButton>
+        @if(IsUserLogged)
+        {
+            <MudButton Style="margin-left: 75%" ButtonType="MudBlazor.ButtonType.Submit" Color="MudBlazor.Color.Success" Variant="MudBlazor.Variant.Filled" OnClick="InvokeSubmitButtonAction" >Comment</MudButton>
+        }
+        else
+        {
+            <MudButton Style="margin-left: 75%" Disabled="true" Variant="MudBlazor.Variant.Filled" >Comment</MudButton>
+        }
     </div>
 </MudPaper>
 
 @code {
     [Inject]
     private IJSRuntime  JSRuntime { get; set; }
+    [Inject]
+    private IUserService _userService { get; set; }
     [Parameter]
     public Action SubmitButtonAction { get; set; }
     [Parameter]
     public User? CurrentUser { get; set; }
-    public string CommentContent;
+    public string? CommentContent;
     public List<string> images = new List<string>();
     public List<IBrowserFile> uploadedFiles = new List<IBrowserFile>();
     private bool IsUserLogged;
@@ -49,10 +66,14 @@
 
     protected override async Task OnInitializedAsync()
     {
+        CurrentUser = await _userService.GetAuthorizedUser();
         if(CurrentUser is not null)
         {
             IsUserLogged = CurrentUser.UserState == UserState.BasicAuth;
+            return;
         }
+
+        IsUserLogged = false;
     }
 
     public async Task AddImageFromButton(IBrowserFile file)
@@ -75,6 +96,8 @@
 
     public async Task RemoveImage(string image)
     {
+        images.Remove(image);
+        
         await JSRuntime.InvokeVoidAsync("releaseBlobUrl", image);       
         //TODO: Find a solution to fix memory leak, somehow this revokeURL does not work?
     }
