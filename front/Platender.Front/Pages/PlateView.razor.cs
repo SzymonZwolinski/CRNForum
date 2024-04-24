@@ -55,7 +55,11 @@ namespace Platender.Front.Pages
 			
 			await _plateService.AddCommentToPlate(_comment);
 			
-			_comments.Insert(0, new Models.Comment(_comment.Description, AddCommentField.CurrentUser.Username, DateTime.Now));
+			_comments.Insert(0,
+				new Models.Comment(
+					_comment.Description, 
+					AddCommentField.CurrentUser.Username,
+				 	_comment.Image, DateTime.Now));
 
 			IsCommentSent = true;
 			StateHasChanged();

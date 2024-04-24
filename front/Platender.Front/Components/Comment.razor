@@ -1,3 +1,5 @@
+@inject IDialogService DialogService
+
 <MudCard style=@style>
     <MudCardContent>
         <div style="display: flex; flex-wrap: nowrap; justify-content: space-between;">
@@ -7,7 +9,9 @@
             <MudText Style="color: #000000">@Date</MudText>
         </div>
         <MudPaper Elevation="0" Style="padding-left: 25px; padding-right: 25px; border-radius: 10px; border: 1px solid #000000">
-            <MudImage Src=@Image></MudImage>
+        @if(!string.IsNullOrWhiteSpace(Image))
+        {
+            <MudImage Class="cursor-zoom-in" Src=@Image ObjectFit="MudBlazor.ObjectFit.ScaleDown" ObjectPosition="MudBlazor.ObjectPosition.Center" Style="border-radius: 10px;" @onclick="OpenDialog" ></MudImage>        }
             <MudText>@Content</MudText>
         </MudPaper>
     </MudCardContent>
@@ -22,6 +26,12 @@
         </MudCardActions>
     }
 </MudCard>
+
+<style>
+    .my-custom-class {
+        backdrop-filter: blur(10px);
+    }
+</style>
 
 @code {
     [Parameter]
@@ -44,6 +54,14 @@
     public Action FirstButtonAction { get; set; }
     [Parameter]
     public Action SecondButtonAction { get; set; }  
+
+    private void OpenDialog()
+    {
+        var parameters = new DialogParameters<ImageDialog>();
+        parameters.Add(x => x.Image, Image);
+        var options = new DialogOptions { ClassBackground = "my-custom-class", CloseOnEscapeKey = true, NoHeader = true};
+        DialogService.Show<ImageDialog>("Simple Dialog", parameters, options);
+    }
 
     private void HandleFirstButtonClick()
     {
