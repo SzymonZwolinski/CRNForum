@@ -1,19 +1,33 @@
 @inject IDialogService DialogService
 
-<MudCard style=@style>
+<MudCard style=@style Elevation="25">
     <MudCardContent>
         <div style="display: flex; flex-wrap: nowrap; justify-content: space-between;">
-            <MudText>@Username</MudText>
-           
-            <MudText Style="color: #ff0000">DisLikeAmount</MudText>
+            <div style="display: flex; flex-direction: column;">
+                <MudText>@Username</MudText>
+                <MudText>Avatar</MudText>
+            </div>
             <MudText Style="color: #000000">@Date</MudText>
+        </div> 
+        <div style="margin-left: 5%;">
+            <MudPaper Elevation="5" Square="true">
+                <MudText>@Content</MudText>
+            </MudPaper>
+            @if(!string.IsNullOrWhiteSpace(Image))
+            {
+                <MudImage 
+                    Class="cursor-zoom-in" 
+                    Src=@Image 
+                    ObjectFit="MudBlazor.ObjectFit.ScaleDown"
+                    ObjectPosition="MudBlazor.ObjectPosition.Center"
+                    Style="
+                    padding-top: 1%;
+                    border-radius: 10px; 
+                    min-width: 150px; 
+                    min-heigh: 150px;"
+                    @onclick="OpenDialog"></MudImage>       
+            }       
         </div>
-        <MudPaper Elevation="0" Style="padding-left: 25px; padding-right: 25px; border-radius: 10px; border: 1px solid #000000">
-        @if(!string.IsNullOrWhiteSpace(Image))
-        {
-            <MudImage Class="cursor-zoom-in" Src=@Image ObjectFit="MudBlazor.ObjectFit.ScaleDown" ObjectPosition="MudBlazor.ObjectPosition.Center" Style="border-radius: 10px;" @onclick="OpenDialog" ></MudImage>        }
-            <MudText>@Content</MudText>
-        </MudPaper>
     </MudCardContent>
     @if(ShowActionButtons)
     {
@@ -22,7 +36,6 @@
             <MudText Style="color: #0cff04">LikeAmount</MudText>
             <MudIconButton Icon="@Icons.Material.Filled.ThumbDownOffAlt" @onclick=HandleSecondButtonClick></MudIconButton>
             <MudText Style="color: #ff0000">DisLikeAmount</MudText>
-
         </MudCardActions>
     }
 </MudCard>
@@ -35,7 +48,9 @@
 
 @code {
     [Parameter]
-    public string? style { get;set; }
+    public Guid Id { get; set; }
+    [Parameter]
+    public string? style { get; set; }
     [Parameter]
     public string? Username { get; set; }
     [Parameter]
@@ -51,9 +66,9 @@
     [Parameter]
     public string SecondButtonName { get; set; }
     [Parameter]
-    public Action FirstButtonAction { get; set; }
+    public EventCallback<Guid> FirstButtonAction { get; set; }
     [Parameter]
-    public Action SecondButtonAction { get; set; }  
+    public EventCallback<Guid> SecondButtonAction { get; set; }  
 
     private void OpenDialog()
     {
@@ -63,14 +78,20 @@
         DialogService.Show<ImageDialog>("Simple Dialog", parameters, options);
     }
 
-    private void HandleFirstButtonClick()
+    private async Task HandleFirstButtonClick()
     {
-        FirstButtonAction?.Invoke();
+        if(FirstButtonAction.HasDelegate)
+        {
+            await FirstButtonAction.InvokeAsync(Id);
+        }
     }
 
-    private void HandleSecondButtonClick()
+    private async Task HandleSecondButtonClick()
     {
-        SecondButtonAction?.Invoke();
+        if(SecondButtonAction.HasDelegate)
+        {
+            await SecondButtonAction.InvokeAsync(Id);
+        }
     }
 
 }

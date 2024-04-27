@@ -65,6 +65,26 @@ namespace Platender.Front.Pages
 			StateHasChanged();
 		}
 
+		public async Task AddOrRemoveLikeToCommentAsync(Guid commentId)
+		{
+			await _plateService.AddLikeToCommentAsync(new Guid(plateId), commentId);
+		}
+
+		public async Task AddOrRemoveDislikeToCommentAsync(Guid commentId)
+		{
+			await _plateService.AddDislikeToCommentAsync(new Guid(plateId), commentId);	
+		}
+
+		public async Task AddOrRemoveLikeToPlateAsync()
+		{
+			await _plateService.AddLikeToPlateAsync(new Guid(plateId));
+		}
+
+		public async Task AddOrRemoveDislikeToPlateAsync()
+		{
+			await _plateService.AddDislikeToPlateAsync(new Guid(plateId));
+		}
+
 		private async Task HandleEndOfInfinityLoad()
 		{
 			if(page > MaxPage)

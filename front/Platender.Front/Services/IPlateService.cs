@@ -18,5 +18,9 @@ namespace Platender.Front.Services
 		Task AddCommentToPlate(CommentDto comment);
 		Task<List<PlateLikeDto>> GetTopLikedPlatesAsync();
 		Task<List<CommentLikeDto>> GetTopLikedSpottsAsync();
+		Task AddLikeToCommentAsync(Guid plateId, Guid commentId);
+		Task AddDislikeToCommentAsync(Guid plateId, Guid commentId);
+		Task AddLikeToPlateAsync(Guid plateId);
+		Task AddDislikeToPlateAsync(Guid plateId);
 	}
 }

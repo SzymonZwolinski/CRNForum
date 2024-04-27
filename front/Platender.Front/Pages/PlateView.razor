@@ -5,6 +5,12 @@
     {
         <div>
             <EUPlate CultureCode="@_plate.Culture" Number="@_plate.Number"/>
+            <MudCardActions style="display: flex; flex-direction: row-reverse;">
+                <MudIconButton Icon="@Icons.Material.Filled.ThumbUpOffAlt" @onclick=AddOrRemoveLikeToPlateAsync></MudIconButton>
+                <MudText Style="color: #0cff04">LikeAmount</MudText>
+                <MudIconButton Icon="@Icons.Material.Filled.ThumbDownOffAlt" @onclick=AddOrRemoveDislikeToPlateAsync></MudIconButton>
+                <MudText Style="color: #ff0000">DisLikeAmount</MudText>
+        </MudCardActions>
         </div>
        <div>
             <Platender.Front.Components.AddComment @ref=AddCommentField SubmitButtonAction=@PostComment></Platender.Front.Components.AddComment>
@@ -16,12 +22,32 @@
             {
                 @foreach (var comment in _comments)
                 {
-                    if(IsCommentSent && _comments.First() == comment)
+                    <div style="padding-bottom: 10px;">
+                    @if(IsCommentSent && _comments.First() == comment)
                     {
-                        <Comment Username="@comment.AddingUserName" Content="@comment.Description" Image="@comment.Byte64Image" ShowActionButtons="false" Date="Now" style="background-color: yellow;"></Comment>
+                        <Comment
+                            Id="@comment.Id"
+                            Username="@comment.AddingUserName" 
+                            Content="@comment.Description"
+                            Image="@comment.Byte64Image"
+                            ShowActionButtons="false" 
+                            Date="Now"
+                            style="background-color: yellow;"
+                            FirstButtonAction="AddOrRemoveLikeToCommentAsync"
+                            SecondButtonAction="AddOrRemoveDislikeToCommentAsync"></Comment>
                         continue;
                     }
-                    <Comment Username="@comment.AddingUserName" Content="@comment.Description" Image="@comment.Byte64Image" Date="@comment.CreatedAt.ToString()" ShowActionButtons="true"></Comment>
+                    <Comment 
+                        Id="@comment.Id"
+                        Username="@comment.AddingUserName" 
+                        Content="@comment.Description" 
+                        Image="@comment.Byte64Image" 
+                        Date="@comment.CreatedAt.ToString()" 
+                        style="background-color: #DCDCDC" 
+                        ShowActionButtons="true"
+                        FirstButtonAction="AddOrRemoveLikeToCommentAsync"
+                        SecondButtonAction="AddOrRemoveDislikeToCommentAsync"></Comment>
+                    </div>
                 }
                 <li class="list-group-item" id="observerTarget"></li>
             }
@@ -32,18 +58,4 @@
     {
         <p>Loading...</p>
     }
-</div>
-
-<div>
-    <MudPaper>
-        
-    </MudPaper>
-    <div>
-
-    </div>
-
-    <div>
-        <MudPaper>
-        </MudPaper>
-    </div>
 </div>

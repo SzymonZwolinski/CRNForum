@@ -32,7 +32,35 @@ namespace Platender.Front.Services
 				comment);
 		}
 
-		public async Task<Plate> GetPlateByIdAsync(Guid id)
+        public async Task AddDislikeToCommentAsync(Guid plateId, Guid commentId)
+        {
+            await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+			var result = await _httpClient.PatchAsync(
+				_backendConfig.Url + $"{plateId}/{commentId}/dislike", null);
+        }
+
+        public async Task AddDislikeToPlateAsync(Guid plateId)
+        {
+			await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+			var result = await _httpClient.PatchAsync(
+				_backendConfig.Url + $"{plateId}/dislike", null);
+        }
+
+        public async Task AddLikeToCommentAsync(Guid plateId, Guid commentId)
+        {
+            await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+			var result = await _httpClient.PatchAsync(
+				_backendConfig.Url + $"{plateId}/{commentId}/like", null);
+        }
+
+        public async Task AddLikeToPlateAsync(Guid plateId)
+        {
+			await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+			var result = await _httpClient.PatchAsync(
+				_backendConfig.Url + $"{plateId}/like", null);
+        }
+
+        public async Task<Plate> GetPlateByIdAsync(Guid id)
 		{
 			var result = await _httpClient.GetAsync(_backendConfig.Url + $"/plate/{id}");
 			return await result.Content.ReadFromJsonAsync<Plate>();
