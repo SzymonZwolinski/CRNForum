@@ -82,7 +82,9 @@ namespace Platender.Application.Providers
                 spott.Description,
                 spott.Image,
                 spott.User.Username,
-                spott.CreatedAt);
+                spott.CreatedAt,
+                spott.CommentLike.Count(x => x.LikeType == LikeType.Lik),
+                spott.CommentLike.Count(x => x.LikeType == LikeType.Dis));
 
         public async Task AddOrRemoveReactionToPlateAsync(AddReaction plateLike, IPAddress userIpAddress)
             => await _plateService.AddOrRemoveReactionToPlateAsync(

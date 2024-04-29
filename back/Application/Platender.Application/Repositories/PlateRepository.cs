@@ -58,6 +58,8 @@ namespace Platender.Application.Repositories
         {
             var query = _platenderDbContext.plates
                 .Include(x => x.Comments)
+					.ThenInclude(x => x.CommentLike)
+                .Include(x => x.Comments)
                     .ThenInclude(x => x.User)
                 .Where(x => x.Id == plateId);
 

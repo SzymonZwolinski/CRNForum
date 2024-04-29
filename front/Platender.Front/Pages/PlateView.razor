@@ -32,9 +32,7 @@
                             Image="@comment.Byte64Image"
                             ShowActionButtons="false" 
                             Date="Now"
-                            style="background-color: yellow;"
-                            FirstButtonAction="AddOrRemoveLikeToCommentAsync"
-                            SecondButtonAction="AddOrRemoveDislikeToCommentAsync"></Comment>
+                            style="background-color: yellow;"></Comment>
                         continue;
                     }
                     <Comment 
@@ -45,7 +43,9 @@
                         Date="@comment.CreatedAt.ToString()" 
                         style="background-color: #DCDCDC" 
                         ShowActionButtons="true"
+                        FirstButtonField="@comment.LikeAmount"
                         FirstButtonAction="AddOrRemoveLikeToCommentAsync"
+                        SecondButtonField="@comment.DislikeAmount"
                         SecondButtonAction="AddOrRemoveDislikeToCommentAsync"></Comment>
                     </div>
                 }

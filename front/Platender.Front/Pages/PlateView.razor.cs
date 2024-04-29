@@ -59,7 +59,9 @@ namespace Platender.Front.Pages
 				new Models.Comment(
 					_comment.Description, 
 					AddCommentField.CurrentUser.Username,
-				 	_comment.Image, DateTime.Now));
+				 	_comment.Image, DateTime.Now,
+					0,
+					0));
 
 			IsCommentSent = true;
 			StateHasChanged();

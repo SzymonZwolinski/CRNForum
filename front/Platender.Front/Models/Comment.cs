@@ -9,7 +9,11 @@ namespace Platender.Front.Models
         public string AddingUserName { get; set; }
         public byte[]? Image { get; set; }
         public DateTime CreatedAt { get; set; }
+        public int LikeAmount { get; set; }
+        public int DislikeAmount { get; set; }
+
         public string? Byte64Image => Image == null ? null : CustomConverter.ConvertToBase64String(Image);
+
 
         public Comment()
         {
@@ -19,23 +23,17 @@ namespace Platender.Front.Models
         public Comment( 
             string? description, 
             string addingUserName, 
-            DateTime createdAt)
-        {
-            Description = description;
-            AddingUserName = addingUserName;
-            CreatedAt = createdAt;
-        }
-
-        public Comment( 
-            string? description, 
-            string addingUserName, 
             byte[]? image,
-            DateTime createdAt)
+            DateTime createdAt,
+            int likeAmount,
+            int dislikeAmount)
         {
             Description = description;
             AddingUserName = addingUserName;
             Image = image;
             CreatedAt = createdAt;
+            LikeAmount = likeAmount;
+            DislikeAmount = dislikeAmount;
         }
     }
 

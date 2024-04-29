@@ -33,9 +33,9 @@
     {
         <MudCardActions style="display: flex; flex-direction: row-reverse;">
             <MudIconButton Icon="@Icons.Material.Filled.ThumbUpOffAlt" @onclick=HandleFirstButtonClick></MudIconButton>
-            <MudText Style="color: #0cff04">LikeAmount</MudText>
+            <MudText Style="color: #0cff04">@FirstButtonField</MudText>
             <MudIconButton Icon="@Icons.Material.Filled.ThumbDownOffAlt" @onclick=HandleSecondButtonClick></MudIconButton>
-            <MudText Style="color: #ff0000">DisLikeAmount</MudText>
+            <MudText Style="color: #ff0000">@SecondButtonField</MudText>
         </MudCardActions>
     }
 </MudCard>
@@ -60,6 +60,10 @@
     [Parameter]
     public string? Date { get; set; }
     [Parameter]
+    public int? FirstButtonField { get; set; }
+    [Parameter]
+    public int SecondButtonField { get; set; }
+    [Parameter]
     public bool ShowActionButtons { get; set; }
     [Parameter]
     public string FirstButtonName { get; set; }
@@ -69,6 +73,9 @@
     public EventCallback<Guid> FirstButtonAction { get; set; }
     [Parameter]
     public EventCallback<Guid> SecondButtonAction { get; set; }  
+
+    private bool _isLiked = false;
+    private bool _isDisliked = false;
 
     private void OpenDialog()
     {
@@ -91,7 +98,51 @@
         if(SecondButtonAction.HasDelegate)
         {
             await SecondButtonAction.InvokeAsync(Id);
+            SecondButtonField++;
         }
     }
 
+    private void ToggleLike()
+    {
+        if (_isLiked)
+        {
+            _isLiked = false;
+            FirstButtonField--;
+
+            return;
+        }
+        
+        if (_isDisliked)
+        {
+            _isDisliked = false;
+            SecondButtonField--;
+
+            return;
+        }
+
+        _isLiked = true;
+        FirstButtonField++;
+    }
+
+    private void ToggleDislike()
+    {
+        if (_isDisliked)
+        {
+            _isDisliked = false;
+            SecondButtonField--;
+
+            return;
+        }
+
+        if (_isLiked)
+        {
+            _isLiked = false;
+            FirstButtonField--;
+
+            return;
+        } 
+
+        _isDisliked = true;
+        SecondButtonField++;
+    }
 }
