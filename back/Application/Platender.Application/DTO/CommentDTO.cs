@@ -1,4 +1,6 @@
-﻿namespace Platender.Application.DTO
+﻿using Platender.Core.Enums;
+
+namespace Platender.Application.DTO
 {
     public class CommentDto
     {
@@ -9,6 +11,7 @@
         public DateTime CreatedAt { get; set; }
         public int LikeAmount { get; set; }
         public int DislikeAmount { get; set; }
+        public string? UserReaction { get; set; } 
 
         public CommentDto(
             Guid id,
@@ -17,7 +20,8 @@
             string addingUserName,
             DateTime createdAt,
             int likeAmount,
-            int dislikeAmount)
+            int dislikeAmount,
+            LikeType? userReaction)
         {
             Id = id;
             Description = description;
@@ -26,6 +30,7 @@
             CreatedAt = createdAt;
             LikeAmount = likeAmount;
             DislikeAmount = dislikeAmount;
+            UserReaction = userReaction.HasValue ? userReaction.ToString() : null;
         }
     }
 }

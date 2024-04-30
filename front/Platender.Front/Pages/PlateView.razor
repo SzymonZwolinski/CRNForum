@@ -6,11 +6,14 @@
         <div>
             <EUPlate CultureCode="@_plate.Culture" Number="@_plate.Number"/>
             <MudCardActions style="display: flex; flex-direction: row-reverse;">
-                <MudIconButton Icon="@Icons.Material.Filled.ThumbUpOffAlt" @onclick=AddOrRemoveLikeToPlateAsync></MudIconButton>
-                <MudText Style="color: #0cff04">LikeAmount</MudText>
-                <MudIconButton Icon="@Icons.Material.Filled.ThumbDownOffAlt" @onclick=AddOrRemoveDislikeToPlateAsync></MudIconButton>
-                <MudText Style="color: #ff0000">DisLikeAmount</MudText>
-        </MudCardActions>
+                <LikeComponent 
+                Id="@_plate.Id"
+                LikeAmount="@_plate.LikeAmount"
+                DislikeAmount="@_plate.DislikeAmount"
+                LikeButtonAction="@AddOrRemoveLikeToPlateAsync"
+                DislikeButtonAction="@AddOrRemoveDislikeToPlateAsync"
+                UserReaction="@_plate.UserReaction"></LikeComponent>
+            </MudCardActions>
         </div>
        <div>
             <Platender.Front.Components.AddComment @ref=AddCommentField SubmitButtonAction=@PostComment></Platender.Front.Components.AddComment>
@@ -43,10 +46,11 @@
                         Date="@comment.CreatedAt.ToString()" 
                         style="background-color: #DCDCDC" 
                         ShowActionButtons="true"
-                        FirstButtonField="@comment.LikeAmount"
-                        FirstButtonAction="AddOrRemoveLikeToCommentAsync"
-                        SecondButtonField="@comment.DislikeAmount"
-                        SecondButtonAction="AddOrRemoveDislikeToCommentAsync"></Comment>
+                        LikeAmount="@comment.LikeAmount"
+                        LikeButtonAction="AddOrRemoveLikeToCommentAsync"
+                        DislikeAmount="@comment.DislikeAmount"
+                        DislikeButtonAction="AddOrRemoveDislikeToCommentAsync"
+                        UserReaction="@comment.UserReaction"></Comment>
                     </div>
                 }
                 <li class="list-group-item" id="observerTarget"></li>

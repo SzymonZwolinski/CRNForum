@@ -31,6 +31,7 @@ namespace Platender.Application.Repositories
 			int? page)
 		{
 			var query = _platenderDbContext.plates
+				.Include(x => x.PlateLikes)
 				.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(number))
@@ -52,6 +53,7 @@ namespace Platender.Application.Repositories
 
         public async Task<Plate> GetPlateAsync(Guid plateId)
 			=> await _platenderDbContext.plates
+				.Include(x => x.PlateLikes)
 				.FirstOrDefaultAsync(x => x.Id == plateId);
 
         public async Task<(IEnumerable<Comment>, int)> GetPlateCommentsAsync(Guid plateId, int? page)

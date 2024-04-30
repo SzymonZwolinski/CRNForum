@@ -1,0 +1,111 @@
+@using Platender.Front.Helpers
+@using Platender.Front.Models.Enums
+<MudIconButton Icon="@Icons.Material.Filled.ThumbUpOffAlt" @onclick=HandleLikeButtonClick></MudIconButton>
+<MudText Style="color: #0cff04">@LikeAmount</MudText>
+<MudIconButton Icon="@Icons.Material.Filled.ThumbDownOffAlt" @onclick=HandleDislikeButtonClick></MudIconButton>
+<MudText Style="color: #ff0000">@DislikeAmount</MudText>
+
+@code{
+    [Parameter]
+    public Guid Id { get; set; }
+    [Parameter]
+    public int? LikeAmount { get; set; }
+    [Parameter]
+    public int? DislikeAmount { get; set; }
+    [Parameter]
+    public EventCallback<Guid> LikeButtonAction { get; set; }
+    [Parameter]
+    public EventCallback<Guid> DislikeButtonAction { get; set; }  
+    [Parameter]
+    public string? UserReaction { get; set; }
+
+    private bool _isLiked = false;
+    private bool _isDisliked = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Console.WriteLine(UserReaction);
+        if(!string.IsNullOrWhiteSpace(UserReaction))
+        {
+            var reactionType = EnumHelper.MapStringToEnumOrNull<ReactionType>(UserReaction);
+
+            if (reactionType == ReactionType.Lik)
+            {
+                _isLiked = true;
+            }
+            else
+            {
+                _isDisliked = true;
+            }
+        }
+
+        //Console.WriteLine("POLIKED " + _isLiked + " PODISLIKED " + _isDisliked);
+    }
+
+    private async Task HandleLikeButtonClick()
+    {
+        if(LikeButtonAction.HasDelegate)
+        {
+            await LikeButtonAction.InvokeAsync(Id);
+            ToggleLike();
+
+            StateHasChanged();
+        }
+    }
+
+    private async Task HandleDislikeButtonClick()
+    {
+        if(DislikeButtonAction.HasDelegate)
+        {
+            await DislikeButtonAction.InvokeAsync(Id);
+            ToggleDislike();
+            
+            StateHasChanged();
+        }
+    }
+
+    private void ToggleLike()
+    {
+        
+        if (_isLiked)
+        {
+            _isLiked = !_isLiked;
+            //LikeAmount--;
+
+            return;
+        }
+        
+        if (_isDisliked)
+        {
+            _isDisliked = !_isDisliked;
+            //DislikeAmount--;
+
+            return;
+        }
+
+        _isLiked = !_isLiked;
+        LikeAmount++;
+    }
+
+    private void ToggleDislike()
+    {
+        if (_isDisliked)
+        {
+            _isDisliked = !_isDisliked;
+            //DislikeAmount--;
+
+            return;
+        }
+
+        if (_isLiked)
+        {
+            _isLiked = !_isLiked;
+            //LikeAmount--;
+
+            return;
+        } 
+
+        _isDisliked = !_isDisliked;
+        DislikeAmount++;
+    }
+}

@@ -11,14 +11,10 @@ namespace Platender.Front.Models
         public DateTime CreatedAt { get; set; }
         public int LikeAmount { get; set; }
         public int DislikeAmount { get; set; }
-
+        public string? UserReaction { get; set; } 
         public string? Byte64Image => Image == null ? null : CustomConverter.ConvertToBase64String(Image);
 
-
-        public Comment()
-        {
-            
-        }
+        public Comment(){}
 
         public Comment( 
             string? description, 

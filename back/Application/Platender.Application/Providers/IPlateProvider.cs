@@ -8,12 +8,12 @@ namespace Platender.Application.Providers
 {
     public interface IPlateProvider
     {
-        Task<PagedData<PlateDto>> GetPlatesAsync(GetAllPlates getAllPlates);
-        Task<PlateDto> GetPlateByIdAsync(Guid plateId);
+        Task<PagedData<PlateDto>> GetPlatesAsync(GetAllPlates getAllPlates, IPAddress userIp);
+        Task<PlateDto> GetPlateByIdAsync(Guid plateId, IPAddress userIp);
 		Task<Guid> AddPlateAsync(AddPlate plate);
         Task AddOrRemoveReactionToPlateAsync(AddReaction plateLike, IPAddress userIpAddress);
         Task AddSpotAsync(AddComment plate, string commentingUserName);
-        Task<PagedData<CommentDto>> GetPlateCommentsAsync(Guid plateId, int? page);
+        Task<PagedData<CommentDto>> GetPlateCommentsAsync(Guid plateId, int? page, IPAddress userIpAddress);
         Task AddOrRemoveReactionToSpottAsync(AddReaction spottLike, IPAddress userIpAddress);
     }
 }

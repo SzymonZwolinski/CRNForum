@@ -21,7 +21,8 @@ namespace Platender.Api.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetPlate([FromQuery] GetAllPlates query)
 		{
-            var plates = await _plateProvider.GetPlatesAsync(query);
+			InitializeHttpContextIP();
+            var plates = await _plateProvider.GetPlatesAsync(query, UserIP);
 
             return new JsonResult(plates);
         }
@@ -29,7 +30,8 @@ namespace Platender.Api.Controllers
 		[HttpGet("{plateId}")]
 		public async Task<IActionResult> GetPlateById([FromRoute] Guid plateId)
 		{
-			var plate = await _plateProvider.GetPlateByIdAsync(plateId);
+			InitializeHttpContextIP();
+            var plate = await _plateProvider.GetPlateByIdAsync(plateId, UserIP);
 
 			return new JsonResult(plate);
 		}
@@ -37,7 +39,8 @@ namespace Platender.Api.Controllers
         [HttpGet("{plateId}/comments")]
         public async Task<IActionResult> GetPlateComments([FromRoute] Guid plateId, [FromQuery] int page)
         {
-            var plateComments = await _plateProvider.GetPlateCommentsAsync(plateId, page);
+			InitializeHttpContextIP();
+            var plateComments = await _plateProvider.GetPlateCommentsAsync(plateId, page, UserIP);
 
             return new JsonResult(plateComments);
         }
