@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 using Platender.Front;
+using Platender.Front.Models;
 using Platender.Front.Services;
 using Platender.Front.Utilities;
 using System;
@@ -33,6 +34,8 @@ namespace Platender.Front
 			builder.Services.AddScoped<IAuthService, AuthService>();
 			builder.Services.AddScoped<IPlateService, PlateService>();
 			builder.Services.AddScoped<IEventService, EventService>();
+			builder.Services.AddScoped<IUserAdapter, UserAdapter>();
+			builder.Services.AddScoped<IUserService, UserService>();
 			
 			await builder.Build().RunAsync();
 		}

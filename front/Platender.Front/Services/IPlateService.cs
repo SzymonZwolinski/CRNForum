@@ -14,8 +14,13 @@ namespace Platender.Front.Services
 			CultureCode? cultureCode,
 			int page);
 		Task<Plate> GetPlateByIdAsync(Guid id);
+		Task<PagedData<Comment>> GetPlateCommentsAsync(Guid PlateId, int Page);
 		Task AddCommentToPlate(CommentDto comment);
 		Task<List<PlateLikeDto>> GetTopLikedPlatesAsync();
 		Task<List<CommentLikeDto>> GetTopLikedSpottsAsync();
+		Task AddLikeToCommentAsync(Guid plateId, Guid commentId);
+		Task AddDislikeToCommentAsync(Guid plateId, Guid commentId);
+		Task AddLikeToPlateAsync(Guid plateId);
+		Task AddDislikeToPlateAsync(Guid plateId);
 	}
 }

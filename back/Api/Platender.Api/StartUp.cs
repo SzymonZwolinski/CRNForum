@@ -22,10 +22,10 @@ namespace Platender.Api
 		{
 			services.AddControllers();
 			services.AddDbContext<PlatenderDbContext>();
-           
+
             services.AddCors(options =>
             {
-                options.AddDefaultPolicy(builder =>
+                options.AddPolicy("MyCorsPolicy", builder =>
                 {
                     builder.AllowAnyOrigin()
                            .AllowAnyMethod()
@@ -43,7 +43,7 @@ namespace Platender.Api
                 {
                     o.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ClockSkew = TimeSpan.FromMinutes(1),
+                        ClockSkew = TimeSpan.FromMinutes(25),
                         IgnoreTrailingSlashWhenValidatingAudience = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenSettings.SigningKey)),
                         ValidateIssuerSigningKey = tokenSettings.ValidateSigningKey,
@@ -71,7 +71,7 @@ namespace Platender.Api
 			else
 				app.UseHsts();
 
-			app.UseCors();
+			app.UseCors("MyCorsPolicy");
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();

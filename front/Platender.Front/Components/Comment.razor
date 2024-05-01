@@ -1,16 +1,85 @@
-<MudCard>
+@inject IDialogService DialogService
+
+<MudCard style=@style Elevation="25">
     <MudCardContent>
-        <MudText>Username</MudText>
-        <div>
-        <MudPaper Elevation="0">
-            <MudText>Content</MudText>
-        </MudPaper>
-            <MudText>LikeAmount</MudText>
-            <MudText>DisLikeAmount</MudText>
+        <div style="display: flex; flex-wrap: nowrap; justify-content: space-between;">
+            <div style="display: flex; flex-direction: column;">
+                <MudText>@Username</MudText>
+                <MudText>Avatar</MudText>
+            </div>
+            <MudText Style="color: #000000">@Date</MudText>
+        </div> 
+        <div style="margin-left: 5%;">
+            <MudPaper Elevation="5" Square="true">
+                <MudText>@Content</MudText>
+            </MudPaper>
+            @if(!string.IsNullOrWhiteSpace(Image))
+            {
+                <MudImage 
+                    Class="cursor-zoom-in" 
+                    Src=@Image 
+                    ObjectFit="MudBlazor.ObjectFit.ScaleDown"
+                    ObjectPosition="MudBlazor.ObjectPosition.Center"
+                    Style="
+                    padding-top: 1%;
+                    border-radius: 10px; 
+                    min-width: 150px; 
+                    min-heigh: 150px;"
+                    @onclick="OpenDialog"></MudImage>       
+            }       
         </div>
     </MudCardContent>
-    <MudCardActions>
-    <MudButton Variant="Variant.Filled" ClickPropagation="false" Color="MudBlazor.Color.Success">Like</MudButton>
-    <MudButton Variant="Variant.Filled" ClickPropagation="false" Color="MudBlazor.Color.Warning">Dislike</MudButton>
-    </MudCardActions>
+    @if(ShowActionButtons)
+    {
+        <MudCardActions style="display: flex; flex-direction: row-reverse;">
+            <LikeComponent 
+            Id="@Id"
+            LikeAmount="@LikeAmount"
+            DislikeAmount="@DislikeAmount"
+            LikeButtonAction="@LikeButtonAction"
+            DislikeButtonAction="@DislikeButtonAction"
+            UserReaction="@UserReaction"></LikeComponent>
+        </MudCardActions>
+    }
 </MudCard>
+
+<style>
+    .my-custom-class {
+        backdrop-filter: blur(10px);
+    }
+</style>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+    [Parameter]
+    public string? style { get; set; }
+    [Parameter]
+    public string? Username { get; set; }
+    [Parameter]
+    public string? Content { get; set; }
+    [Parameter]
+    public string? Image { get; set; }
+    [Parameter]
+    public string? Date { get; set; }
+    [Parameter]
+    public int? LikeAmount { get; set; }
+    [Parameter]
+    public int DislikeAmount { get; set; }
+    [Parameter]
+    public bool ShowActionButtons { get; set; }
+    [Parameter]
+    public EventCallback<Guid> LikeButtonAction { get; set; }
+    [Parameter]
+    public EventCallback<Guid> DislikeButtonAction { get; set; }  
+    [Parameter]
+    public string? UserReaction { get; set; }
+
+    private void OpenDialog()
+    {
+        var parameters = new DialogParameters<ImageDialog>();
+        parameters.Add(x => x.Image, Image);
+        var options = new DialogOptions { ClassBackground = "my-custom-class", CloseOnEscapeKey = true, NoHeader = true};
+        DialogService.Show<ImageDialog>("Simple Dialog", parameters, options);
+    }
+}

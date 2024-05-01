@@ -1,4 +1,4 @@
-﻿using Blazored.LocalStorage;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Platender.Front.Models;
 using Platender.Front.Utilities;
@@ -14,10 +14,11 @@ namespace Platender.Front.Services
 		private readonly ILocalStorageService _localStorage;
 		private readonly BackendConfig _backendConfig;
 
-		public AuthService(HttpClient httpClient,
-					   AuthenticationStateProvider authenticationStateProvider,
-					   ILocalStorageService localStorage,
-					   BackendConfig backendConfig)
+		public AuthService(
+			HttpClient httpClient,
+			AuthenticationStateProvider authenticationStateProvider,
+			ILocalStorageService localStorage,
+			BackendConfig backendConfig)
 		{
 			_httpClient = httpClient;
 			_authenticationStateProvider = authenticationStateProvider;
@@ -28,14 +29,12 @@ namespace Platender.Front.Services
 		public async Task LoginAsync(Account loginModel)
 		{
 			var result = await _httpClient.PostAsJsonAsync(_backendConfig.Url + "/auth/Login", loginModel);
-			Console.WriteLine(result.StatusCode);
 			if(!result.IsSuccessStatusCode)
 			{
 				return;
 			}
 
 			var token = await result.Content.ReadAsStringAsync();
-			Console.WriteLine(token);	
 
 			await _localStorage.SetItemAsync("authToken", token);
 			((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.UserName);
@@ -58,5 +57,5 @@ namespace Platender.Front.Services
 
 			return;
 		}
-	}
+    }
 }

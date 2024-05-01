@@ -26,7 +26,7 @@ namespace Platender.Application.Providers
                     addPlate.CultureCode
                             .MapStringToEnumOrNull<CultureCode>());
 
-        public async Task<PagedData<PlateDto>> GetPlatesAsync(GetAllPlates getAllPlates)
+        public async Task<PagedData<PlateDto>> GetPlatesAsync(GetAllPlates getAllPlates, IPAddress userIp)
         {
              var (plates, amount) = await _plateService.GetAllPlates(
                 getAllPlates.Numbers,
@@ -34,18 +34,18 @@ namespace Platender.Application.Providers
                 getAllPlates.Page);
 
             return new PagedData<PlateDto>(
-                plates.Select(x => MapToPlateDto(x)),
+                plates.Select(x => MapToPlateDto(x, userIp)),
                 amount);
         }
 
-		public async Task<PlateDto> GetPlateByIdAsync(Guid plateId)
+		public async Task<PlateDto> GetPlateByIdAsync(Guid plateId, IPAddress userIp)
 		{
 			var plate = await _plateService.GetPlateAsync(plateId);
 
-            return MapToPlateDto(plate);
+            return MapToPlateDto(plate, userIp);
 		}
 
-        private PlateDto MapToPlateDto(Plate plate)
+        private PlateDto MapToPlateDto(Plate plate, IPAddress userIp)
         {
             if (plate is null)
             {
@@ -55,7 +55,10 @@ namespace Platender.Application.Providers
             return new PlateDto(
                 plate.Id,
                 plate.Number,
-                plate.Culture.ToString());
+                plate.Culture.ToString(),
+                plate.PlateLikes.Count(x => x.LikeType == LikeType.Lik),
+                plate.PlateLikes.Count(x => x.LikeType == LikeType.Dis),
+                plate.PlateLikes.FirstOrDefault(x => x.UserIPAddress.Equals(userIp))?.LikeType);
         }
 
         public async Task AddSpotAsync(AddComment plate, string spotterUserName)
@@ -67,22 +70,25 @@ namespace Platender.Application.Providers
                 spotterUserName);
         }
 
-        public async Task<PagedData<CommentDto>> GetPlateSpottsAsync(Guid plateId, int? page)
+        public async Task<PagedData<CommentDto>> GetPlateCommentsAsync(Guid plateId, int? page, IPAddress userIpAddress)
         {
-            var (spotts, amount) = await _plateService.GetPlateSpottsAsync(plateId, page);
+            var (spotts, amount) = await _plateService.GetPlateCommentsAsync(plateId, page);
 
             return new PagedData<CommentDto>(
-                spotts.Select(x => MapToSpottDto(x)),
+                spotts.Select(x => MapToSpottDto(x, userIpAddress)),
                 amount );
         }
 
-        private CommentDto MapToSpottDto(Comment spott)
-            => new CommentDto(
+        private CommentDto MapToSpottDto(Comment spott, IPAddress userIp)
+           => new CommentDto(
                 spott.Id,
                 spott.Description,
                 spott.Image,
                 spott.User.Username,
-                spott.CreatedAt);
+                spott.CreatedAt,
+                spott.CommentLike.Count(x => x.LikeType == LikeType.Lik),
+                spott.CommentLike.Count(x => x.LikeType == LikeType.Dis),
+                spott.CommentLike.FirstOrDefault(x => x.UserIPAddress.Equals(userIp))?.LikeType);
 
         public async Task AddOrRemoveReactionToPlateAsync(AddReaction plateLike, IPAddress userIpAddress)
             => await _plateService.AddOrRemoveReactionToPlateAsync(

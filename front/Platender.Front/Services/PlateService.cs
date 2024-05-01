@@ -32,19 +32,54 @@ namespace Platender.Front.Services
 				comment);
 		}
 
-		public async Task<Plate> GetPlateByIdAsync(Guid id)
+        public async Task AddDislikeToCommentAsync(Guid plateId, Guid commentId)
+        {
+            await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+			var result = await _httpClient.PatchAsync(
+				_backendConfig.Url + $"/plate/{plateId}/{commentId}/dislike", null);
+        }
+
+        public async Task AddDislikeToPlateAsync(Guid plateId)
+        {
+			await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+			var result = await _httpClient.PatchAsync(
+				_backendConfig.Url + $"/plate/{plateId}/dislike", null);
+        }
+
+        public async Task AddLikeToCommentAsync(Guid plateId, Guid commentId)
+        {
+            await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+			var result = await _httpClient.PatchAsync(
+				_backendConfig.Url + $"/plate/{plateId}/{commentId}/like", null);
+        }
+
+        public async Task AddLikeToPlateAsync(Guid plateId)
+        {
+			await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+			var result = await _httpClient.PatchAsync(
+				_backendConfig.Url + $"/plate/{plateId}/like", null);
+        }
+
+        public async Task<Plate> GetPlateByIdAsync(Guid id)
 		{
 			var result = await _httpClient.GetAsync(_backendConfig.Url + $"/plate/{id}");
 			return await result.Content.ReadFromJsonAsync<Plate>();
-			
 		}
 
-		public async Task<PagedData<Plate>> GetPlatesByNumbersAsync(
+        public async Task<PagedData<Comment>> GetPlateCommentsAsync(Guid PlateId, int Page)
+        {
+            var result = await _httpClient.GetAsync(_backendConfig.Url + $"/plate/{PlateId}/comments" + "?" +
+			"page=" + Page);
+
+			return await result.Content.ReadFromJsonAsync<PagedData<Comment>>();
+        }
+
+        public async Task<PagedData<Plate>> GetPlatesByNumbersAsync(
 			string numbers,
 			CultureCode? cultureCode,
 			int page)
 		{
-			var result =  await _httpClient.GetAsync(_backendConfig.Url + "/plate" +"?"+
+			var result =  await _httpClient.GetAsync(_backendConfig.Url + "/plate" + "?" +
 				"page=" + page +
 				"&numbers=" + numbers +
 				"&cultureCode="+ cultureCode.ToString());

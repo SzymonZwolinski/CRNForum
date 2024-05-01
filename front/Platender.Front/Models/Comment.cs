@@ -1,12 +1,36 @@
-﻿namespace Platender.Front.Models
+﻿using Platender.Front.Helpers;
+
+namespace Platender.Front.Models
 {
     public class Comment
     {
         public Guid Id { get; set; }
-        public string Content { get; set; }
-        public string AddingUserName { get; set; } // W przyszłosic powinien być to idk usera, na ten moment nie robie usera 
-        public int Sequence { get; set; }
-        public int LikeCount { get; set; }
-        public int DislikeCount { get; set; }
+        public string? Description { get; set; }
+        public string AddingUserName { get; set; }
+        public byte[]? Image { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public int LikeAmount { get; set; }
+        public int DislikeAmount { get; set; }
+        public string? UserReaction { get; set; } 
+        public string? Byte64Image => Image == null ? null : CustomConverter.ConvertToBase64String(Image);
+
+        public Comment(){}
+
+        public Comment( 
+            string? description, 
+            string addingUserName, 
+            byte[]? image,
+            DateTime createdAt,
+            int likeAmount,
+            int dislikeAmount)
+        {
+            Description = description;
+            AddingUserName = addingUserName;
+            Image = image;
+            CreatedAt = createdAt;
+            LikeAmount = likeAmount;
+            DislikeAmount = dislikeAmount;
+        }
     }
+
 }

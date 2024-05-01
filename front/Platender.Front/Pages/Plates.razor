@@ -1,37 +1,61 @@
-﻿@page "/plates"
+@page "/plates"
+@using Platender.Front.Components
 @using Platender.Front.Models.Enums
 
-<div>
-    <form method="get" @onsubmit="GetPlates">
-        <InputSelect @bind-Value="CultureCode">
-            <option value="">---</option>
-            @foreach (var cultureCode in Enum.GetValues(typeof(CultureCode)))
+<div style="margin: 5%; margin-left: 5%; margin-top: 0px; margin-bottom: 0px; margin-right: 5%">
+    <MudForm>
+        <MudTextField T="string" @bind-Value="Numbers" Label="Car Plate Numbers" RequiredError="Car plate numbers are required!" />
+        <MudSelect @bind-Value="CultureCode" Label="Select Culture Code" HelperText="Culture Code" OpenIcon="@Icons.Material.Filled.LocalDrink" AdornmentColor="Color.Secondary">
+            <MudSelectItem T="CultureCode?" Value="null">---</MudSelectItem>"
+            @foreach (CultureCode cultureCode in Enum.GetValues(typeof(CultureCode)))
             {
-                <option value="@cultureCode">@cultureCode</option>
+                <MudSelectItem T="CultureCode?" value="@cultureCode">@cultureCode</MudSelectItem>
             }
-        </InputSelect>
-        <InputText id="numbers" @bind-Value="Numbers" class="form-control" aria-required="true"></InputText>
-        <div>
-            <button type="submit">Submit</button>
+        </MudSelect>
+        <div class="d-flex align-center justify-space-between">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="GetPlates">Submit</MudButton>
         </div>
-    </form>
-</div>
-@if(IsGetPlatesSend)
-{
-    @if(_plates.Items.Any())
+    </MudForm>
+
+    <MudPaper>
+	<div style="display: flex; justify-content: flex-start; border: 1px solid #000000; border-radius: 10px; ">
+	<div style="max-width: 100px; max-height: 100px; text-align: center; background-color: #003399; color: #ffffff; border-radius: 10px 0 0 10px; width: 70px; text-transform: uppercase; font-size: 16px">
+		<MudImage src="images/EUFlagHD.jpg" Style="width: 70px; border-radius: 10px; height: 66px"></MudImage>
+		<MudSelect @bind-Value="CultureCode" Label="Select Culture Code" HelperText="Culture Code" OpenIcon="@Icons.Material.Filled.LocalDrink" AdornmentColor="Color.Secondary">
+            <MudSelectItem T="CultureCode?" Value="null">---</MudSelectItem>"
+            @foreach (CultureCode cultureCode in Enum.GetValues(typeof(CultureCode)))
+            {
+                <MudSelectItem T="CultureCode?" value="@cultureCode">@cultureCode</MudSelectItem>
+            }
+        </MudSelect>
+	</div>
+		<div style="display: flex; flex-grow:1; justify-content: center; align-items: center; font-size: 35px; text-transform: uppercase;">
+            <MudTextField T="string" @bind-Value="Numbers" Label="Car Plate Numbers" RequiredError="Car plate numbers are required!" />
+        </div>
+	</div>
+</MudPaper>
+
+    @if(IsGetPlatesSend)
     {
-        @foreach(var plate in _plates.Items)
+        @if(_plates.Items.Any())
         {
-            @plate.Culture @plate.Number
+            @foreach(var plate in _plates.Items)
+            {
+                <div>
+                    <EUPlate PlateId="@plate.Id" CultureCode="@plate.Culture" Number="@plate.Number" OnClickAction="@MoveToPlate"></EUPlate>
+                </div>
+            }
+        }
+        else
+        {
+            <MudPaper Class="pa-16 ma-2" Elevation="3">
+                <div>
+                    <MudText>Plate was not found, do you want to save that plate?</MudText>
+                </div>
+                <div class="d-flex align-center">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" @onclick="PostPlate">Save Plate</MudButton>
+                </div>
+            </MudPaper>
         }
     }
-    else
-    {
-        <div>
-            Plate was not found, do you want to save that plate?
-        </div>
-        <div>
-            <button type="submit" @onclick="PostPlate">Save Plate</button>
-        </div>
-    }
-}
+</div>

@@ -6,7 +6,7 @@ namespace Platender.Api.Controllers
 {
     public partial class PlateController
     {
-        [HttpPut("{plateId}/like")]
+        [HttpPatch("{plateId}/like")]
         public async Task<IResult> AddLikeToPlate([FromRoute] Guid plateId)
         {
             InitializeHttpContextIP();
@@ -17,7 +17,7 @@ namespace Platender.Api.Controllers
             return Results.Ok();
         }
 
-        [HttpPut("{plateId}/dislike")]
+        [HttpPatch("{plateId}/dislike")]
         public async Task<IResult> AddDislikeToPlate([FromRoute] Guid plateId)
         {
             InitializeHttpContextIP();
@@ -28,7 +28,7 @@ namespace Platender.Api.Controllers
             return Results.Ok();
         }
 
-        [HttpPut("{plateId}/{spottId}/like")]
+        [HttpPatch("{plateId}/{spottId}/like")]
         public async Task<IResult> AddLikeToSpott([FromRoute] Guid plateId, [FromRoute] Guid spottId)
         {
             InitializeHttpContextIP();
@@ -39,7 +39,7 @@ namespace Platender.Api.Controllers
             return Results.Ok();
         }
 
-        [HttpPut("{plateId}/{spottId}/dislike")]
+        [HttpPatch("{plateId}/{spottId}/dislike")]
         public async Task<IResult> AddDislikeToSpott([FromRoute] Guid plateId, [FromRoute] Guid spottId)
         {
             InitializeHttpContextIP();

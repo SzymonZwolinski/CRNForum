@@ -1,0 +1,25 @@
+<MudCard Style="margin-left: 15px; width: 200px; display: flex; flex-direction: column;" Elevation="1">
+    
+    <MudCardContent style="padding-top: 0;">
+        <div style="position: relative;">
+            <MudImage Width="175" Height="175" src="@image" ObjectFit="ObjectFit.Contain" />
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="MudBlazor.Color.Error" OnClick="HandleClick" Style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; padding: 0px"></MudIconButton>
+        </div>
+    </MudCardContent>
+</MudCard>
+
+@code {
+    [Parameter]
+    public string image { get; set; }
+
+	[Parameter]
+    public EventCallback<string> OnDeleteClickAction { get; set; }
+
+    private async Task HandleClick()
+    {
+        if (OnDeleteClickAction.HasDelegate)
+        {
+            await OnDeleteClickAction.InvokeAsync(image);
+        }
+    }
+}

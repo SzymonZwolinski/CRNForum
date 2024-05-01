@@ -1,72 +1,62 @@
-﻿@page "/plates/{plateId}"
+@using Platender.Front.Components
+@page "/plates/{plateId}"
 <div>
     @if (_plate != null)
     {
         <div>
-            <h3>Plate Details</h3>
-            <div>
-                <strong>Id:</strong> @_plate.Id
-            </div>
-            <div>
-                <strong>Number:</strong> @_plate.Number
-            </div>
-            <div>
-                <strong>Like Ratio:</strong> @_plate.LikeRatio
-            </div>
-            <div>
-                <strong>Culture:</strong> @_plate.Culture
-            </div>
+            <EUPlate CultureCode="@_plate.Culture" Number="@_plate.Number"/>
+            <MudCardActions style="display: flex; flex-direction: row-reverse;">
+                <LikeComponent 
+                @ref="likeComponent"
+                LikeButtonAction="@AddOrRemoveLikeToPlateAsync"
+                DislikeButtonAction="@AddOrRemoveDislikeToPlateAsync"></LikeComponent>
+            </MudCardActions>
         </div>
-
+       <div>
+            <Platender.Front.Components.AddComment @ref=AddCommentField SubmitButtonAction=@PostComment></Platender.Front.Components.AddComment>
+        </div>
+        <div>Comments: </div>
         <div>
-            <div>Comments: </div>
-
-            <div>
-                Add comment:
-                <EditForm Model="_comment" OnSubmit="PostComment">
-                    <div>
-                        <label>Content:</label>
-                        <InputTextArea @bind-Value="_comment.Content"></InputTextArea>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-success">Submit</button>
-                    </div>
-                </EditForm>
-            </div>
-            <div>
-                @if (_plate.Comments is not null)
+            <InfinityScroll ObserverTargetId="observerTarget" ObservableTargetReached="(e) => HandleEndOfInfinityLoad()">
+            @if (_comments is not null || _comments.Any())
+            {
+                @foreach (var comment in _comments)
                 {
-                    @foreach (var comment in _plate.Comments)
+                    <div style="padding-bottom: 10px;">
+                    @if(IsCommentSent && _comments.First() == comment)
                     {
-                        <div>
-                            <strong>User:</strong> @comment.AddingUserName
-                        </div>
-                        <div>
-                            <strong>Content:</strong> @comment.Content
-                        </div> 
+                        <Comment
+                            Id="@comment.Id"
+                            Username="@comment.AddingUserName" 
+                            Content="@comment.Description"
+                            Image="@comment.Byte64Image"
+                            ShowActionButtons="false" 
+                            Date="Now"
+                            style="background-color: yellow;"></Comment>
+                        continue;
                     }
+                    <Comment 
+                        Id="@comment.Id"
+                        Username="@comment.AddingUserName" 
+                        Content="@comment.Description" 
+                        Image="@comment.Byte64Image" 
+                        Date="@comment.CreatedAt.ToString()" 
+                        style="background-color: #DCDCDC" 
+                        ShowActionButtons="true"
+                        LikeAmount="@comment.LikeAmount"
+                        LikeButtonAction="AddOrRemoveLikeToCommentAsync"
+                        DislikeAmount="@comment.DislikeAmount"
+                        DislikeButtonAction="AddOrRemoveDislikeToCommentAsync"
+                        UserReaction="@comment.UserReaction"></Comment>
+                    </div>
                 }
-            </div>      
-        </div>
+                <li class="list-group-item" id="observerTarget"></li>
+            }
+            </InfinityScroll>
+        </div>             
     }
     else
     {
         <p>Loading...</p>
     }
-</div>
-
-<div>
-    <MudPaper>
-        <div>
-            <EUPlate CultureCode="@_plate.Culture" Number="@_plate.Number"/>
-        </div>
-    </MudPaper>
-    <div>
-
-    </div>
-
-    <div>
-        <MudPaper>
-        </MudPaper>
-    </div>
 </div>
