@@ -1,9 +1,16 @@
 @using Platender.Front.Helpers
 @using Platender.Front.Models.Enums
-<MudIconButton Icon="@Icons.Material.Filled.ThumbUpOffAlt" @onclick=HandleLikeButtonClick></MudIconButton>
-<MudText Style="color: #0cff04">@LikeAmount</MudText>
-<MudIconButton Icon="@Icons.Material.Filled.ThumbDownOffAlt" @onclick=HandleDislikeButtonClick></MudIconButton>
-<MudText Style="color: #ff0000">@DislikeAmount</MudText>
+
+<MudIconButton
+    Icon="@Icons.Material.Filled.ThumbUpOffAlt"
+    OnClick="(() => HandleLikeButtonClick())"
+    ButtonType="MudBlazor.ButtonType.Button"></MudIconButton>
+<MudText Style="color: #0cff04">@_likeAmount</MudText>
+<MudIconButton
+    Icon="@Icons.Material.Filled.ThumbDownOffAlt" 
+    OnClick="(() => HandleDislikeButtonClick())"
+    ButtonType="MudBlazor.ButtonType.Button"></MudIconButton>
+<MudText Style="color: #ff0000">@_dislikeAmount</MudText>
 
 @code{
     [Parameter]
@@ -19,17 +26,24 @@
     [Parameter]
     public string? UserReaction { get; set; }
 
+    private int? _likeAmount;
+    private int? _dislikeAmount;
     private bool _isLiked = false;
     private bool _isDisliked = false;
 
     protected override async Task OnParametersSetAsync()
     {
-        Console.WriteLine(UserReaction);
+        _likeAmount = LikeAmount;
+        _dislikeAmount = DislikeAmount;
         if(!string.IsNullOrWhiteSpace(UserReaction))
         {
             var reactionType = EnumHelper.MapStringToEnumOrNull<ReactionType>(UserReaction);
+            if(reactionType is null)
+            {
+                return;
+            }
 
-            if (reactionType == ReactionType.Lik)
+            if(reactionType == ReactionType.Lik)
             {
                 _isLiked = true;
             }
@@ -38,8 +52,6 @@
                 _isDisliked = true;
             }
         }
-
-        //Console.WriteLine("POLIKED " + _isLiked + " PODISLIKED " + _isDisliked);
     }
 
     private async Task HandleLikeButtonClick()
@@ -48,8 +60,6 @@
         {
             await LikeButtonAction.InvokeAsync(Id);
             ToggleLike();
-
-            StateHasChanged();
         }
     }
 
@@ -59,53 +69,50 @@
         {
             await DislikeButtonAction.InvokeAsync(Id);
             ToggleDislike();
-            
-            StateHasChanged();
         }
     }
 
     private void ToggleLike()
-    {
-        
+    {            
         if (_isLiked)
         {
-            _isLiked = !_isLiked;
-            //LikeAmount--;
+            _isLiked = false;
+            _likeAmount--;
 
             return;
         }
-        
+
         if (_isDisliked)
         {
-            _isDisliked = !_isDisliked;
-            //DislikeAmount--;
+            _isDisliked = false;
+            _dislikeAmount--;
 
             return;
         }
 
-        _isLiked = !_isLiked;
-        LikeAmount++;
+        _isLiked = true;
+        _likeAmount++;
     }
-
+    
     private void ToggleDislike()
     {
         if (_isDisliked)
         {
-            _isDisliked = !_isDisliked;
-            //DislikeAmount--;
+            _isDisliked = false;
+            _dislikeAmount--;
 
             return;
         }
 
         if (_isLiked)
         {
-            _isLiked = !_isLiked;
-            //LikeAmount--;
+            _isLiked = false;
+            _likeAmount--;
 
             return;
         } 
 
-        _isDisliked = !_isDisliked;
-        DislikeAmount++;
+        _isDisliked = true;
+        _dislikeAmount++;
     }
 }
