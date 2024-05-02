@@ -19,8 +19,6 @@ namespace Platender.Front.Pages
 
 		private CommentDto _comment = new CommentDto();
 		private AddComment AddCommentField;
-		private LikeComponent likeComponent;
-
 		private bool IsCommentSent = false;
 
 		protected override async Task OnInitializedAsync()
@@ -33,8 +31,6 @@ namespace Platender.Front.Pages
 			page++;
 
 			_plate = await _plateService.GetPlateByIdAsync(plateIdAsGuid);
-
-			InitalizeLikeComponent();
 		}
 
 		private async void PostComment()
@@ -106,15 +102,6 @@ namespace Platender.Front.Pages
 			
 			_comments.AddRange(pagedComment.Items);
 			page++;
-		}
-
-		private void InitalizeLikeComponent()
-		{
-			//This is hack, bcs likeComponent act weird with blazor render lifecycle
-			likeComponent.DislikeAmount = _plate.DislikeAmount;
-			likeComponent.LikeAmount = _plate.LikeAmount;
-			likeComponent.Id = _plate.Id;
-			likeComponent.UserReaction = _plate.UserReaction;
 		}
 	}
 }

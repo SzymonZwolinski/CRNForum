@@ -1,13 +1,16 @@
 @using Platender.Front.Components
 @page "/plates/{plateId}"
 <div>
-    @if (_plate != null)
+    @if (_plate != null && _plate.Id != Guid.Empty)
     {
         <div>
             <EUPlate CultureCode="@_plate.Culture" Number="@_plate.Number"/>
             <MudCardActions style="display: flex; flex-direction: row-reverse;">
                 <LikeComponent 
-                @ref="likeComponent"
+                Id="@_plate.Id"
+                LikeAmount="@_plate.LikeAmount"
+                DislikeAmount="@_plate.DislikeAmount"
+                UserReaction="@_plate.UserReaction"
                 LikeButtonAction="@AddOrRemoveLikeToPlateAsync"
                 DislikeButtonAction="@AddOrRemoveDislikeToPlateAsync"></LikeComponent>
             </MudCardActions>
