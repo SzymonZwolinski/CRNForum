@@ -14,6 +14,7 @@ namespace Platender.Front.Pages
 		public string plateId { get; set; }
 		private Plate _plate = new Plate();
 		private List<Models.Comment> _comments = new();
+		private Models.Comment _sentComment = new();
 		private int page = 1;
 		private int MaxPage;
 
@@ -52,16 +53,15 @@ namespace Platender.Front.Pages
 			
 			await _plateService.AddCommentToPlate(_comment);
 			
-			_comments.Insert(0,
+			_sentComment = 
 				new Models.Comment(
 					_comment.Description, 
 					AddCommentField.CurrentUser.Username,
 				 	_comment.Image, DateTime.Now,
 					0,
-					0));
+					0);
 
 			IsCommentSent = true;
-			StateHasChanged();
 		}
 
 		public async Task AddOrRemoveLikeToCommentAsync(Guid commentId)

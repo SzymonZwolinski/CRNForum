@@ -3,30 +3,35 @@
 @using Platender.Front.Models.Enums
 
 <div style="margin: 5%; margin-left: 5%; margin-top: 0px; margin-bottom: 0px; margin-right: 5%">
-    <MudForm>
-        <MudTextField T="string" @bind-Value="Numbers" Label="Car Plate Numbers" RequiredError="Car plate numbers are required!" />
-        <MudSelect @bind-Value="CultureCode" Label="Select Culture Code" HelperText="Culture Code" OpenIcon="@Icons.Material.Filled.LocalDrink" AdornmentColor="Color.Secondary">
-            <MudSelectItem T="CultureCode?" Value="null">---</MudSelectItem>"
-            @foreach (CultureCode cultureCode in Enum.GetValues(typeof(CultureCode)))
-            {
-                <MudSelectItem T="CultureCode?" value="@cultureCode">@cultureCode</MudSelectItem>
-            }
-        </MudSelect>
         <div class="d-flex align-center justify-space-between">
             <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="GetPlates">Submit</MudButton>
         </div>
-    </MudForm>
-
     <MudPaper>
-	<div style="display: flex; justify-content: flex-start; border: 1px solid #000000; border-radius: 10px; ">
-	<div style="max-width: 100px; max-height: 100px; text-align: center; background-color: #003399; color: #ffffff; border-radius: 10px 0 0 10px; width: 70px; text-transform: uppercase; font-size: 16px">
-		<MudImage src="images/EUFlagHD.jpg" Style="width: 70px; border-radius: 10px; height: 66px"></MudImage>
-		<MudSelect @bind-Value="CultureCode" Label="Select Culture Code" HelperText="Culture Code" OpenIcon="@Icons.Material.Filled.LocalDrink" AdornmentColor="Color.Secondary">
-            <MudSelectItem T="CultureCode?" Value="null">---</MudSelectItem>"
-            @foreach (CultureCode cultureCode in Enum.GetValues(typeof(CultureCode)))
-            {
-                <MudSelectItem T="CultureCode?" value="@cultureCode">@cultureCode</MudSelectItem>
-            }
+	<div style="
+        display: flex; 
+        justify-content: flex-start; 
+        border: 1px solid #000000; 
+        border-radius: 10px;">
+	<div style="
+        max-width: 30%; 
+        max-height: 30%; 
+        text-align: center;
+        border:1px solid magenta; 
+        color: #ffffff; 
+        border-radius: 10px 0 0 10px;
+        text-transform: uppercase; 
+        font-size: 16px">		
+        <MudSelect 
+            @bind-Value="CultureCode" 
+            Label="Select Culture Code" 
+            HelperText="Culture Code" 
+            OpenIcon="@Icons.Material.Filled.LocalDrink" 
+            AdornmentColor="Color.Secondary">
+                <MudSelectItem T="CultureCode?" Value="null">---</MudSelectItem>"
+                @foreach (CultureCode cultureCode in Enum.GetValues(typeof(CultureCode)))
+                {
+                    <MudSelectItem T="CultureCode?" value="@cultureCode">@cultureCode</MudSelectItem>
+                }
         </MudSelect>
 	</div>
 		<div style="display: flex; flex-grow:1; justify-content: center; align-items: center; font-size: 35px; text-transform: uppercase;">
