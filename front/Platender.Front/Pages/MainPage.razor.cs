@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Platender.Front.Dto;
+using Platender.Front.Models;
 using Platender.Front.Services;
 
 namespace Platender.Front.Pages
@@ -11,15 +12,19 @@ namespace Platender.Front.Pages
 			[Inject]
 			private IPlateService _plateService { get; set; }
 
-			private IList<string> _source = new List<string>() { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
 			private List<PlateLikeDto> TopLikedPlates = new();
-			private	List<CommentLikeDto> TopLikedSpotts = new();
+			private List<SpottImageCarouselItem> _ImageCarouselItems = new();
 
-			protected override async Task OnParametersSetAsync()
+			protected override async Task OnInitializedAsync()
 			{
 				TopLikedPlates = await _plateService.GetTopLikedPlatesAsync();
 
-				TopLikedSpotts = await _plateService.GetTopLikedSpottsAsync();
+				var TopLikedSpotts = await _plateService.GetTopLikedSpottsAsync();
+				
+				_ImageCarouselItems = TopLikedSpotts.Select( x =>  
+					new SpottImageCarouselItem(x.PlateId, x.Byte64Image))
+					.ToList();
+
 				StateHasChanged();
 			}
 		}

@@ -59,6 +59,6 @@ namespace Platender.Application.Repositories
             @"SELECT ts.Count, ts.CommentId, s.PlateId, p.Number, p.Culture, s.Image, s.Description
                 FROM Top_Spotts ts
                 JOIN comment s ON s.Id = ts.CommentId
-                JOIN plates p ON s.PlateId = p.Id;";
+                JOIN plates p ON s.PlateId = p.Id";
     }
 }

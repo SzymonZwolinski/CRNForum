@@ -1,25 +1,23 @@
-<MudPaper Style="color: #868482">
-    <div style="text-align: center">@Title</div>
-    <MudCarousel Class="mud-width-full" ShowArrows="true" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true" TData="object">
-        <MudCarouselItem Transition="Transition.Slide" Color="@Color.Primary">
-            <div class="d-flex" style="height:100%">
-                <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Size="@Size.Large" />
-            </div>
-        </MudCarouselItem>
-        <MudCarouselItem Transition="Transition.Slide" Color="@Color.Secondary">
-            <div class="d-flex" style="height:100%">
-                <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Size="@Size.Large" />
-            </div>
-        </MudCarouselItem>
-        <MudCarouselItem Transition="Transition.Slide">
-            <div class="d-flex" style="height:100%">
-                <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Color="@Color.Primary" Size="@Size.Large" />
-            </div>
-        </MudCarouselItem>
+@using Platender.Front.Models
+<MudPaper Style="color: #868482; margin: 10%">
+    <div style="text-align: center"></div>
+    <MudCarousel
+        ShowArrows="true" 
+        ShowBullets="true"
+        EnableSwipeGesture="true" 
+        AutoCycle="true" 
+        TData="object" 
+        style="min-width: 30rem; min-height: 30rem;">
+        @foreach(var item in Items)
+        {
+             <MudCarouselItem Transition="Transition.Slide"  Color="@Color.Transparent">
+                <MudImage Src=@item.Image ObjectFit="ObjectFit.Contain" Fluid="true"></MudImage>
+             </MudCarouselItem>
+        }
     </MudCarousel>
 </MudPaper>
 
 @code {
     [Parameter]
-    public string Title { get; set; }
+    public IEnumerable<SpottImageCarouselItem> Items { get; set; }
 }

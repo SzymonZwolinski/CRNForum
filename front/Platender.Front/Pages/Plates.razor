@@ -66,8 +66,19 @@
         {
             @foreach(var plate in _plates.Items)
             {
-                <div style="padding: 0.5rem 0 0.5rem 0;">
-                    <EUPlate PlateId="@plate.Id" CultureCode="@plate.Culture" Number="@plate.Number" OnClickAction="@MoveToPlate"></EUPlate>
+                <div style="padding: 0.5rem 0 0.5rem 0; display: flex;">
+                    <EUPlate
+                        PlateId="@plate.Id"
+                        CultureCode="@plate.Culture"
+                        Number="@plate.Number"
+                        OnClickAction="@MoveToPlate">
+                    </EUPlate>
+                    <MudButton 
+                        Variant="Variant.Filled" 
+                        EndIcon="@Icons.Material.Filled.ArrowForwardIos"
+                        OnClick="(() => MoveToPlate(plate.Id))">
+                        Check
+                    </MudButton>
                 </div>
             }
         }

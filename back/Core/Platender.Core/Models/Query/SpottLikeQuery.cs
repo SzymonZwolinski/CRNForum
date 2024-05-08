@@ -8,6 +8,6 @@
         public string Number { get;set; }
         public string? Culture { get; set; }
         public byte[] Image { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
     }
 }
