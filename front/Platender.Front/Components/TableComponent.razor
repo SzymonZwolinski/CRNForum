@@ -3,17 +3,56 @@
 		<div class="drivers-card-title">
 			@Title
 		</div>
-		<div class="drivers-card-inside rounded-border" style="text-align: center; text-transform: uppercase; background-color: #f7f8f3; border: 1px solid #000000; border-radius: 10px; margin-left: 50px; margin-right: 50px; width: 400px">
-			@foreach(var driver in BestDrivers)
-			{
-				<div style="padding: 2%; border-radius: 10px">
-					<EUPlate PlateId="@driver.PlateId" CultureCode="@driver.Culture" Number="@driver.Numbers" OnClickAction="@MoveToPlate"></EUPlate>
-				</div>
-			}
+		<div
+		 class="drivers-container" 
+		 style="
+			overflow-y: auto; 
+			max-height: 400px;"> 
+			<div 
+				class="
+					drivers-card-inside 
+					rounded-border" 
+				style="
+					background-color: #f7f8f3; 
+					border: 1px solid #000000; 
+					border-radius: 10px; 
+					margin-left: 50px; 
+					margin-right: 50px;
+					width: 400px">
+				@foreach(var driver in BestDrivers)
+				{
+					<div style="display: flex; border-bottom: 1px dotted #000000">
+						<MudText style="
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						min-width: 5%;">
+							@(BestDrivers.IndexOf(driver)+1)
+						</MudText>
+						<div 
+						style="
+							padding: 2%; 
+							border-radius: 10px;
+							flex-grow: 1;">
+							<EUPlate 
+							PlateId="@driver.PlateId" 
+							CultureCode="@driver.Culture"
+							Number="@driver.Numbers"
+							OnClickAction="@MoveToPlate">
+							</EUPlate>
+						</div>
+					</div>
+				}
+			</div>
 		</div>
 	</MudCardContent>
 	<MudCardActions Style="display: flex; justify-content: center;">
-		<MudButton Variant="Variant.Filled" ClickPropagation="false" Color="MudBlazor.Color.Success">@ButtonText</MudButton>
+		<MudButton 
+		Variant="Variant.Filled"
+		ClickPropagation="false"
+		Color="MudBlazor.Color.Success">
+			@ButtonText
+		</MudButton>
 	</MudCardActions>
 </MudPaper>
 

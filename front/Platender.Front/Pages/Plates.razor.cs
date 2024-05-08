@@ -17,6 +17,7 @@ namespace Platender.Front.Pages
 		public string Numbers;
         public CultureCode? CultureCode;
 
+        private bool _processing = false;
         private PagedData<Plate> _plates;
         private bool IsGetPlatesSend = false;
         private string SentNumbers;
@@ -25,14 +26,25 @@ namespace Platender.Front.Pages
         
         private async Task GetPlates()
         {
+            _processing = true;
+            try
+            {
             _plates = await _plateService.GetPlatesByNumbersAsync(
                 Numbers,
                 CultureCode,
                 Page);
+            }
+            catch (Exception e)
+            {
+                _processing = false;
+                return;    
+            }
 
             IsGetPlatesSend = true;
             SentNumbers = Numbers;
             SentCultureCode = CultureCode;
+
+            _processing = false;
             StateHasChanged();
         }
 
