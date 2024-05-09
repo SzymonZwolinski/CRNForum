@@ -1,7 +1,6 @@
 @using Platender.Front.Models
 @inject IDialogService DialogService
-<MudPaper Style="margin: 10%;min-width:50vw; min-height: 50vh; border: 1px solid red;">
-    <div style="text-align: center"></div>
+<MudPaper Style="min-width:50vw; min-height: 50vh;" >
     <MudCarousel
         ShowArrows="true" 
         ShowBullets="true"
@@ -14,12 +13,12 @@
              <MudCarouselItem
                 Transition="Transition.Slide" 
                 Color="@Color.Inherit"
-                style="border: 1px solid black; border-radius: 10px; display: flex; justify-content: center">
+                style="border: 2px solid black; border-radius: 10px; display: flex; justify-content: center">
                 <MudImage 
                     Src=@item.Image 
                     ObjectFit="ObjectFit.Contain" 
                     Fluid="true"
-                    style="padding: 0 10% 0 10%; border: 1px solid green;margin: 0 10% 0 10%;"
+                    style="padding: 0 10% 0 10%; margin: 0 10% 0 10%;"
                     @onclick="(() => OpenDialog(item.PlateId))"></MudImage> 
              </MudCarouselItem>
         }
