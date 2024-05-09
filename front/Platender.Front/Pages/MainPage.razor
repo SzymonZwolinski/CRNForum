@@ -4,18 +4,24 @@
 @using Platender.Front.Components
 
 <div class="content-container">
-	<div class="drivers-container" style="display: flex; justify-content: space-evenly;">
-		<div class="drivers-card rounded-border">
-			<TableComponent BestDrivers="TopLikedPlates" Title="TOP 10 BEST DRIVERS" ButtonText="VIEW MORE!" >
-			</TableComponent>
-		</div>
+	<div class="drivers-container" style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+		@if(TopLikedPlates.Any())
+		{
+			<div class="drivers-card rounded-border">
+				<TableComponent BestDrivers="TopLikedPlates" Title="TOP 10 BEST DRIVERS" ButtonText="VIEW MORE!" >
+				</TableComponent>
+			</div>
+		}
 		<div class="drivers-card rounded-border">
 			<TableComponent BestDrivers="TopLikedPlates" Title="TOP 10 WORST DRIVERS" ButtonText="VIEW MORE!" >
 			</TableComponent>
 		</div>
 	</div>
-	<div class="spotts-container padding-top-4-rem padding-vertical-middle" style="">
-		<ImageCarousel Title="Spotts"></ImageCarousel>
-	</div>
+	@if(_ImageCarouselItems.Any())
+	{
+		<div class="spotts-container padding-top-4-rem padding-vertical-middle" style="">
+			<ImageCarousel Items="@_ImageCarouselItems"></ImageCarousel>
+		</div>
+	}
 </div>
 

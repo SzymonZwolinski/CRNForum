@@ -1,10 +1,11 @@
 <MudDialog ContentStyle="max-width:80%; min-width:150px; max-heigh: 80%; min-heigh: 150px; width:1000px ">
     <DialogContent>
         <MudImage class="object-center" Src=@Image Fluid="true" ObjectFit="ObjectFit.Fill" Elevation="25" />
-        
     </DialogContent>
 </MudDialog>
 @code {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public string Image { get; set; }
+    [CascadingParameter] 
+    MudDialogInstance MudDialog { get; set; }
+    [Parameter] 
+    public string Image { get; set; }
 }

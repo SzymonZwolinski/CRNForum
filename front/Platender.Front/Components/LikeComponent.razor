@@ -16,7 +16,7 @@
     [Parameter]
     public Guid Id { get; set; }
     [Parameter]
-    public int? LikeAmount { get; set; }
+    public int? LikeAmount { get; set;  }
     [Parameter]
     public int? DislikeAmount { get; set; }
     [Parameter]
@@ -31,8 +31,9 @@
     private bool _isLiked = false;
     private bool _isDisliked = false;
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
         _likeAmount = LikeAmount;
         _dislikeAmount = DislikeAmount;
         if(!string.IsNullOrWhiteSpace(UserReaction))
