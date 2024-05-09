@@ -1,0 +1,25 @@
+<MudDialog ContentStyle="max-width:80%; min-width:150px; max-heigh: 80%; min-heigh: 150px; width:1000px ">
+    <DialogContent>
+        <MudText>@Content</MudText>
+        <MudButton OnClick="SubmitButton">@ButtonContent</MudButton>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] 
+    MudDialogInstance MudDialog { get; set; }
+    [Parameter] 
+    public string Content { get; set; }
+    [Parameter]
+    public string ButtonContent { get; set; }
+    [Parameter]
+    public string RedirectPath { get; set; }
+
+    [Inject]
+	private NavigationManager _navigationManager { get; set; }
+
+    private void SubmitButton()
+    {
+        _navigationManager.NavigateTo(RedirectPath);
+    }
+}
