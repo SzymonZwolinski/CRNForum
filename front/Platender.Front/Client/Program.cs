@@ -6,6 +6,7 @@ using MudBlazor.Services;
 using Platender.Front;
 using Platender.Front.Models;
 using Platender.Front.Services;
+using Platender.Front.State;
 using Platender.Front.Utilities;
 using System;
 
@@ -28,6 +29,7 @@ namespace Platender.Front
 			builder.Services.AddAuthorizationCore();
 
 			builder.Services.AddSingleton(new BackendConfig { Url = builder.Configuration["BackendUrl"] });
+			builder.Services.AddSingleton<AccountState>();
 			builder.Services.AddMudServices();
 			
 			builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();

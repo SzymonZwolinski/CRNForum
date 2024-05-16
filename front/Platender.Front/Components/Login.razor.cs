@@ -1,23 +1,22 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Platender.Front.Models;
 using Platender.Front.Services;
 
-namespace Platender.Front.Pages
+namespace Platender.Front.Components
 {
-	public partial class Register : ComponentBase
+	public partial class Login : ComponentBase
 	{
 		[Inject]
 		private IAuthService _authService { get; set; }
 		[Inject]
 		private NavigationManager _navigationManager { get; set; }
 
-		private Account InputAccount;
-
-		bool success;
-		string[] errors = { };
-		MudTextField<string> pwField1;
-		MudForm form;
+		public bool IsLoginSuccesful = false;
+		private Models.Account InputAccount;
+		private bool success;
+		private string[] errors = { };
+		private MudTextField<string> pwField1;
+		private MudForm form;
 
 		private IEnumerable<string> PasswordStrength(string pw)
 		{
@@ -28,6 +27,13 @@ namespace Platender.Front.Pages
 			}
 		}
 
+		private string PasswordMatch(string arg)
+		{
+			if (pwField1.Value != arg)
+				return "Passwords don't match";
+			return null;
+		}
+
 		protected override Task OnInitializedAsync()
 		{
 			InputAccount ??= new();
@@ -35,11 +41,11 @@ namespace Platender.Front.Pages
 			return base.OnInitializedAsync();
 		}
 
-		private async void RegisterUser()
+		private async void LoginUser()
 		{
-			await _authService.RegisterAsync(InputAccount);
-
-			_navigationManager.NavigateTo("/");
+			await _authService.LoginAsync(InputAccount);
+			IsLoginSuccesful = true;
 		}
+
 	}
 }

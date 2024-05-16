@@ -7,6 +7,11 @@ namespace Platender.Front.Models
         public string Username { get; private set; }
         public UserState UserState { get; private set; }
 
+        public User()
+        {
+            
+        }
+
         public User(string? username)
         {
             SetUserName(username);

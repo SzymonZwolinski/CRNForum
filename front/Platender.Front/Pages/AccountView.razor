@@ -1,0 +1,66 @@
+@page "/Account"
+@using Platender.Front.Components
+@if (!_isUserLoggedIn)
+{
+	<MudPaper
+		style="display: grid;  grid-template-columns: [first] 50% [second] 50%; grid-template-rows: [first] 50% [second] 50%; margin: 0 25% 0 25%;">
+		@if (_isPromptToLoginDisplayed)
+		{
+			<MudText Style="
+				grid-column: first;
+				grid-row: first">
+				LOGO
+			</MudText>
+
+			<MudButton Style="
+				grid-column: second; 
+				grid-row: first; 
+				background-color: yellowgreen;" OnClick="ShowLoginField">
+				LOGIN
+			</MudButton>
+
+			<MudButton Style="
+				grid-column: second; 
+				grid-row: second; 
+				background-color: yellowgreen;" OnClick="ShowRegisterField">
+				REGISTER
+			</MudButton>
+		}
+		@if (_isLoginDisplayed && !_isPromptToLoginDisplayed)
+		{
+			<MudText>Login</MudText>
+			<MudIconButton style="grid-row:second; grid-column:first;" Icon="@Icons.Material.Filled.ArrowBack"
+				aria-label="delete" OnClick="ReturnToPromtToLogin"></MudIconButton>
+			<div Style="grid-row-start: first; grid-row-end: second-end;grid-column: second;">
+				<Login @ref="LoginComponent"></Login>
+			</div>
+		}
+		@if (_isRegisterDisplayed && !_isPromptToLoginDisplayed)
+		{
+			<MudText>REGISTER</MudText>
+			<MudIconButton style="grid-row:second; grid-column:first;" Icon="@Icons.Material.Filled.ArrowBack"
+				aria-label="delete" OnClick="ReturnToPromtToLogin"></MudIconButton>
+			<div Style="grid-row-start: first; grid-row-end: second-end;grid-column: second;">
+				<Register></Register>
+			</div>
+		}
+	</MudPaper>
+}
+else
+{
+	<MudPaper style="display: flex;">
+		<MudCard>
+			<MudText>Account Information:</MudText>
+			<MudText>Username: @UserAccount.Username</MudText>
+			<MudText>Email: TOADD</MudText>
+			<MudText>Status: @UserAccount.UserState.ToString()</MudText>
+			<MudCardActions>
+				<MudButton OnClick="ShowChangePasswordField">Change Password</MudButton>
+				@if (_isChangePasswordDisplayed)
+				{
+					<Platender.Front.Components.AccountComponents.ChangePassword />
+				}
+			</MudCardActions>
+		</MudCard>
+	</MudPaper>
+}
