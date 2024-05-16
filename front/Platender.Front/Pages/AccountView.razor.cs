@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Components;
-using Platender.Front.Components;
+using Platender.Front.Components.AccountComponents;
 using Platender.Front.Models;
 using Platender.Front.Services;
 using Platender.Front.State;

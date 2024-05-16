@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Platender.Front.Services;
 using Platender.Front.State;
 
-namespace Platender.Front.Components
+namespace Platender.Front.Components.AccountComponents
 {
 	public partial class Login : ComponentBase
 	{

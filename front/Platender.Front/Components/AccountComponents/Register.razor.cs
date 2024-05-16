@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Platender.Front.Services;
 
-namespace Platender.Front.Components
+namespace Platender.Front.Components.AccountComponents
 {
 	public partial class Register : ComponentBase
 	{
