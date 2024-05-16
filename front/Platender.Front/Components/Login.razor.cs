@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Platender.Front.Services;
+using Platender.Front.State;
 
 namespace Platender.Front.Components
 {
@@ -9,7 +10,7 @@ namespace Platender.Front.Components
 		[Inject]
 		private IAuthService _authService { get; set; }
 		[Inject]
-		private NavigationManager _navigationManager { get; set; }
+		private AccountState AccountState { get; set; }
 
 		public bool IsLoginSuccesful = false;
 		private Models.Account InputAccount;
@@ -44,7 +45,7 @@ namespace Platender.Front.Components
 		private async void LoginUser()
 		{
 			await _authService.LoginAsync(InputAccount);
-			IsLoginSuccesful = true;
+			AccountState.IsLoginSuccesful = true;
 		}
 
 	}

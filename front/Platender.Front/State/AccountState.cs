@@ -15,6 +15,17 @@ namespace Platender.Front.State
             }
         }
 
+        private bool _isLoginSuccesful;
+        public bool IsLoginSuccesful
+        {
+            get => _isLoginSuccesful;
+            set
+            {
+                _isLoginSuccesful = value;
+                NotifyStateChanged();
+            }
+        }
+
         private void NotifyStateChanged() => OnChange?.Invoke();
     }
 }

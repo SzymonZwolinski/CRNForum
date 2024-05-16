@@ -35,11 +35,12 @@ namespace Platender.Front.Pages
             }
         }
 
-        protected override async Task OnParametersSetAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (_isPromptToLoginDisplayed && LoginComponent.IsLoginSuccesful)
+            if (AccountState.IsLoginSuccesful)
             {
                 _isPromptToLoginDisplayed = false;
+                _isLoginDisplayed = false;
                 _isUserLoggedIn = true;
             }
 
@@ -48,6 +49,8 @@ namespace Platender.Front.Pages
                 _isChangePasswordDisplayed = false;
                 AccountState.IsChangePasswordSent = false;
             }
+
+            await base.OnAfterRenderAsync(firstRender);
         }
 
         private async Task ShowLoginField()
