@@ -11,10 +11,10 @@ namespace Platender.Front.Pages
         [Inject]
         private IPlateService _plateService { get; set; }
 
-		[Inject]
-		private NavigationManager _navigationManager { get; set; }
+        [Inject]
+        private NavigationManager _navigationManager { get; set; }
 
-		public string Numbers;
+        public string Numbers;
         public CultureCode? CultureCode;
 
         private bool _processing = false;
@@ -23,21 +23,21 @@ namespace Platender.Front.Pages
         private string SentNumbers;
         private CultureCode? SentCultureCode;
         private int Page = 1;
-        
+
         private async Task GetPlates()
         {
             _processing = true;
             try
             {
-            _plates = await _plateService.GetPlatesByNumbersAsync(
-                Numbers,
-                CultureCode,
-                Page);
+                _plates = await _plateService.GetPlatesByNumbersAsync(
+                    Numbers,
+                    CultureCode,
+                    Page);
             }
             catch (Exception e)
             {
                 _processing = false;
-                return;    
+                return;
             }
 
             IsGetPlatesSend = true;
@@ -50,9 +50,9 @@ namespace Platender.Front.Pages
 
         private async Task PostPlate()
         {
-            if(SentNumbers != Numbers || SentCultureCode != CultureCode) 
+            if (SentNumbers != Numbers || SentCultureCode != CultureCode)
             {
-                return; 
+                return;
             }
 
             await _plateService.PostPlateAsync(Numbers, CultureCode);
@@ -66,7 +66,7 @@ namespace Platender.Front.Pages
 
         private void MoveToPlate(Guid plateId)
         {
-            _navigationManager.NavigateTo("/plates/"+ plateId.ToString());
+            _navigationManager.NavigateTo("/plates/" + plateId.ToString());
         }
     }
 }

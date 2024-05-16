@@ -1,28 +1,24 @@
 @using Platender.Front.Helpers
 @using Platender.Front.Models.Enums
 
-<MudIconButton
-    Icon="@Icons.Material.Filled.ThumbUpOffAlt"
-    OnClick="(() => HandleLikeButtonClick())"
+<MudIconButton Icon="@Icons.Material.Filled.ThumbUpOffAlt" OnClick="(() => HandleLikeButtonClick())"
     ButtonType="MudBlazor.ButtonType.Button"></MudIconButton>
 <MudText Style="color: #0cff04">@_likeAmount</MudText>
-<MudIconButton
-    Icon="@Icons.Material.Filled.ThumbDownOffAlt" 
-    OnClick="(() => HandleDislikeButtonClick())"
+<MudIconButton Icon="@Icons.Material.Filled.ThumbDownOffAlt" OnClick="(() => HandleDislikeButtonClick())"
     ButtonType="MudBlazor.ButtonType.Button"></MudIconButton>
 <MudText Style="color: #ff0000">@_dislikeAmount</MudText>
 
-@code{
+@code {
     [Parameter]
     public Guid Id { get; set; }
     [Parameter]
-    public int? LikeAmount { get; set;  }
+    public int? LikeAmount { get; set; }
     [Parameter]
     public int? DislikeAmount { get; set; }
     [Parameter]
     public EventCallback<Guid> LikeButtonAction { get; set; }
     [Parameter]
-    public EventCallback<Guid> DislikeButtonAction { get; set; }  
+    public EventCallback<Guid> DislikeButtonAction { get; set; }
     [Parameter]
     public string? UserReaction { get; set; }
 
@@ -36,15 +32,15 @@
         await base.OnInitializedAsync();
         _likeAmount = LikeAmount;
         _dislikeAmount = DislikeAmount;
-        if(!string.IsNullOrWhiteSpace(UserReaction))
+        if (!string.IsNullOrWhiteSpace(UserReaction))
         {
             var reactionType = EnumHelper.MapStringToEnumOrNull<ReactionType>(UserReaction);
-            if(reactionType is null)
+            if (reactionType is null)
             {
                 return;
             }
 
-            if(reactionType == ReactionType.Lik)
+            if (reactionType == ReactionType.Lik)
             {
                 _isLiked = true;
             }
@@ -57,7 +53,7 @@
 
     private async Task HandleLikeButtonClick()
     {
-        if(LikeButtonAction.HasDelegate)
+        if (LikeButtonAction.HasDelegate)
         {
             await LikeButtonAction.InvokeAsync(Id);
             ToggleLike();
@@ -66,7 +62,7 @@
 
     private async Task HandleDislikeButtonClick()
     {
-        if(DislikeButtonAction.HasDelegate)
+        if (DislikeButtonAction.HasDelegate)
         {
             await DislikeButtonAction.InvokeAsync(Id);
             ToggleDislike();
@@ -74,7 +70,7 @@
     }
 
     private void ToggleLike()
-    {            
+    {
         if (_isLiked)
         {
             _isLiked = false;
@@ -94,7 +90,7 @@
         _isLiked = true;
         _likeAmount++;
     }
-    
+
     private void ToggleDislike()
     {
         if (_isDisliked)
@@ -111,7 +107,7 @@
             _likeAmount--;
 
             return;
-        } 
+        }
 
         _isDisliked = true;
         _dislikeAmount++;

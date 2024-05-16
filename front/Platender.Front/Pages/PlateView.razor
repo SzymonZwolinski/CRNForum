@@ -5,62 +5,47 @@
     {
         <div style="background-color: #dde1e6;">
             <div>
-                <EUPlate CultureCode="@_plate.Culture" Number="@_plate.Number"/>
+                <EUPlate CultureCode="@_plate.Culture" Number="@_plate.Number" />
                 <MudCardActions style="display: flex; flex-direction: row-reverse;">
-                    <LikeComponent 
-                    Id="@_plate.Id"
-                    LikeAmount="@_plate.LikeAmount"
-                    DislikeAmount="@_plate.DislikeAmount"
-                    UserReaction="@_plate.UserReaction"
-                    LikeButtonAction="@AddOrRemoveLikeToPlateAsync"
-                    DislikeButtonAction="@AddOrRemoveDislikeToPlateAsync"></LikeComponent>
+                    <LikeComponent Id="@_plate.Id" LikeAmount="@_plate.LikeAmount" DislikeAmount="@_plate.DislikeAmount"
+                        UserReaction="@_plate.UserReaction" LikeButtonAction="@AddOrRemoveLikeToPlateAsync"
+                        DislikeButtonAction="@AddOrRemoveDislikeToPlateAsync"></LikeComponent>
                 </MudCardActions>
             </div>
-           
+
             <div>
                 <MudText style="Font-size: 2.4rem;">Comments:</MudText>
-            </div> 
+            </div>
             <div style="margin: 0 8% 0 8%;">
-                <Platender.Front.Components.AddComment @ref=AddCommentField SubmitButtonAction=@PostComment></Platender.Front.Components.AddComment>
+                <Platender.Front.Components.AddComment @ref=AddCommentField SubmitButtonAction=@PostComment>
+                </Platender.Front.Components.AddComment>
             </div>
         </div>
         <div style="margin: 0 10% 0 10%">
-            @if(IsCommentSent)
+            @if (IsCommentSent)
             {
-                <Comment
-                    Id="@_sentComment.Id"
-                    Username="@_sentComment.AddingUserName" 
-                    Content="@_sentComment.Description"
-                    Image="@_sentComment.Byte64Image"
-                    ShowActionButtons="false" 
-                    Date="Now"
+                <Comment Id="@_sentComment.Id" Username="@_sentComment.AddingUserName" Content="@_sentComment.Description"
+                    Image="@_sentComment.Byte64Image" ShowActionButtons="false" Date="Now"
                     style="background-color: yellow; padding-bottom: 10px;"></Comment>
             }
             <InfinityScroll ObserverTargetId="observerTarget" ObservableTargetReached="(e) => HandleEndOfInfinityLoad()">
-            @if (_comments is not null || _comments.Any())
-            {
-                @foreach (var comment in _comments)
+                @if (_comments is not null || _comments.Any())
                 {
-                    <div style="padding-bottom: 10px;">
-                    <Comment 
-                        Id="@comment.Id"
-                        Username="@comment.AddingUserName" 
-                        Content="@comment.Description" 
-                        Image="@comment.Byte64Image" 
-                        Date="@comment.CreatedAt.ToString()" 
-                        style="background-color: #DCDCDC" 
-                        ShowActionButtons="true"
-                        LikeAmount="@comment.LikeAmount"
-                        LikeButtonAction="AddOrRemoveLikeToCommentAsync"
-                        DislikeAmount="@comment.DislikeAmount"
-                        DislikeButtonAction="AddOrRemoveDislikeToCommentAsync"
-                        UserReaction="@comment.UserReaction"></Comment>
-                    </div>
+                    @foreach (var comment in _comments)
+                    {
+                        <div style="padding-bottom: 10px;">
+                            <Comment Id="@comment.Id" Username="@comment.AddingUserName" Content="@comment.Description"
+                                Image="@comment.Byte64Image" Date="@comment.CreatedAt.ToString()" style="background-color: #DCDCDC"
+                                ShowActionButtons="true" LikeAmount="@comment.LikeAmount"
+                                LikeButtonAction="AddOrRemoveLikeToCommentAsync" DislikeAmount="@comment.DislikeAmount"
+                                DislikeButtonAction="AddOrRemoveDislikeToCommentAsync" UserReaction="@comment.UserReaction">
+                            </Comment>
+                        </div>
+                    }
+                    <li class="list-group-item" id="observerTarget"></li>
                 }
-                <li class="list-group-item" id="observerTarget"></li>
-            }
             </InfinityScroll>
-        </div>             
+        </div>
     }
     else
     {

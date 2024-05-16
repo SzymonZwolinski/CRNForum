@@ -27,7 +27,7 @@ namespace Platender.Front.Pages
         protected override async Task OnInitializedAsync()
         {
             AccountState.OnChange += StateHasChanged;
-            
+
             UserAccount = await _userService.GetAuthorizedUser();
             if (!string.IsNullOrWhiteSpace(UserAccount.Username))
             {
@@ -44,7 +44,7 @@ namespace Platender.Front.Pages
                 _isUserLoggedIn = true;
             }
 
-            if(_isChangePasswordDisplayed && AccountState.IsChangePasswordSent)
+            if (_isChangePasswordDisplayed && AccountState.IsChangePasswordSent)
             {
                 _isChangePasswordDisplayed = false;
                 AccountState.IsChangePasswordSent = false;

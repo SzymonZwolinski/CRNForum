@@ -1,26 +1,12 @@
 <MudPaper style="background-color: gray;">
 	<MudForm>
-		<MudTextField 
-		T="string" 
-		@bind-Value="InputAccount.UserName" 
-		Label="Username" 
-		Required="true" 
-		RequiredError="User name is required!" />
-		<MudTextField 
-		T="string"
-		@bind-Value="InputAccount.Password" 
-		Label="Password" 
-		@ref="pwField1"
-		InputType="InputType.Password"
-		Validation="@(new Func<string, IEnumerable<string>>(PasswordStrength))" 
-		Required="true"
-		RequiredError="Password is required!"/>
+		<MudTextField T="string" @bind-Value="InputAccount.UserName" Label="Username" Required="true"
+			RequiredError="User name is required!" />
+		<MudTextField T="string" @bind-Value="InputAccount.Password" Label="Password" @ref="pwField1"
+			InputType="InputType.Password" Validation="@(new Func<string, IEnumerable<string>>(PasswordStrength))"
+			Required="true" RequiredError="Password is required!" />
 		<div class="d-flex align-center justify-space-between">
-			<MudButton 
-			Variant="Variant.Filled" 
-			Color="Color.Primary" 
-			Class="ml-auto" 
-			OnClick="(()=>LoginUser())">
+			<MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="(()=>LoginUser())">
 				Login
 			</MudButton>
 		</div>

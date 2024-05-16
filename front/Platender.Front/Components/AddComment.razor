@@ -5,22 +5,20 @@
 <MudPaper Style="background-color: #7f8389">
     <div>
         <div style="display: flex">
-        @foreach (var image in images)
-        {
-            <div style="width: 150px; margin-right: 1rem; margin-top: 1rem">
-                <ImageCard image=@image OnDeleteClickAction="RemoveImage"/>
-            </div>
-        }
+            @foreach (var image in images)
+            {
+                <div style="width: 150px; margin-right: 1rem; margin-top: 1rem">
+                    <ImageCard image=@image OnDeleteClickAction="RemoveImage" />
+                </div>
+            }
         </div>
         <div style="display: flex; flex-direction: column;">
             <div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
-                <MudFileUpload T="IBrowserFile" Accept=".png, .jpg, .jpeg" FilesChanged="AddImageFromButton" MaximumFileCount="100">
+                <MudFileUpload T="IBrowserFile" Accept=".png, .jpg, .jpeg" FilesChanged="AddImageFromButton"
+                    MaximumFileCount="100">
                     <ButtonTemplate>
-                        <MudButton HtmlTag="label"
-                                Variant="Variant.Filled"
-                                Color="Color.Primary"
-                                StartIcon="@Icons.Material.Filled.CloudUpload"
-                                for="@context.Id">
+                        <MudButton HtmlTag="label" Variant="Variant.Filled" Color="Color.Primary"
+                            StartIcon="@Icons.Material.Filled.CloudUpload" for="@context.Id">
                             Upload spotts
                         </MudButton>
                     </ButtonTemplate>
@@ -28,29 +26,33 @@
             </div>
         </div>
         <div style="padding: 15px; padding-top: 0px; padding-bottom: 0px; padding-right: 5px; display: flex" ondrop="">
-            @if(IsUserLogged)
+            @if (IsUserLogged)
             {
-                <MudTextField  T='string' Lines="5" Variant="MudBlazor.Variant.Filled" @onpastemultimedia="HandlePasteMultimedia" FullWidth="true" Style="background-color: #ffffff;" Clearable="false" @bind-Value=@CommentContent />
+                <MudTextField T='string' Lines="5" Variant="MudBlazor.Variant.Filled"
+                    @onpastemultimedia="HandlePasteMultimedia" FullWidth="true" Style="background-color: #ffffff;"
+                    Clearable="false" @bind-Value=@CommentContent />
             }
             else
             {
-                <MudTextField T="string" Text="Log in to comment" Disabled="true" FullWidth="true" Style="background-color: #ffffff;"></MudTextField>
+                <MudTextField T="string" Text="Log in to comment" Disabled="true" FullWidth="true"
+                    Style="background-color: #ffffff;"></MudTextField>
             }
         </div>
-        @if(IsUserLogged)
+        @if (IsUserLogged)
         {
-            <MudButton Style="margin-left: 75%" ButtonType="MudBlazor.ButtonType.Submit" Color="MudBlazor.Color.Success" Variant="MudBlazor.Variant.Filled" OnClick="InvokeSubmitButtonAction" >Comment</MudButton>
+            <MudButton Style="margin-left: 75%" ButtonType="MudBlazor.ButtonType.Submit" Color="MudBlazor.Color.Success"
+                Variant="MudBlazor.Variant.Filled" OnClick="InvokeSubmitButtonAction">Comment</MudButton>
         }
         else
         {
-            <MudButton Style="margin-left: 75%" Disabled="true" Variant="MudBlazor.Variant.Filled" >Comment</MudButton>
+            <MudButton Style="margin-left: 75%" Disabled="true" Variant="MudBlazor.Variant.Filled">Comment</MudButton>
         }
     </div>
 </MudPaper>
 
 @code {
     [Inject]
-    private IJSRuntime  JSRuntime { get; set; }
+    private IJSRuntime JSRuntime { get; set; }
     [Inject]
     private IUserService _userService { get; set; }
     [Parameter]
@@ -61,12 +63,12 @@
     public List<string> images = new List<string>();
     public List<IBrowserFile> uploadedFiles = new List<IBrowserFile>();
     private bool IsUserLogged;
-    
+
 
     protected override async Task OnInitializedAsync()
     {
         CurrentUser = await _userService.GetAuthorizedUser();
-        if(CurrentUser is not null)
+        if (CurrentUser is not null)
         {
             IsUserLogged = CurrentUser.UserState == UserState.BasicAuth;
             return;
@@ -96,26 +98,26 @@
     public async Task RemoveImage(string image)
     {
         images.Remove(image);
-        
-        await JSRuntime.InvokeVoidAsync("releaseBlobUrl", image);       
+
+        await JSRuntime.InvokeVoidAsync("releaseBlobUrl", image);
         //TODO: Find a solution to fix memory leak, somehow this revokeURL does not work?
     }
 
     public async Task<List<byte[]>> GetPostedImages()
     {
-         using (var httpClient = new HttpClient())
+        using (var httpClient = new HttpClient())
         {
             var postedImages = new List<byte[]>();
             var tasks = new List<Task<byte[]>>();
-        
-            foreach(var file in images)
+
+            foreach (var file in images)
             {
                 tasks.Add(httpClient.GetByteArrayAsync(file));
             }
 
             await Task.WhenAll(tasks);
 
-            foreach(var task in tasks)
+            foreach (var task in tasks)
             {
                 postedImages.Add(await task);
             }

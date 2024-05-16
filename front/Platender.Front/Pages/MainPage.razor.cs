@@ -7,25 +7,25 @@ using Platender.Front.Services;
 
 namespace Platender.Front.Pages
 {
-		public partial class MainPage
+	public partial class MainPage
+	{
+		[Inject]
+		private IPlateService _plateService { get; set; }
+
+		private List<PlateLikeDto> TopLikedPlates = new();
+		private List<SpottImageCarouselItem> _ImageCarouselItems = new();
+
+		protected override async Task OnInitializedAsync()
 		{
-			[Inject]
-			private IPlateService _plateService { get; set; }
+			TopLikedPlates = await _plateService.GetTopLikedPlatesAsync();
 
-			private List<PlateLikeDto> TopLikedPlates = new();
-			private List<SpottImageCarouselItem> _ImageCarouselItems = new();
+			var TopLikedSpotts = await _plateService.GetTopLikedSpottsAsync();
 
-			protected override async Task OnInitializedAsync()
-			{
-				TopLikedPlates = await _plateService.GetTopLikedPlatesAsync();
+			_ImageCarouselItems = TopLikedSpotts.Select(x =>
+				new SpottImageCarouselItem(x.PlateId, x.Byte64Image))
+				.ToList();
 
-				var TopLikedSpotts = await _plateService.GetTopLikedSpottsAsync();
-				
-				_ImageCarouselItems = TopLikedSpotts.Select( x =>  
-					new SpottImageCarouselItem(x.PlateId, x.Byte64Image))
-					.ToList();
-
-				StateHasChanged();
-			}
+			StateHasChanged();
 		}
+	}
 }

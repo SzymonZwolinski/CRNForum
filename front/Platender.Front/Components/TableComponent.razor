@@ -3,23 +3,19 @@
 		<div class="drivers-card-title">
 			@Title
 		</div>
-		<div
-		 class="drivers-container" 
-		 style="
+		<div class="drivers-container" style="
 			overflow-y: auto; 
-			max-height: 400px;"> 
-			<div 
-				class="
+			max-height: 400px;">
+			<div class="
 					drivers-card-inside 
-					rounded-border" 
-				style="
+					rounded-border" style="
 					background-color: #f7f8f3; 
 					border: 1px solid #000000; 
 					border-radius: 10px; 
 					margin-left: 50px; 
 					margin-right: 50px;
 					width: 400px">
-				@foreach(var driver in BestDrivers)
+				@foreach (var driver in BestDrivers)
 				{
 					<div style="display: flex; border-bottom: 1px dotted #000000">
 						<MudText style="
@@ -27,20 +23,14 @@
 						justify-content: center;
 						align-items: center;
 						min-width: 5%;">
-							@(BestDrivers.IndexOf(driver)+1)
+							@(BestDrivers.IndexOf(driver) + 1)
 						</MudText>
-						<div 
-						style="
+						<div style="
 							padding: 2%; 
 							border-radius: 10px;
 							flex-grow: 1;">
-							<EUPlate 
-							PlateId="@driver.PlateId" 
-							CultureCode="@driver.Culture"
-							Number="@driver.Numbers"
-							DisplayFlag="true"
-							FlagSrc="images/EUFlagHD.jpg"
-							OnClickAction="@MoveToPlate">
+							<EUPlate PlateId="@driver.PlateId" CultureCode="@driver.Culture" Number="@driver.Numbers"
+								DisplayFlag="true" FlagSrc="images/EUFlagHD.jpg" OnClickAction="@MoveToPlate">
 							</EUPlate>
 						</div>
 					</div>
@@ -49,19 +39,16 @@
 		</div>
 	</MudCardContent>
 	<MudCardActions Style="display: flex; justify-content: center;">
-		<MudButton 
-		Variant="Variant.Filled"
-		ClickPropagation="false"
-		Color="MudBlazor.Color.Success">
+		<MudButton Variant="Variant.Filled" ClickPropagation="false" Color="MudBlazor.Color.Success">
 			@ButtonText
 		</MudButton>
 	</MudCardActions>
 </MudPaper>
 
 @code {
-    [Parameter]
-    public List<Dto.PlateLikeDto> BestDrivers { get; set; }
-    [Parameter]
+	[Parameter]
+	public List<Dto.PlateLikeDto> BestDrivers { get; set; }
+	[Parameter]
 	public string Title { get; set; }
 	[Parameter]
 	public string ButtonText { get; set; }

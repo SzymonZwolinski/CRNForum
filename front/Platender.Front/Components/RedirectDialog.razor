@@ -6,9 +6,9 @@
 </MudDialog>
 
 @code {
-    [CascadingParameter] 
+    [CascadingParameter]
     MudDialogInstance MudDialog { get; set; }
-    [Parameter] 
+    [Parameter]
     public string Content { get; set; }
     [Parameter]
     public string ButtonContent { get; set; }
@@ -16,7 +16,7 @@
     public string RedirectPath { get; set; }
 
     [Inject]
-	private NavigationManager _navigationManager { get; set; }
+    private NavigationManager _navigationManager { get; set; }
 
     private void SubmitButton()
     {

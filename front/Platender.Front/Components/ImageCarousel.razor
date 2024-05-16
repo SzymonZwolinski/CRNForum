@@ -1,26 +1,16 @@
 @using Platender.Front.Models
 @inject IDialogService DialogService
-<MudPaper Style="min-width:50vw; min-height: 50vh;" >
-    <MudCarousel
-        ShowArrows="true" 
-        ShowBullets="true"
-        EnableSwipeGesture="true" 
-        AutoCycle="true" 
-        TData="object" 
+<MudPaper Style="min-width:50vw; min-height: 50vh;">
+    <MudCarousel ShowArrows="true" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true" TData="object"
         style="min-width:50vw; min-height: 50vh;">
-        @foreach(var item in Items)
+        @foreach (var item in Items)
         {
-             <MudCarouselItem
-                Transition="Transition.Slide" 
-                Color="@Color.Inherit"
+            <MudCarouselItem Transition="Transition.Slide" Color="@Color.Inherit"
                 style="border: 2px solid black; border-radius: 10px; display: flex; justify-content: center">
-                <MudImage 
-                    Src=@item.Image 
-                    ObjectFit="ObjectFit.Contain" 
-                    Fluid="true"
-                    style="padding: 0 10% 0 10%; margin: 0 10% 0 10%;"
-                    @onclick="(() => OpenDialog(item.PlateId))"></MudImage> 
-             </MudCarouselItem>
+                <MudImage Src=@item.Image ObjectFit="ObjectFit.Contain" Fluid="true"
+                    style="padding: 0 10% 0 10%; margin: 0 10% 0 10%;" @onclick="(() => OpenDialog(item.PlateId))">
+                </MudImage>
+            </MudCarouselItem>
         }
     </MudCarousel>
 </MudPaper>
@@ -36,15 +26,15 @@
     public IEnumerable<SpottImageCarouselItem> Items { get; set; }
 
     [Inject]
-	private NavigationManager _navigationManager { get; set; }
+    private NavigationManager _navigationManager { get; set; }
 
-     private void OpenDialog(Guid plateId)
+    private void OpenDialog(Guid plateId)
     {
         var parameters = new DialogParameters<RedirectDialog>();
         parameters.Add(x => x.Content, "Do you want to check plate of this spott");
         parameters.Add(x => x.ButtonContent, "Yes");
         parameters.Add(x => x.RedirectPath, ("/plates/" + plateId.ToString()));
-        var options = new DialogOptions { ClassBackground = "my-custom-class", CloseOnEscapeKey = true, NoHeader = true};
+        var options = new DialogOptions { ClassBackground = "my-custom-class", CloseOnEscapeKey = true, NoHeader = true };
         DialogService.Show<RedirectDialog>("Simple Dialog", parameters, options);
     }
 }

@@ -17,7 +17,7 @@ namespace Platender.Front.Pages
             if (firstRender)
             {
                 var raw = await _eventService.GetEventsAsync();
-                
+
                 //raw = raw.Replace('\n', ' ');
 
                 ExampleModule = new(await JS.InvokeAsync<IJSObjectReference>("import", "./LeafletEventMap.js"));
