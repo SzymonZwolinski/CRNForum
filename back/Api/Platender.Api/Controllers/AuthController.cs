@@ -1,14 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Platender.Application.Commands;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Platender.Application.DTO;
+using Platender.Application.Messages;
 using Platender.Application.Providers;
 
 namespace Platender.Api.Controllers
 {
 	[Route("[controller]")]
 	[ApiController]
-	public class AuthController : ControllerBase
-	{
+	public class AuthController : BaseController
+    {
 		private readonly IAuthProvider _authProvider;
 
 		public AuthController(IAuthProvider authProvider)
@@ -28,13 +29,27 @@ namespace Platender.Api.Controllers
 		}
 
 		[HttpPost("login")]
-		public async Task<ActionResult<string>> Login([FromBody] UserLogin loginUserCommand)
+		public async Task<ActionResult<UserDto>> Login([FromBody] UserLogin loginUserCommand)
 		{
-			var token = await _authProvider.LoginUserAsync(
+			var user = await _authProvider.LoginUserAsync(
 				loginUserCommand.UserName, 
 				loginUserCommand.Password);
 
-			return Ok(token.ToString());
+			return Ok(user);
+		}
+
+		[Authorize]
+		[HttpPatch("account/password")]
+		public async Task<ActionResult<string>> ChangePassword([FromBody] ChangePassword changePasswordCommand)
+		{
+			InitalizeHttpContextClaims();
+
+			await _authProvider.ChangePasswordAsync(
+				UserName,
+				changePasswordCommand.OldPassword,
+				changePasswordCommand.NewPassword);
+
+			return Ok();
 		}
 	}
 }

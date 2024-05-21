@@ -1,5 +1,5 @@
 @page "/Account"
-@using Platender.Front.Components.AccountComponents
+@using Platender.Front.Components
 @if (!_isUserLoggedIn)
 {
 	<MudPaper
@@ -32,7 +32,7 @@
 			<MudIconButton style="grid-row:second; grid-column:first;" Icon="@Icons.Material.Filled.ArrowBack"
 				aria-label="delete" OnClick="ReturnToPromtToLogin"></MudIconButton>
 			<div Style="grid-row-start: first; grid-row-end: second-end;grid-column: second;">
-				<Login @ref="LoginComponent"></Login>
+				<Platender.Front.Components.AccountComponents.Login @ref="LoginComponent" />
 			</div>
 		}
 		@if (_isRegisterDisplayed && !_isPromptToLoginDisplayed)
@@ -50,6 +50,7 @@ else
 {
 	<MudPaper style="display: flex;">
 		<MudCard>
+			<EditableAvatar Avatar="@UserAccount.Byte64Avatar"></EditableAvatar>
 			<MudText>Account Information:</MudText>
 			<MudText>Username: @UserAccount.Username</MudText>
 			<MudText>Email: TOADD</MudText>
@@ -58,7 +59,7 @@ else
 				<MudButton OnClick="ShowChangePasswordField">Change Password</MudButton>
 				@if (_isChangePasswordDisplayed)
 				{
-					<Platender.Front.Components.AccountComponents.ChangePassword />
+					<ChangePassword />
 				}
 			</MudCardActions>
 		</MudCard>

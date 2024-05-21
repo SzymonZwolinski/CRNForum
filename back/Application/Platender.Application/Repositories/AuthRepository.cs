@@ -5,7 +5,7 @@ using Platender.Core.Repositories;
 
 namespace Platender.Application.Repositories
 {
-	public class AuthRepository : IAuthRepository
+    public class AuthRepository : IAuthRepository
 	{
         private readonly PlatenderDbContext _platenderDbContext;
 
@@ -32,6 +32,13 @@ namespace Platender.Application.Repositories
                 x.Username, 
                 userName,
                 StringComparison.Ordinal) == 0);
+        }
+
+        public async Task UpdateUserAsync(User user)
+        {
+            _platenderDbContext.Update(user);
+
+            await _platenderDbContext.SaveChangesAsync();
         }
     }
 }

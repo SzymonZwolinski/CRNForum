@@ -29,7 +29,7 @@ namespace Platender.Front
 			builder.Services.AddAuthorizationCore();
 
 			builder.Services.AddSingleton(new BackendConfig { Url = builder.Configuration["BackendUrl"] });
-			builder.Services.AddSingleton<AccountState>();
+			builder.Services.AddScoped<AccountState>();
 			builder.Services.AddMudServices();
 			
 			builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();

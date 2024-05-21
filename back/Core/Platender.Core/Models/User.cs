@@ -40,5 +40,11 @@ namespace Platender.Core.Models
 
             Username = userName;
         }
+
+        public void ChangePassword(byte[] passwordHash, byte[] passwordSalt)
+        {
+            PasswordHash = passwordHash;
+            PasswordSalt = passwordSalt;
+        }
     }
 }

@@ -1,3 +1,5 @@
+using Platender.Front.Models;
+
 namespace Platender.Front.State
 {
     public class AccountState
@@ -24,6 +26,23 @@ namespace Platender.Front.State
                 _isLoginSuccesful = value;
                 NotifyStateChanged();
             }
+        }
+
+        private User _currentUser;
+        public User CurrentUser
+        {
+            get => _currentUser;
+            set
+            {
+                _currentUser = value;
+                NotifyStateChanged();
+            }
+        }
+
+        public void UpdateAvatar(byte[] avatar)
+        {
+            _currentUser.SetAvatar(avatar);
+            NotifyStateChanged();
         }
 
         private void NotifyStateChanged() => OnChange?.Invoke();

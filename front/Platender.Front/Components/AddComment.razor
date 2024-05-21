@@ -1,5 +1,6 @@
 @using Platender.Front.Event
 @using Platender.Front.Models
+@using Platender.Front.Models.Enums
 @using Platender.Front.Services
 
 <MudPaper Style="background-color: #7f8389">
@@ -63,7 +64,6 @@
     public List<string> images = new List<string>();
     public List<IBrowserFile> uploadedFiles = new List<IBrowserFile>();
     private bool IsUserLogged;
-
 
     protected override async Task OnInitializedAsync()
     {

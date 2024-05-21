@@ -1,6 +1,8 @@
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
+using Platender.Front.DTO;
 using Platender.Front.Models;
+using Platender.Front.State;
 using Platender.Front.Utilities;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -13,17 +15,20 @@ namespace Platender.Front.Services
 		private readonly AuthenticationStateProvider _authenticationStateProvider;
 		private readonly ILocalStorageService _localStorage;
 		private readonly BackendConfig _backendConfig;
+		private readonly IUserAdapter _userAdapter;
 
 		public AuthService(
 			HttpClient httpClient,
 			AuthenticationStateProvider authenticationStateProvider,
 			ILocalStorageService localStorage,
-			BackendConfig backendConfig)
+			BackendConfig backendConfig,
+			IUserAdapter userAdapter)
 		{
 			_httpClient = httpClient;
 			_authenticationStateProvider = authenticationStateProvider;
 			_localStorage = localStorage;
 			_backendConfig = backendConfig;
+			_userAdapter = userAdapter;
 		}
 
 		public async Task LoginAsync(Account loginModel)
@@ -34,11 +39,14 @@ namespace Platender.Front.Services
 				return;
 			}
 
-			var token = await result.Content.ReadAsStringAsync();
+			var user = await result.Content.ReadFromJsonAsync<UserDto>();
 
-			await _localStorage.SetItemAsync("authToken", token);
+			await _localStorage.SetItemAsync("authToken", user.Token);
 			((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.UserName);
-			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", user.Token);
+
+			_userAdapter.AdaptUserDtoToAccountState(user);			
+
 			return; //TODO: Add status
 		}
 

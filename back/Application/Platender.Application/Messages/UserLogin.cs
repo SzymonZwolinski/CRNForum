@@ -1,4 +1,5 @@
-﻿namespace Platender.Application.Commands
+﻿namespace Platender.Application.Messages
+
 {
 	public class UserLogin
 	{

@@ -1,4 +1,4 @@
-namespace Platender.Front.Services
+namespace Platender.Front.Models.Enums
 {
     public enum UserState
     {

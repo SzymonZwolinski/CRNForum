@@ -6,5 +6,6 @@ namespace Platender.Core.Repositories
 	{
 		Task CreateUserAsync(User user);
         Task<User> GetUserAsync(string userName);
+		Task UpdateUserAsync(User user);
 	}
 }

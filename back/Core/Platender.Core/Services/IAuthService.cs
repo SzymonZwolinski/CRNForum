@@ -8,7 +8,12 @@ namespace Platender.Core.Services
 			string userName, 
 			byte[] passwordHash,
 			byte[] passwordSalt);
-
-		Task<string> CheckLogin(string userName, string password);
+		Task<User> GetUserAsync(string userName);
+		Task<(User, string)> GetUserAndGenerateTokenAsync(string userName, string password);
+		Task<bool> IsLoginValidAsync(string userName, string password);
+		Task UpdateUserPasswordAsync(
+			User user,
+			byte[] passwordHash,
+			byte[] passwordSalt);
 	}
 }

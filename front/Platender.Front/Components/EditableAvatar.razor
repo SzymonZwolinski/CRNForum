@@ -1,0 +1,56 @@
+@using Platender.Front.Services
+@using Platender.Front.State
+<div class="d-flex flex-column justify-center">
+    <MudAvatar>
+        @if (Avatar is not null)
+        {
+            <MudImage Src="@Avatar"></MudImage>
+        }
+        else
+        {
+            <MudIcon Icon="@Icons.Custom.Brands.MudBlazor" />
+        }
+    </MudAvatar>
+
+    <MudFileUpload T="IBrowserFile" FilesChanged="OnFilesChanged">
+        <ButtonTemplate>
+            <MudFab HtmlTag="label"
+                    Color="Color.Secondary"
+                    Icon="@Icons.Material.Filled.Image"
+                    Label="Edit Avatar"
+                    for="@context.Id" />
+        </ButtonTemplate>
+    </MudFileUpload>
+</div>
+
+@code {
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; }
+
+    [Inject]
+    private IUserService UserService { get; set; }
+
+    [Inject]
+    private AccountState AccountState { get; set; }
+
+    [Parameter]
+    public string? Avatar { get; set; }
+
+    private async Task OnFilesChanged(IBrowserFile file)
+    {
+        if (file != null)
+        {
+            var buffer = new byte[file.Size];
+
+            await file.OpenReadStream().ReadAsync(buffer);
+
+            var base64 = Convert.ToBase64String(buffer);
+            var blobUrl = await JSRuntime.InvokeAsync<string>("convertToBlob", file.Name, base64);
+
+            var data = await httpClient.GetByteArrayAsync(blobUrl);
+            UserService.UpdateUserAvatarAsync(data);
+
+            AccountState.UpdateAvatar(data);
+        }
+    }
+}
