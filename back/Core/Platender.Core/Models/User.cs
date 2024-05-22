@@ -8,6 +8,7 @@ namespace Platender.Core.Models
         public string Username { get; private set; }
 		public byte[] PasswordHash { get; private set; }
 		public byte[] PasswordSalt { get; private set; }
+        public byte[]? Avatar { get; private set; }
         public UserStatus UserStatus { get; private set; }
         public ICollection<EventUser> EventUsers { get; private set; }
 
@@ -45,6 +46,11 @@ namespace Platender.Core.Models
         {
             PasswordHash = passwordHash;
             PasswordSalt = passwordSalt;
+        }
+
+        public void SetAvatar(byte[] avatar) 
+        {
+            Avatar = avatar;
         }
     }
 }

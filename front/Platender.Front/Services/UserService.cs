@@ -31,7 +31,7 @@ namespace Platender.Front.Services
         {
             await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
 			var result = await _httpClient.PutAsJsonAsync(
-                _backendConfig.Url + $"",
+                _backendConfig.Url + $"/account/avatar",
                 avatar);
         }
     }

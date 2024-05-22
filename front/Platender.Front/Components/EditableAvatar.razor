@@ -46,11 +46,15 @@
 
             var base64 = Convert.ToBase64String(buffer);
             var blobUrl = await JSRuntime.InvokeAsync<string>("convertToBlob", file.Name, base64);
+            
+            using (var httpClient = new HttpClient())
+            {
+                var data = await httpClient.GetByteArrayAsync(blobUrl);
+            
+                await UserService.UpdateUserAvatarAsync(data);
 
-            var data = await httpClient.GetByteArrayAsync(blobUrl);
-            UserService.UpdateUserAvatarAsync(data);
-
-            AccountState.UpdateAvatar(data);
+                AccountState.UpdateAvatar(data);
+            }
         }
     }
 }

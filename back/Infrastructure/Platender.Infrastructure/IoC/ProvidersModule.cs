@@ -13,6 +13,7 @@ namespace Platender.Infrastructure.IoC
             builder.RegisterType<AuthProvider>().As<IAuthProvider>().InstancePerLifetimeScope(); 
             builder.RegisterType<EventProvider>().As<IEventProvider>().InstancePerLifetimeScope();
             builder.RegisterType<LikesProvider>().As<ILikesProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<UserProvider>().As<IUserProvider>().InstancePerLifetimeScope();
         }
     }
 }
