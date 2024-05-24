@@ -31,7 +31,13 @@ namespace Platender.Front.Services
 			_userAdapter = userAdapter;
 		}
 
-		public async Task LoginAsync(Account loginModel)
+        public async Task ChangePasswordAsync(UserCredentialsDto userCredentialsDto)
+        {
+			await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+            var result = await _httpClient.PatchAsJsonAsync(_backendConfig.Url + "/account/password", userCredentialsDto);
+        }
+
+        public async Task LoginAsync(Account loginModel)
 		{
 			var result = await _httpClient.PostAsJsonAsync(_backendConfig.Url + "/auth/Login", loginModel);
 			if(!result.IsSuccessStatusCode)

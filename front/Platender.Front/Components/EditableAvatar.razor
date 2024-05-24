@@ -1,10 +1,11 @@
+@using Platender.Front.DTO
 @using Platender.Front.Services
 @using Platender.Front.State
 <div class="d-flex flex-column justify-center">
     <MudAvatar>
-        @if (Avatar is not null)
+        @if (AccountState.CurrentUser is not null && AccountState.CurrentUser.Byte64Avatar is not null)
         {
-            <MudImage Src="@Avatar"></MudImage>
+            <MudImage Src="@AccountState.CurrentUser.Byte64Avatar"></MudImage>
         }
         else
         {
@@ -38,6 +39,7 @@
 
     private async Task OnFilesChanged(IBrowserFile file)
     {
+        byte[] data;
         if (file != null)
         {
             var buffer = new byte[file.Size];
@@ -49,12 +51,13 @@
             
             using (var httpClient = new HttpClient())
             {
-                var data = await httpClient.GetByteArrayAsync(blobUrl);
-            
-                await UserService.UpdateUserAvatarAsync(data);
-
-                AccountState.UpdateAvatar(data);
+                data = await httpClient.GetByteArrayAsync(blobUrl);
             }
+            await UserService.UpdateUserAvatarAsync( new AvatarDto(data));
+
+            Console.WriteLine("UDALO SIE WYSLAC");
+
+            AccountState.UpdateAvatar(data);
         }
     }
 }

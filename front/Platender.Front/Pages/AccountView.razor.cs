@@ -35,13 +35,13 @@ namespace Platender.Front.Pages
             }
         }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        protected override bool ShouldRender()
         {
-            if (AccountState.IsLoginSuccesful)
+             if (AccountState.IsLoginSuccesful)
             {
-                _isPromptToLoginDisplayed = false;
-                _isLoginDisplayed = false;
                 _isUserLoggedIn = true;
+                _isPromptToLoginDisplayed = false;
+                _isLoginDisplayed = false;   
             }
 
             if (_isChangePasswordDisplayed && AccountState.IsChangePasswordSent)
@@ -49,6 +49,25 @@ namespace Platender.Front.Pages
                 _isChangePasswordDisplayed = false;
                 AccountState.IsChangePasswordSent = false;
             }
+            
+            return true;
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+           /* Console.WriteLine(AccountState.IsLoginSuccesful);
+            if (AccountState.IsLoginSuccesful)
+            {
+                _isUserLoggedIn = true;
+                _isPromptToLoginDisplayed = false;
+                _isLoginDisplayed = false;   
+            }
+
+            if (_isChangePasswordDisplayed && AccountState.IsChangePasswordSent)
+            {
+                _isChangePasswordDisplayed = false;
+                AccountState.IsChangePasswordSent = false;
+            }*/
 
             await base.OnAfterRenderAsync(firstRender);
         }

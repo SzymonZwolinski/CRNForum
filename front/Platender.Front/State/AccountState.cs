@@ -35,6 +35,7 @@ namespace Platender.Front.State
             set
             {
                 _currentUser = value;
+                _isLoginSuccesful = true;
                 NotifyStateChanged();
             }
         }

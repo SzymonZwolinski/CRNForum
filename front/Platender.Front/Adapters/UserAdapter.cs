@@ -34,7 +34,6 @@ namespace Platender.Front.Models
         {
             //TODO: ADD THIS TO TOKEN
             var user = new User(userDto.UserName, EnumHelper.MapStringToEnumOrNull<UserState>(userDto.UserStatus));
-
             _accountState.CurrentUser = user;
         }
     }

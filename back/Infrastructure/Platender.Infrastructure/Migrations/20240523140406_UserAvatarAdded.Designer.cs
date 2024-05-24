@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Platender.Application.EF;
 
@@ -11,9 +12,11 @@ using Platender.Application.EF;
 namespace Platender.Infrastructure.Migrations
 {
     [DbContext(typeof(PlatenderDbContext))]
-    partial class PlatenderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240523140406_UserAvatarAdded")]
+    partial class UserAvatarAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,5 +1,6 @@
 @page "/Account"
 @using Platender.Front.Components
+@using Platender.Front.Components.AccountComponents
 @if (!_isUserLoggedIn)
 {
 	<MudPaper
@@ -59,7 +60,7 @@ else
 				<MudButton OnClick="ShowChangePasswordField">Change Password</MudButton>
 				@if (_isChangePasswordDisplayed)
 				{
-					<ChangePassword />
+					<ChangePassword></ChangePassword>
 				}
 			</MudCardActions>
 		</MudCard>

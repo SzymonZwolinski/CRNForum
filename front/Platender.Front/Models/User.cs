@@ -24,7 +24,10 @@ namespace Platender.Front.Models
         public User(string? username, UserState? userState)
         {
             SetUserName(username);
-            UserState = userState.Value;
+            if(userState.HasValue)
+            {
+                UserState = userState.Value;
+            }
         }
 
         public void SetAvatar(byte[] avatar)
