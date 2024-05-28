@@ -57,7 +57,8 @@ namespace Platender.Application.Providers
 				out byte[] passwordHash, 
 				out byte[] passwordSalt);
 
-        }
+			await _authService.UpdateUserPasswordAsync(user, passwordHash, passwordSalt);
+		}
 
 		private UserDto MapUserToUserDto(User user)
 		{

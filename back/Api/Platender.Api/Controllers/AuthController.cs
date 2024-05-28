@@ -37,19 +37,5 @@ namespace Platender.Api.Controllers
 
 			return Ok(user);
 		}
-
-		[Authorize]
-		[HttpPatch("account/password")]
-		public async Task<ActionResult<string>> ChangePassword([FromBody] ChangePassword changePasswordCommand)
-		{
-			InitalizeHttpContextClaims();
-
-			await _authProvider.ChangePasswordAsync(
-				UserName,
-				changePasswordCommand.OldPassword,
-				changePasswordCommand.NewPassword);
-
-			return Ok();
-		}
 	}
 }

@@ -2,6 +2,7 @@
 {
     public class ChangeAvatar
     {
-        public byte[] Avatar { get; set; }
+        public byte[]? Avatar { get; set; }
+
     }
 }

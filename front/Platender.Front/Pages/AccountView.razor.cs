@@ -37,7 +37,7 @@ namespace Platender.Front.Pages
 
         protected override bool ShouldRender()
         {
-             if (AccountState.IsLoginSuccesful)
+            if (AccountState.IsLoginSuccesful)
             {
                 _isUserLoggedIn = true;
                 _isPromptToLoginDisplayed = false;
@@ -51,25 +51,6 @@ namespace Platender.Front.Pages
             }
             
             return true;
-        }
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-           /* Console.WriteLine(AccountState.IsLoginSuccesful);
-            if (AccountState.IsLoginSuccesful)
-            {
-                _isUserLoggedIn = true;
-                _isPromptToLoginDisplayed = false;
-                _isLoginDisplayed = false;   
-            }
-
-            if (_isChangePasswordDisplayed && AccountState.IsChangePasswordSent)
-            {
-                _isChangePasswordDisplayed = false;
-                AccountState.IsChangePasswordSent = false;
-            }*/
-
-            await base.OnAfterRenderAsync(firstRender);
         }
 
         private async Task ShowLoginField()
@@ -95,6 +76,16 @@ namespace Platender.Front.Pages
         private async Task ShowChangePasswordField()
         {
             _isChangePasswordDisplayed = true;
+        }
+
+        private void RevertToStart()
+        {
+            _isUserLoggedIn = false;
+            _isLoginDisplayed = true;
+            _isPromptToLoginDisplayed = true;
+            _isLoginDisplayed = false;
+            _isRegisterDisplayed = false;
+            _isChangePasswordDisplayed = false;  
         }
 
         public void Dispose()

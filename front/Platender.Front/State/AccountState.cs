@@ -28,8 +28,8 @@ namespace Platender.Front.State
             }
         }
 
-        private User _currentUser;
-        public User CurrentUser
+        private User? _currentUser;
+        public User? CurrentUser
         {
             get => _currentUser;
             set
@@ -42,7 +42,18 @@ namespace Platender.Front.State
 
         public void UpdateAvatar(byte[] avatar)
         {
-            _currentUser.SetAvatar(avatar);
+            if(_currentUser is not null)
+            {
+                _currentUser.SetAvatar(avatar);
+                NotifyStateChanged();
+            }
+        }
+
+        public void LogoutCurrentUser()
+        {
+            _currentUser = null;
+            _isLoginSuccesful = false;
+            _isChangePasswordSent = false;
             NotifyStateChanged();
         }
 

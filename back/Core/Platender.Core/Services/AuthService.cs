@@ -82,10 +82,10 @@ namespace Platender.Core.Services
 
             var isPasswordCorrect = PasswordHelper.VerifyPasswordHash(
                 password,
-                user.PasswordSalt,
-                user.PasswordHash);
+                user.PasswordHash,
+                user.PasswordSalt);
 
-            if (isPasswordCorrect)
+            if (!isPasswordCorrect)
             {
                 ErrorList.Add(new ArgumentException($"Invalid password"));
             }

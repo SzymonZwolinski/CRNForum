@@ -55,8 +55,6 @@
             }
             await UserService.UpdateUserAvatarAsync( new AvatarDto(data));
 
-            Console.WriteLine("UDALO SIE WYSLAC");
-
             AccountState.UpdateAvatar(data);
         }
     }

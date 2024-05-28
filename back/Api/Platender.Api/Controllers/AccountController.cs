@@ -6,7 +6,6 @@ using Platender.Application.Providers;
 namespace Platender.Api.Controllers
 {
     [Route("[Controller]")]
-    [ApiController]
     public class AccountController : BaseController
     {
         private readonly IUserProvider _userProvider;
@@ -33,14 +32,14 @@ namespace Platender.Api.Controllers
         }
 
         [Authorize]
-        [HttpPut]
-        public async Task<IResult> ChangeUserAvatar([FromBody] ChangeAvatar changeAvatar)
+        [HttpPut("avatar")]
+        public async Task<ActionResult<string>> ChangeUserAvatar([FromBody] ChangeAvatar changeAvatar)
         {
             InitalizeHttpContextClaims();
 
             await _userProvider.ChangeUserAvatarAsync(changeAvatar.Avatar, UserName);
 
-            return Results.Ok();
+            return Ok();
         }
     }
 }

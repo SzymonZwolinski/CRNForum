@@ -1,0 +1,41 @@
+@using Platender.Front.Services
+@using Platender.Front.State
+<MudButton OnClick="Logout" Color="Color.Error" StartIcon="@Icons.Material.Filled.Logout">Logout</MudButton>
+
+@code {
+    [Inject]
+    private IAuthService _authService { get; set; }
+    [Inject]
+    private AccountState AccountState { get; set; }
+    [Inject]
+    private ISnackbar SnackbarService { get; set; }
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        AccountState.OnChange += StateHasChanged;
+    }
+
+    private async Task Logout()
+    {
+        await _authService.Logout();
+        
+        SnackbarService.Add
+        (
+            @<div>
+                <span>Logged out succesfully!</span>                
+            </div>
+            ,
+            Severity.Success
+        );
+        
+        await OnClick.InvokeAsync();
+        AccountState.LogoutCurrentUser();
+    }
+
+    public void Dispose()
+    {
+        AccountState.OnChange -= StateHasChanged;
+    }
+}

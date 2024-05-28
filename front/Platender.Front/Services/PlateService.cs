@@ -15,7 +15,8 @@ namespace Platender.Front.Services
 		private readonly BackendConfig _backendConfig;
         private readonly AuthenticationStateProvider _authenticationStateProvider;
 
-        public PlateService(BackendConfig backendConfig, 
+        public PlateService(
+			BackendConfig backendConfig, 
 			HttpClient httpClient,
             AuthenticationStateProvider authenticationStateProvider)
 		{
