@@ -17,6 +17,8 @@ namespace Platender.Application.EF.Configuration
             builder.Property(x => x.Culture)
                 .HasConversion<string>()
                 .HasMaxLength(4);
+
+            builder.HasMany(x => x.UserFavouritePlates).WithOne(x => x.Plate);
         }
     }
 }

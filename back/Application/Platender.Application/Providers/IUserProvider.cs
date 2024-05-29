@@ -3,5 +3,6 @@
     public interface IUserProvider
     {
         Task ChangeUserAvatarAsync(byte[] avatar, string userName);
+        Task AddOrRemoveFavouritePlateAsync(Guid plateId, string userName);
     }
 }

@@ -34,6 +34,20 @@ namespace Platender.Application.Repositories
                 StringComparison.Ordinal) == 0);
         }
 
+        public async Task<User> GetUserWithFavouritePlatesAsync(string userName)
+        {
+            var users = await _platenderDbContext
+                 .users
+                 .Include(x => x.favouritePlates)
+                 .Where(x => x.Username.Equals(userName))
+                 .ToListAsync();
+
+            return users.FirstOrDefault(x => string.Compare(
+                x.Username,
+                userName,
+                StringComparison.Ordinal) == 0);
+        }
+
         public async Task UpdateUserAsync(User user)
         {
             _platenderDbContext.Update(user);

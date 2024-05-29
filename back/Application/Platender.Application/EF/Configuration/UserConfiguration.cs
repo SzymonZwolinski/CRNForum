@@ -20,6 +20,7 @@ namespace Platender.Application.EF.Configuration
             builder.Property(x => x.PasswordHash).IsRequired();
 
             builder.HasMany(x => x.EventUsers).WithOne(x => x.User);
+            builder.HasMany(x => x.favouritePlates).WithOne(x=>x.User);
         }
     }
 }

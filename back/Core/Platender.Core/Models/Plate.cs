@@ -11,6 +11,8 @@ namespace Platender.Core.Models
         private List<Comment> _comments { get; } = new List<Comment>();
 		public IEnumerable<PlateLike> PlateLikes => _plateLikes;
 		private List<PlateLike> _plateLikes { get; set; } = new();
+        public IEnumerable<UserFavouritePlates> UserFavouritePlates => _userFavouritePlates;
+        private List<UserFavouritePlates> _userFavouritePlates { get; set; } = new();
 
         public Plate(){}
 

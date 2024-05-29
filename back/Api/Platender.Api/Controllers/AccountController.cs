@@ -41,5 +41,13 @@ namespace Platender.Api.Controllers
 
             return Ok();
         }
+
+        [Authorize]
+        [HttpPost("favourite/add")]
+        public async Task<ActionResult<string>> AddOrRemoveFavouritePlate([FromBody] AddFavouritePlate addFavouritePlate)
+        {
+            InitalizeHttpContextClaims();
+
+        }
     }
 }

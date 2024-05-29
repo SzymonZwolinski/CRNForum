@@ -11,6 +11,9 @@ namespace Platender.Application.Providers
             _userService = userService;
         }
 
+        public async Task AddOrRemoveFavouritePlateAsync(Guid plateId, string userName)
+            => await _userService.AddOrRemoveUserFavouritePlate(plateId, userName);
+
         public async Task ChangeUserAvatarAsync(byte[] avatar, string userName)
             => await _userService.ChangeUserAvatarAsync(avatar, userName);
     }
