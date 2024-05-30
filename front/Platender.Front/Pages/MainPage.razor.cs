@@ -22,8 +22,6 @@ namespace Platender.Front.Pages
 			_ImageCarouselItems = TopLikedSpotts.Select(x =>
 				new SpottImageCarouselItem(x.PlateId, x.Byte64Image))
 				.ToList();
-
-			StateHasChanged();
 		}
 	}
 }

@@ -49,21 +49,32 @@
 }
 else
 {
-	<MudPaper style="display: flex;">
-		<MudCard>
-			<EditableAvatar Avatar="@UserAccount.Byte64Avatar"></EditableAvatar>
-			<MudText>Account Information:</MudText>
-			<MudText>Username: @UserAccount.Username</MudText>
-			<MudText>Email: TOADD</MudText>
-			<MudText>Status: @UserAccount.UserState.ToString()</MudText>
-			<MudCardActions>
-				<MudButton OnClick="ShowChangePasswordField">Change Password</MudButton>
-				@if (_isChangePasswordDisplayed)
-				{
-					<ChangePassword></ChangePassword>
-				}
-				<LogoutButton OnClick="RevertToStart"></LogoutButton>
-			</MudCardActions>
-		</MudCard>
-	</MudPaper>
+	@if (_isGeneralUserInformationDisplayed)
+	{
+		<MudPaper style="display: flex;">
+			<MudCard>
+				<EditableAvatar Avatar="@UserAccount.Byte64Avatar"></EditableAvatar>
+				<MudText>Account Information:</MudText>
+				<MudText>Username: @UserAccount.Username</MudText>
+				<MudText>Email: TOADD</MudText>
+				<MudText>Status: @UserAccount.UserState.ToString()</MudText>
+				<MudCardActions>
+					<MudButton OnClick="ShowChangePasswordField">Change Password</MudButton>
+					@if (_isChangePasswordDisplayed)
+					{
+						<ChangePassword></ChangePassword>
+					}
+					<LogoutButton OnClick="RevertToStart"></LogoutButton>
+					<MudButton OnClick="ShowUserFavouritePlates">Favourite Plates</MudButton>
+				</MudCardActions>
+			</MudCard>
+		</MudPaper>
+	}
+	@if (_isUserFavouritePlatesDisplayed)
+	{
+		<MudPaper>
+			<MudButton OnClick="ReturnToUserGeneralInformation">Back</MudButton>
+			<Favourites></Favourites>
+		</MudPaper>
+	}
 }

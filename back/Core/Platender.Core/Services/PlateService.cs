@@ -120,5 +120,9 @@ namespace Platender.Core.Services
 
 			await _plateRepository.UpdatePlateAsync(plate);
         }
+
+        public async Task<(IEnumerable<Plate>, int)> GetFavouritePlatesAsync(int page, User user)
+			=> await _plateRepository.GetUserFavouritePlatesAsync(page, user);
+        
     }
 }

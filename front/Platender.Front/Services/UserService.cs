@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Components.Authorization;
 using Platender.Front.DTO;
+using Platender.Front.Helpers;
 using Platender.Front.Models;
 using Platender.Front.Utilities;
 
@@ -25,8 +26,25 @@ namespace Platender.Front.Services
             _backendConfig = backendConfig;
         }
 
+        public async Task AddOrRemoveUserFavouritePlateAsync(UserFavouritePlate userFavouriePlate)
+        {
+            await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+            var result = await _httpClient.PostAsJsonAsync(
+                _backendConfig.Url + $"/account/favourite",
+                userFavouriePlate);
+        }
+
         public async Task<User> GetAuthorizedUser()
             => await _userAdapter.AdaptBasicClaimsToUserAsync();
+
+        public async Task<PagedData<Plate>> GetUserFavouritePlatesAsync(int page)
+        {
+            await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+			var result = await _httpClient.GetAsync(
+                _backendConfig.Url + $"/account/favourite?page=" + page);
+
+            return await result.Content.ReadFromJsonAsync<PagedData<Plate>>();
+        }
 
         public async Task UpdateUserAvatarAsync(AvatarDto avatar)
         {

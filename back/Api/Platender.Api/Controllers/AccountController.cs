@@ -43,11 +43,23 @@ namespace Platender.Api.Controllers
         }
 
         [Authorize]
-        [HttpPost("favourite/add")]
+        [HttpPost("favourite")]
         public async Task<ActionResult<string>> AddOrRemoveFavouritePlate([FromBody] AddFavouritePlate addFavouritePlate)
         {
             InitalizeHttpContextClaims();
+            await _userProvider.AddOrRemoveFavouritePlateAsync(addFavouritePlate.PlateId, UserName);
 
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpGet("favourite")]
+        public async Task<IActionResult> GetUserFavouritePlates([FromQuery] int page)
+        {
+            InitalizeHttpContextClaims();
+            var userFavouritePlates = await _userProvider.
+
+            return new JsonResult(userFavouritePlates);
         }
     }
 }

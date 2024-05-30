@@ -17,6 +17,8 @@ namespace Platender.Front.Pages
         private bool _isRegisterDisplayed = false;
         private bool _isPromptToLoginDisplayed = true;
         private bool _isUserLoggedIn = false;
+        private bool _isGeneralUserInformationDisplayed = false;
+        private bool _isUserFavouritePlatesDisplayed = false;
 
         private bool _isChangePasswordDisplayed = false;
 
@@ -32,6 +34,7 @@ namespace Platender.Front.Pages
             if (!string.IsNullOrWhiteSpace(UserAccount.Username))
             {
                 _isUserLoggedIn = true;
+                _isGeneralUserInformationDisplayed = true;
             }
         }
 
@@ -42,6 +45,7 @@ namespace Platender.Front.Pages
                 _isUserLoggedIn = true;
                 _isPromptToLoginDisplayed = false;
                 _isLoginDisplayed = false;   
+                _isGeneralUserInformationDisplayed = true;
             }
 
             if (_isChangePasswordDisplayed && AccountState.IsChangePasswordSent)
@@ -78,6 +82,18 @@ namespace Platender.Front.Pages
             _isChangePasswordDisplayed = true;
         }
 
+        private async Task ShowUserFavouritePlates()
+        {
+            _isGeneralUserInformationDisplayed = false;
+            _isUserFavouritePlatesDisplayed = true;
+        }
+
+        private async Task ReturnToUserGeneralInformation()
+        {
+            _isGeneralUserInformationDisplayed = true;
+            _isUserFavouritePlatesDisplayed = false;
+        }
+
         private void RevertToStart()
         {
             _isUserLoggedIn = false;
@@ -86,6 +102,8 @@ namespace Platender.Front.Pages
             _isLoginDisplayed = false;
             _isRegisterDisplayed = false;
             _isChangePasswordDisplayed = false;  
+            _isGeneralUserInformationDisplayed = false;
+            _isUserFavouritePlatesDisplayed = false;
         }
 
         public void Dispose()

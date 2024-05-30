@@ -1,0 +1,77 @@
+@using Platender.Front.Models
+@using Platender.Front.Services
+@using Platender.Front.State
+<MudPaper>
+    <InfinityScroll ObserverTargetId="observerTarget" ObservableTargetReached="(e) => HandleEndOfInfinityLoad()">
+        @if (plates is not null || plates.Any())
+        {
+            @foreach (var plate in plates)
+            {
+                <div style="padding-bottom: 10px;">
+                    <EUPlate PlateId="@plate.Id" CultureCode="@plate.Culture" Number="@plate.Number"
+                        DisplayFlag="true" FlagSrc="images/EUFlagHD.jpg" OnClickAction="@MoveToPlate"></EUPlate>
+                    <MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="@Color.Warning" 
+                        OnClick="( () => UnFavouritePlateAsync(plate.Id))"></MudIconButton>
+                </div>
+            }
+            <li class="list-group-item" id="observerTarget"></li>
+        }
+    </InfinityScroll>
+</MudPaper>
+
+@code {
+    [Inject]
+	private NavigationManager _navigationManager { get; set; }
+    [Inject]
+    private AccountState AccountState { get; set; }
+    [Inject]
+    private IUserService _userService { get; set; }
+
+    public List<Plate> plates;
+    private int page = 1;
+    private int MaxPage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var paggedPlates = await _userService.GetUserFavouritePlatesAsync(page);
+
+        plates.AddRange(paggedPlates.Items);
+        MaxPage = (paggedPlates.TotalItems + 9) / 10;
+        page++;
+    }
+
+    private async Task HandleEndOfInfinityLoad()
+    {
+        if(page > MaxPage)
+        {
+            return;
+        }
+
+        await LoadNewFavouriteAsync();
+        
+        StateHasChanged();
+    }
+
+    private async Task LoadNewFavouriteAsync()
+    {
+        var paggedPlates = await _userService.GetUserFavouritePlatesAsync(page);
+        
+        plates.AddRange(paggedPlates.Items);
+        page++;
+    }
+
+    private async Task UnFavouritePlateAsync(Guid plateId)
+    {
+        await _userService.AddOrRemoveUserFavouritePlateAsync(
+            new UserFavouritePlate(plateId));
+
+        var plateToDelete = plates.FirstOrDefault(x => x.Id == plateId);
+        plates.Remove(plateToDelete);
+    }
+
+	private void MoveToPlate(Guid plateId)
+	{
+		_navigationManager.NavigateTo("/plates/" + plateId.ToString());
+	}
+}
+   

@@ -3,6 +3,7 @@ using Platender.Front.Components;
 using Platender.Front.DTO;
 using Platender.Front.Models;
 using Platender.Front.Services;
+using Platender.Front.State;
 
 namespace Platender.Front.Pages
 {
@@ -10,8 +11,14 @@ namespace Platender.Front.Pages
     {
         [Inject]
         private IPlateService _plateService { get; set; }
+		[Inject]
+		private IUserService _userService { get; set; }
+		[Inject]
+		private AccountState AccountState { get; set; }
+
 		[Parameter]
 		public string plateId { get; set; }
+
 		private Plate _plate = new Plate();
 		private List<Models.Comment> _comments = new();
 		private Models.Comment _sentComment = new();
@@ -21,6 +28,7 @@ namespace Platender.Front.Pages
 		private CommentDto _comment = new CommentDto();
 		private AddComment AddCommentField;
 		private bool IsCommentSent = false;
+		private bool IsUserPlateFavourite { get; set; }
 
 		protected override async Task OnInitializedAsync()
 		{
@@ -102,6 +110,14 @@ namespace Platender.Front.Pages
 			
 			_comments.AddRange(pagedComment.Items);
 			page++;
+		}
+	
+		private async Task ToggleFavouritePlateAsync()
+		{
+			if(AccountState.IsLoginSuccesful)
+			{
+				await _userService.AddOrRemoveUserFavouritePlateAsync(new UserFavouritePlate(_plate.Id));
+			}
 		}
 	}
 }

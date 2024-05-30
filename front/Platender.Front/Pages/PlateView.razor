@@ -10,6 +10,13 @@
                     <LikeComponent Id="@_plate.Id" LikeAmount="@_plate.LikeAmount" DislikeAmount="@_plate.DislikeAmount"
                         UserReaction="@_plate.UserReaction" LikeButtonAction="@AddOrRemoveLikeToPlateAsync"
                         DislikeButtonAction="@AddOrRemoveDislikeToPlateAsync"></LikeComponent>
+                    @if (AccountState.IsLoginSuccesful)
+                    {
+                        <MudToggleIconButton 
+                        Toggled="@IsUserPlateFavourite" ToggledChanged="ToggleFavouritePlateAsync"
+                        Icon="@Icons.Material.Filled.FavoriteBorder" Color="@Color.Info" Title="No"
+                        ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Warning" ToggledTitle="Yes" ></MudToggleIconButton>
+                    }
                 </MudCardActions>
             </div>
 
