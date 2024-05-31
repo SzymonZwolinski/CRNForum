@@ -76,7 +76,7 @@ namespace Platender.Core.Models
 
             if (_favouritePlates.Any(x => x.Plate.Id == plate.Id))
             {
-                var favouritePlate = _favouritePlates.Any(x => x.Plate.Id == plate.Id);
+                var favouritePlate = _favouritePlates.FirstOrDefault(x => x.Plate.Id == plate.Id);
                 _favouritePlates.Remove(favouritePlate);
             }
         }

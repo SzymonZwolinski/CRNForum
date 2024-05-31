@@ -37,13 +37,13 @@ namespace Platender.Front.Services
         public async Task<User> GetAuthorizedUser()
             => await _userAdapter.AdaptBasicClaimsToUserAsync();
 
-        public async Task<PagedData<Plate>> GetUserFavouritePlatesAsync(int page)
+        public async Task<PagedData<UserFavouritePlateDto>> GetUserFavouritePlatesAsync(int page)
         {
             await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
 			var result = await _httpClient.GetAsync(
                 _backendConfig.Url + $"/account/favourite?page=" + page);
 
-            return await result.Content.ReadFromJsonAsync<PagedData<Plate>>();
+            return await result.Content.ReadFromJsonAsync<PagedData<UserFavouritePlateDto>>();
         }
 
         public async Task UpdateUserAvatarAsync(AvatarDto avatar)

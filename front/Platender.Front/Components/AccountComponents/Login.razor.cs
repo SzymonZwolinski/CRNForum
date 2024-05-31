@@ -45,7 +45,7 @@ namespace Platender.Front.Components.AccountComponents
 		private async void LoginUser()
 		{
 			await _authService.LoginAsync(InputAccount);
-			//AccountState.IsLoginSuccesful = true;
+			AccountState.IsLoginSuccesful = true;
 		}
 
 	}

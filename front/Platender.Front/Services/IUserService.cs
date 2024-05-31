@@ -9,6 +9,6 @@ namespace Platender.Front.Services
 		Task<User> GetAuthorizedUser();
 		Task AddOrRemoveUserFavouritePlateAsync(UserFavouritePlate userFavouriePlate);
 		Task UpdateUserAvatarAsync(AvatarDto avatar);
-		Task<PagedData<Plate>> GetUserFavouritePlatesAsync(int page);
+		Task<PagedData<UserFavouritePlateDto>> GetUserFavouritePlatesAsync(int page);
 	}
 }

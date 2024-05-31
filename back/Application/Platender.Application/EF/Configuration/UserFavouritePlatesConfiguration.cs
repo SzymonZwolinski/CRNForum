@@ -8,11 +8,7 @@ namespace Platender.Application.EF.Configuration
     {
         public void Configure(EntityTypeBuilder<UserFavouritePlates> builder)
         {
-            builder.HasKey(x => new
-            {
-                x.UserId,
-                x.PlateId
-            });
+            builder.HasKey(x => x.Id);
         }
     }
 }

@@ -1,3 +1,4 @@
+@using Platender.Front.DTO
 @using Platender.Front.Models
 @using Platender.Front.Services
 @using Platender.Front.State
@@ -27,14 +28,14 @@
     [Inject]
     private IUserService _userService { get; set; }
 
-    public List<Plate> plates;
+    public List<UserFavouritePlateDto> plates = new();
     private int page = 1;
     private int MaxPage;
 
     protected override async Task OnInitializedAsync()
     {
         var paggedPlates = await _userService.GetUserFavouritePlatesAsync(page);
-
+        
         plates.AddRange(paggedPlates.Items);
         MaxPage = (paggedPlates.TotalItems + 9) / 10;
         page++;
@@ -74,4 +75,3 @@
 		_navigationManager.NavigateTo("/plates/" + plateId.ToString());
 	}
 }
-   

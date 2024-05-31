@@ -87,7 +87,7 @@ namespace Platender.Application.Repositories
 					.ThenInclude(x => x.CommentLike)
 				.FirstOrDefaultAsync(x=> x.Id == plateId);
 
-        public async Task<(IEnumerable<Plate>, int)> GetUserFavouritePlatesAsync(int page, User user)
+        public async Task<(IEnumerable<Plate>, int)> GetUserFavouritePlatesAsync(int? page, User user)
         {
 			var query = _platenderDbContext
 				.plates

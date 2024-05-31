@@ -57,7 +57,7 @@ namespace Platender.Api.Controllers
         public async Task<IActionResult> GetUserFavouritePlates([FromQuery] int page)
         {
             InitalizeHttpContextClaims();
-            var userFavouritePlates = await _userProvider.
+            var userFavouritePlates = await _userProvider.GetUserFavouritePlatesAsync(page, UserName);
 
             return new JsonResult(userFavouritePlates);
         }

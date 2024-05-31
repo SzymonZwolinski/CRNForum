@@ -112,12 +112,11 @@ namespace Platender.Front.Pages
 			page++;
 		}
 	
-		private async Task ToggleFavouritePlateAsync()
+		private  void ToggleFavouritePlateAsync(bool toggled)
 		{
-			if(AccountState.IsLoginSuccesful)
-			{
-				await _userService.AddOrRemoveUserFavouritePlateAsync(new UserFavouritePlate(_plate.Id));
-			}
+			IsUserPlateFavourite = toggled;
+			Console.WriteLine("test");
+			_userService.AddOrRemoveUserFavouritePlateAsync(new UserFavouritePlate(_plate.Id));
 		}
 	}
 }

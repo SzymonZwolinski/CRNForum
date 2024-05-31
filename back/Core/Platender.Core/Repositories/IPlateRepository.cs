@@ -16,6 +16,6 @@ namespace Platender.Core.Repositories
 			CultureCode? cultureCode, 
 			int? page);
 		Task<(IEnumerable<Comment>, int)> GetPlateCommentsAsync(Guid plateId, int? page);
-		Task<(IEnumerable<Plate>, int)> GetUserFavouritePlatesAsync(int page, User user);
+		Task<(IEnumerable<Plate>, int)> GetUserFavouritePlatesAsync(int? page, User user);
     }
 }
