@@ -37,7 +37,7 @@ namespace Platender.Front.Services
             var result = await _httpClient.PatchAsJsonAsync(_backendConfig.Url + "/account/password", userCredentialsDto);
         }
 
-        public async Task LoginAsync(Account loginModel)
+        public async Task LoginAsync(Account loginModel, AccountState accountState)
 		{
 			var result = await _httpClient.PostAsJsonAsync(_backendConfig.Url + "/auth/Login", loginModel);
 			if(!result.IsSuccessStatusCode)
@@ -51,7 +51,7 @@ namespace Platender.Front.Services
 			((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.UserName);
 			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", user.Token);
 
-			_userAdapter.AdaptUserDtoToAccountState(user);			
+			_userAdapter.AdaptUserDtoToAccountState(user, accountState);			
 
 			return; //TODO: Add status
 		}

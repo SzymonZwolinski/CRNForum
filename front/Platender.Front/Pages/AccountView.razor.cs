@@ -10,7 +10,7 @@ namespace Platender.Front.Pages
     {
         [Inject]
         private IUserService _userService { get; set; }
-        [Inject]
+        [CascadingParameter]
         private AccountState AccountState { get; set; }
 
         private bool _isLoginDisplayed = false;
@@ -28,7 +28,7 @@ namespace Platender.Front.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            AccountState.OnChange += StateHasChanged;
+            //AccountState.OnChange += StateHasChanged;
 
             UserAccount = await _userService.GetAuthorizedUser();
             if (!string.IsNullOrWhiteSpace(UserAccount.Username))

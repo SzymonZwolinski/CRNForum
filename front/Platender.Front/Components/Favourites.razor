@@ -23,7 +23,7 @@
 @code {
     [Inject]
 	private NavigationManager _navigationManager { get; set; }
-    [Inject]
+    [CascadingParameter]
     private AccountState AccountState { get; set; }
     [Inject]
     private IUserService _userService { get; set; }

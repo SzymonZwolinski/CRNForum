@@ -22,14 +22,12 @@ namespace Platender.Front
             builder.RootComponents.Add<App>("#app");
 			builder.RootComponents.Add<HeadOutlet>("head::after");
 
-
 			builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 			
 			builder.Services.AddBlazoredLocalStorage();
 			builder.Services.AddAuthorizationCore();
 
 			builder.Services.AddSingleton(new BackendConfig { Url = builder.Configuration["BackendUrl"] });
-			builder.Services.AddSingleton<AccountState>();
 			builder.Services.AddMudServices();
 			
 			builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();

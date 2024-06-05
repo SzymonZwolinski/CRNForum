@@ -55,6 +55,7 @@
     {
         @if (_plates.Items.Any())
         {
+            <InfinityScroll ObserverTargetId="observerTarget" ObservableTargetReached="(e) => HandleEndOfInfinityLoad()">
             @foreach (var plate in _plates.Items)
             {
                 <div style="padding: 0.5rem 0 0.5rem 0; display: flex;">
@@ -65,7 +66,9 @@
                         Check
                     </MudButton>
                 </div>
+            <li class="list-group-item" id="observerTarget"></li>
             }
+            </InfinityScroll>
         }
         else
         {

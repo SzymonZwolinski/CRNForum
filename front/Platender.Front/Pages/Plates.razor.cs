@@ -23,6 +23,7 @@ namespace Platender.Front.Pages
         private string SentNumbers;
         private CultureCode? SentCultureCode;
         private int Page = 1;
+        private int MaxPage;
 
         private async Task GetPlates()
         {
@@ -43,6 +44,7 @@ namespace Platender.Front.Pages
             IsGetPlatesSend = true;
             SentNumbers = Numbers;
             SentCultureCode = CultureCode;
+            MaxPage = (_plates.TotalItems + 9) / 10;
 
             _processing = false;
             StateHasChanged();
@@ -60,13 +62,23 @@ namespace Platender.Front.Pages
 
         private async Task NextPageAsync()
         {
-            Page += 1;
+            Page ++;
             await GetPlates();
         }
 
         private void MoveToPlate(Guid plateId)
         {
             _navigationManager.NavigateTo("/plates/" + plateId.ToString());
+        }
+
+        private async Task HandleEndOfInfinityLoad()
+        {
+            if(Page > MaxPage)
+			{
+				return;
+			}
+            
+            await NextPageAsync();            
         }
     }
 }

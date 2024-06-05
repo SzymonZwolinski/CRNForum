@@ -31,7 +31,7 @@
     [Inject]
     private IUserService UserService { get; set; }
 
-    [Inject]
+    [CascadingParameter]
     private AccountState AccountState { get; set; }
 
     [Parameter]

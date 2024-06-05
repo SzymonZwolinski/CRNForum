@@ -9,7 +9,7 @@ namespace Platender.Front.Components.AccountComponents
 	{
 		[Inject]
 		private IAuthService _authService { get; set; }
-		[Inject]
+		[CascadingParameter]
 		private AccountState AccountState { get; set; }
 
 		public bool IsLoginSuccesful = false;
@@ -44,7 +44,7 @@ namespace Platender.Front.Components.AccountComponents
 
 		private async void LoginUser()
 		{
-			await _authService.LoginAsync(InputAccount);
+			await _authService.LoginAsync(InputAccount, AccountState);
 			AccountState.IsLoginSuccesful = true;
 		}
 

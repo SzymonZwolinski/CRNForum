@@ -1,3 +1,4 @@
+@using Platender.Front.State
 @inherits LayoutComponentBase
 <MudThemeProvider/>
 <MudDialogProvider/>
@@ -7,6 +8,21 @@
             <NavMenu />
     </div>
     <MudMainContent>
-        @Body
+        <CascadingValue TValue="AccountState" @Value="AccountState">
+            @Body
+        </CascadingValue>
     </MudMainContent>
 </MudLayout>
+
+@code {
+    public AccountState AccountState { get; set; } = new();
+    protected override async Task OnInitializedAsync()
+    {
+        AccountState.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        AccountState.OnChange -= StateHasChanged;
+    }
+}
