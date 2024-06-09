@@ -1,7 +1,7 @@
 @page "/Account"
 @using Platender.Front.Components
 @using Platender.Front.Components.AccountComponents
-@if (!_isUserLoggedIn)
+@if (!AccountState.IsLoginSuccesful)
 {
 	<MudPaper
 		style="display: grid;  grid-template-columns: [first] 50% [second] 50%; grid-template-rows: [first] 50% [second] 50%; margin: 0 25% 0 25%;">
@@ -33,7 +33,7 @@
 			<MudIconButton style="grid-row:second; grid-column:first;" Icon="@Icons.Material.Filled.ArrowBack"
 				aria-label="delete" OnClick="ReturnToPromtToLogin"></MudIconButton>
 			<div Style="grid-row-start: first; grid-row-end: second-end;grid-column: second;">
-				<Platender.Front.Components.AccountComponents.Login @ref="LoginComponent" />
+				<Platender.Front.Components.AccountComponents.Login OnLoginSuccesfull="@ChangeState" @ref="LoginComponent" />
 			</div>
 		}
 		@if (_isRegisterDisplayed && !_isPromptToLoginDisplayed)
@@ -64,7 +64,7 @@ else
 					{
 						<ChangePassword></ChangePassword>
 					}
-					<LogoutButton OnClick="RevertToStart"></LogoutButton>
+					<LogoutButton OnSuccesfullLogout="@ChangeState" OnClick="RevertToStart"></LogoutButton>
 					<MudButton OnClick="ShowUserFavouritePlates">Favourite Plates</MudButton>
 				</MudCardActions>
 			</MudCard>

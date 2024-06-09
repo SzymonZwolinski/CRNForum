@@ -16,7 +16,7 @@ namespace Platender.Front.Pages
         private bool _isLoginDisplayed = false;
         private bool _isRegisterDisplayed = false;
         private bool _isPromptToLoginDisplayed = true;
-        private bool _isUserLoggedIn = false;
+        private bool _isLoggedOutThisSession = false;
         private bool _isGeneralUserInformationDisplayed = false;
         private bool _isUserFavouritePlatesDisplayed = false;
 
@@ -33,19 +33,23 @@ namespace Platender.Front.Pages
             UserAccount = await _userService.GetAuthorizedUser();
             if (!string.IsNullOrWhiteSpace(UserAccount.Username))
             {
-                _isUserLoggedIn = true;
                 _isGeneralUserInformationDisplayed = true;
             }
         }
 
         protected override bool ShouldRender()
         {
+            Console.WriteLine(AccountState.IsLoginSuccesful);
             if (AccountState.IsLoginSuccesful)
             {
-                _isUserLoggedIn = true;
                 _isPromptToLoginDisplayed = false;
                 _isLoginDisplayed = false;   
                 _isGeneralUserInformationDisplayed = true;
+            }
+            if (!AccountState.IsLoginSuccesful && _isLoggedOutThisSession)
+            {
+                _isPromptToLoginDisplayed = true;
+                _isLoggedOutThisSession = false;
             }
 
             if (_isChangePasswordDisplayed && AccountState.IsChangePasswordSent)
@@ -95,20 +99,18 @@ namespace Platender.Front.Pages
         }
 
         private void RevertToStart()
+        {            
+            _isLoggedOutThisSession = true;   
+        }
+
+        protected void ChangeState()
         {
-            _isUserLoggedIn = false;
-            _isLoginDisplayed = true;
-            _isPromptToLoginDisplayed = true;
-            _isLoginDisplayed = false;
-            _isRegisterDisplayed = false;
-            _isChangePasswordDisplayed = false;  
-            _isGeneralUserInformationDisplayed = false;
-            _isUserFavouritePlatesDisplayed = false;
+
         }
 
         public void Dispose()
         {
-            AccountState.OnChange -= StateHasChanged;
+            //AccountState.OnChange -= StateHasChanged;
         }
     }
 }

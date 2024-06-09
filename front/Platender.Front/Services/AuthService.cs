@@ -46,12 +46,16 @@ namespace Platender.Front.Services
 			}
 
 			var user = await result.Content.ReadFromJsonAsync<UserDto>();
+			if(user.IsLoggedSuccesfully)
+			{
+				await _localStorage.SetItemAsync("authToken", user.Token);
+				((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.UserName);
+				_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", user.Token);
 
-			await _localStorage.SetItemAsync("authToken", user.Token);
-			((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.UserName);
-			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", user.Token);
-
-			_userAdapter.AdaptUserDtoToAccountState(user, accountState);			
+				_userAdapter.AdaptUserDtoToAccountState(user, accountState);		
+			}
+			
+			accountState.IsLoginSuccesful = user.IsLoggedSuccesfully;	
 
 			return; //TODO: Add status
 		}

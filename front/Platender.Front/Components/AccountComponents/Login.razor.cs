@@ -11,8 +11,8 @@ namespace Platender.Front.Components.AccountComponents
 		private IAuthService _authService { get; set; }
 		[CascadingParameter]
 		private AccountState AccountState { get; set; }
-
-		public bool IsLoginSuccesful = false;
+		[Parameter]
+		public EventCallback<string> OnLoginSuccesfull { get; set; }
 		private Models.Account InputAccount;
 		private bool success;
 		private string[] errors = { };
@@ -45,8 +45,8 @@ namespace Platender.Front.Components.AccountComponents
 		private async void LoginUser()
 		{
 			await _authService.LoginAsync(InputAccount, AccountState);
-			AccountState.IsLoginSuccesful = true;
+			Console.WriteLine(AccountState.IsLoginSuccesful);
+			await OnLoginSuccesfull.InvokeAsync();
 		}
-
 	}
 }

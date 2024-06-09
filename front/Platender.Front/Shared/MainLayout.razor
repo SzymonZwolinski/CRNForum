@@ -8,13 +8,12 @@
             <NavMenu />
     </div>
     <MudMainContent>
-        <CascadingValue TValue="AccountState" @Value="AccountState">
             @Body
-        </CascadingValue>
     </MudMainContent>
 </MudLayout>
 
 @code {
+    [CascadingParameter]
     public AccountState AccountState { get; set; } = new();
     protected override async Task OnInitializedAsync()
     {

@@ -11,11 +11,8 @@
     private ISnackbar SnackbarService { get; set; }
     [Parameter]
     public EventCallback OnClick { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        AccountState.OnChange += StateHasChanged;
-    }
+    [Parameter]
+    public EventCallback<string> OnSuccesfullLogout { get; set; }
 
     private async Task Logout()
     {
@@ -32,10 +29,6 @@
         
         await OnClick.InvokeAsync();
         AccountState.LogoutCurrentUser();
-    }
-
-    public void Dispose()
-    {
-        AccountState.OnChange -= StateHasChanged;
+        await OnSuccesfullLogout.InvokeAsync();
     }
 }

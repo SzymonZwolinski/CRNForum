@@ -24,7 +24,7 @@ namespace Platender.Front.State
             set
             {
                 _isLoginSuccesful = value;
-                NotifyStateChanged();
+                //NotifyStateChanged();
             }
         }
 

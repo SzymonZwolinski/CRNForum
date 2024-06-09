@@ -30,6 +30,7 @@ namespace Platender.Front
 			builder.Services.AddSingleton(new BackendConfig { Url = builder.Configuration["BackendUrl"] });
 			builder.Services.AddMudServices();
 			
+			builder.Services.AddCascadingValue(sp => new AccountState());
 			builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
 			builder.Services.AddScoped<IAuthService, AuthService>();
 			builder.Services.AddScoped<IPlateService, PlateService>();

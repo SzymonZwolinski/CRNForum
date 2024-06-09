@@ -13,8 +13,7 @@ namespace Platender.Front.Models
 
 
         public UserAdapter(
-            AuthenticationStateProvider authenticationStateProvider,
-            AccountState accountState)
+            AuthenticationStateProvider authenticationStateProvider)
         {
             _authenticationStateProvider = authenticationStateProvider;
 
