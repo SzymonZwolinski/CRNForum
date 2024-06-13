@@ -5,7 +5,7 @@ using System.Net;
 
 namespace Platender.Core.Services
 {
-	public class PlateService : IPlateService
+    public class PlateService : IPlateService
 	{
 		private readonly IPlateRepository _plateRepository;
 		private readonly IAuthRepository _authRepository;
@@ -123,6 +123,10 @@ namespace Platender.Core.Services
 
         public async Task<(IEnumerable<Plate>, int)> GetFavouritePlatesAsync(int page, User user)
 			=> await _plateRepository.GetUserFavouritePlatesAsync(page, user);
-        
+
+        public Task<(IEnumerable<Plate>, int)> GetTopLikedPlates(int page, string cultureCode)
+        {
+            
+        }
     }
 }

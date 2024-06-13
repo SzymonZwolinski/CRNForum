@@ -7,10 +7,12 @@ namespace Platender.Application.Providers
     public class LikesProvider : ILikesProvider
     {
         private readonly ILikesService _likeService;
+        private readonly IPlateService _plateService;
 
-        public LikesProvider(ILikesService likeService)
+        public LikesProvider(ILikesService likeService, IPlateService plateService)
         {
             _likeService = likeService;
+            _plateService = plateService;
         }
 
         public async Task<IEnumerable<PlateLikeDto>> GetPlateLikeAsync()
@@ -43,5 +45,10 @@ namespace Platender.Application.Providers
                 plate.PlateId,
                 plate.Number,
                 plate.Culture);
+
+        public Task<PagedData<>> GetTopLikedPlates(int page, string cultureCode)
+        {
+           _plateService.
+        }
     }
 }

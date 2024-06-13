@@ -95,6 +95,15 @@ namespace Platender.Front.Services
 			return await result.Content.ReadFromJsonAsync<List<PlateLikeDto>>();
         }
 
+        public async Task<PagedData<Plate>> GetListOfTopLikedPlatesAsync(int page, CultureCode? cultureCode)
+        {
+            var result = await _httpClient.GetAsync(_backendConfig.Url + "/plate/top/list" + "?"+
+			"page=" + page +
+			"&cultureCode=" + cultureCode.ToString());
+
+			return await result.Content.ReadFromJsonAsync<PagedData<Plate>>();
+        }
+
         public async Task<List<CommentLikeDto>> GetTopLikedSpottsAsync()
         {
             var result = await _httpClient.GetAsync(_backendConfig.Url + "/plate/spotts/top");

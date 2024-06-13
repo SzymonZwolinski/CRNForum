@@ -22,5 +22,6 @@ namespace Platender.Front.Services
 		Task AddDislikeToCommentAsync(Guid plateId, Guid commentId);
 		Task AddLikeToPlateAsync(Guid plateId);
 		Task AddDislikeToPlateAsync(Guid plateId);
+		Task <PagedData<Plate>> GetListOfTopLikedPlatesAsync(int page, CultureCode? cultureCode);
 	}
 }

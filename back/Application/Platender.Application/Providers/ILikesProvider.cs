@@ -1,4 +1,5 @@
 ﻿using Platender.Application.DTO;
+using Platender.Core.Helpers;
 
 namespace Platender.Application.Providers
 {
@@ -6,5 +7,6 @@ namespace Platender.Application.Providers
     {
         Task<IEnumerable<CommentLikeDto>> GetSpottLikeAsync();
         Task<IEnumerable<PlateLikeDto>> GetPlateLikeAsync();
+        Task<PagedData<>> GetTopLikedPlates(int page, string cultureCode);
     }
 }

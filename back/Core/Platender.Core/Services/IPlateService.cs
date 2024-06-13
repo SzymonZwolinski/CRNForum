@@ -25,5 +25,6 @@ namespace Platender.Core.Services
 		Task AddSpotToPlateAsync(Guid plateId, byte[] image, string? content, string userName);
         Task<(IEnumerable<Comment>, int)> GetPlateCommentsAsync(Guid plateId, int? page);
 		Task<(IEnumerable<Plate>, int)> GetFavouritePlatesAsync(int page, User user);
+		Task<(IEnumerable<Plate>, int)> GetTopLikedPlates(int page, string cultureCode);
     }
 }
