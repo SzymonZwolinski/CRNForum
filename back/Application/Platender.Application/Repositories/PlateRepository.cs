@@ -102,6 +102,22 @@ namespace Platender.Application.Repositories
                     query.Count());
         }
 
+        public async Task<(IEnumerable<Plate>, int)> GetTopDislikedPlatesAsync(int? page, string cultureCode)
+        {
+            var query = _platenderDbContext
+                .plates
+                .Include(x => x.PlateLikes)
+                .Where(x => x.PlateLikes.Any(x => x.LikeType == LikeType.Dis));
+
+            return
+                (await query
+                    .Skip((page - 1) * 10 ?? 0)
+                    .Take(10)
+                    .ToListAsync(),
+                    query.Count());
+        }
+
+
         public async Task<(IEnumerable<Plate>, int)> GetUserFavouritePlatesAsync(int? page, User user)
         {
 			var query = _platenderDbContext

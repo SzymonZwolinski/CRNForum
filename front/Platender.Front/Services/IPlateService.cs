@@ -23,5 +23,6 @@ namespace Platender.Front.Services
 		Task AddLikeToPlateAsync(Guid plateId);
 		Task AddDislikeToPlateAsync(Guid plateId);
 		Task <PagedData<Plate>> GetListOfTopLikedPlatesAsync(int page, CultureCode? cultureCode);
+		Task<PagedData<Plate>> GetListOfTopDislikedPlatesAsync(int page, CultureCode? cultureCode);
 	}
 }

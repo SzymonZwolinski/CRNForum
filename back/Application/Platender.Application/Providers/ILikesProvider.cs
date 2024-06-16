@@ -7,6 +7,7 @@ namespace Platender.Application.Providers
     {
         Task<IEnumerable<CommentLikeDto>> GetSpottLikeAsync();
         Task<IEnumerable<PlateLikeDto>> GetPlateLikeAsync();
-        Task<PagedData<>> GetTopLikedPlates(int page, string cultureCode);
+        Task<PagedData<PlateDto>> GetTopLikedPlatesAsync(int page, string cultureCode);
+        Task<PagedData<PlateDto>> GetTopDislikedPlatesAsync(int page, string cultureCode);
     }
 }

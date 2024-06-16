@@ -1,4 +1,6 @@
 ﻿using Platender.Application.DTO;
+using Platender.Application.Mapper;
+using Platender.Core.Helpers;
 using Platender.Core.Models.Query;
 using Platender.Core.Services;
 
@@ -46,9 +48,18 @@ namespace Platender.Application.Providers
                 plate.Number,
                 plate.Culture);
 
-        public Task<PagedData<>> GetTopLikedPlates(int page, string cultureCode)
+        public async Task<PagedData<PlateDto>> GetTopLikedPlatesAsync(int page, string cultureCode)
         {
-           _plateService.
+           var (plate, amount) = await _plateService.GetTopLikedPlates(page, cultureCode);
+
+            return new PagedData<PlateDto>(plate.Select(x => x.MapToPlateDto()), amount);
+        }
+
+        public async Task<PagedData<PlateDto>> GetTopDislikedPlatesAsync(int page, string cultureCode)
+        {
+            var (plate, amount) = await _plateService.GetTopDislikedPlates(page, cultureCode);
+
+            return new PagedData<PlateDto>(plate.Select(x => x.MapToPlateDto()), amount);
         }
     }
 }

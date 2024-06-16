@@ -1,4 +1,5 @@
 ﻿using Platender.Application.DTO;
+using Platender.Application.Mapper;
 using Platender.Application.Messages;
 using Platender.Application.Messages.Queries;
 using Platender.Core.Enums;
@@ -34,7 +35,7 @@ namespace Platender.Application.Providers
                 getAllPlates.Page);
 
             return new PagedData<PlateDto>(
-                plates.Select(x => MapToPlateDto(x, userIp)),
+                plates.Select(x => x.MapToPlateDto(userIp)),
                 amount);
         }
 
@@ -42,24 +43,8 @@ namespace Platender.Application.Providers
 		{
 			var plate = await _plateService.GetPlateAsync(plateId);
 
-            return MapToPlateDto(plate, userIp);
+            return plate.MapToPlateDto(userIp):
 		}
-
-        private PlateDto MapToPlateDto(Plate plate, IPAddress userIp)
-        {
-            if (plate is null)
-            {
-                return default;
-            }
-          
-            return new PlateDto(
-                plate.Id,
-                plate.Number,
-                plate.Culture.ToString(),
-                plate.PlateLikes.Count(x => x.LikeType == LikeType.Lik),
-                plate.PlateLikes.Count(x => x.LikeType == LikeType.Dis),
-                plate.PlateLikes.FirstOrDefault(x => x.UserIPAddress.Equals(userIp))?.LikeType);
-        }
 
         public async Task AddSpotAsync(AddComment plate, string spotterUserName)
         {

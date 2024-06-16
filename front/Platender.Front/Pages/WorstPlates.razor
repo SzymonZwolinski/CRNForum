@@ -1,0 +1,33 @@
+@page "/plate/list/worst"
+@using Platender.Front.Services
+<MudPaper>
+    @foreach(var plate in Plates)
+    {
+        <Platender.Front.Components.EUPlate PlateId="@plate.PlateId" CultureCode="@plate.Culture" Number="@plate.Numbers"
+								DisplayFlag="true" FlagSrc="images/EUFlagHD.jpg" OnClickAction="@MoveToPlate"></Platender.Front.Components.EUPlate>
+    }
+</MudPaper>
+
+@code {
+    [Inject]
+	private NavigationManager _navigationManager { get; set; }
+    [Inject]
+    private IPlateService _plateService { get; set; }
+    private List<plate> Plates = new();
+    private int page = 1;
+    private int MaxPage;
+    
+    private task GetWorstPlates()
+    {
+        var paggedPlates = await _plateService.GetListOfTopDislikedPlatesAsync(page);
+        Plates.AddRange(paggedPlates.Items);
+        
+        MaxPage = (paggedPlates.TotalItems + 9) / 10;
+        page++;
+    }
+
+    private void MoveToPlate(Guid plateId)
+	{
+		_navigationManager.NavigateTo("/plates/" + plateId.ToString());
+	}
+}

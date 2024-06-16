@@ -66,10 +66,18 @@ namespace Platender.Api.Controllers
             return new JsonResult(spotts);
         }
 
-        [HttpGet("top/list")]
-        public async async<IActionResult> GetPagedTopLikedPlates([FromQuery] int page, [FromQuery] string cultureCode)
+        [HttpGet("top/liked")]
+        public async Task<IActionResult> GetPagedTopLikedPlates([FromQuery] int page, [FromQuery] string cultureCode)
         {
-            var plates = await _likesProvider.GetPlateLikeAsync();
+            var plates = await _likesProvider.GetTopLikedPlatesAsync(page, cultureCode);
+
+            return new JsonResult(plates);
+        }
+
+        [HttpGet("top/disliked")]
+        public async Task<IActionResult> GetPagedTopDislikedPlates([FromQuery] int page, [FromQuery] string cultureCode)
+        {
+            var plates = await _likesProvider.GetTopDislikedPlatesAsync(page, cultureCode);
 
             return new JsonResult(plates);
         }

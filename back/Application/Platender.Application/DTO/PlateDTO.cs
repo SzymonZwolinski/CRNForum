@@ -27,5 +27,19 @@ namespace Platender.Application.DTO
             DislikeAmount = DislikeAmount;
             UserReaction = userReaction.HasValue ? userReaction.ToString() : null;
         }
+
+        public PlateDto(
+          Guid id,
+          string number,
+          string culture,
+          int likeAmount,
+          int dislikeAMount)
+        {
+            Id = id;
+            Number = number;
+            Culture = culture;
+            LikeAmount = likeAmount;
+            DislikeAmount = DislikeAmount;
+        }
     }
 }

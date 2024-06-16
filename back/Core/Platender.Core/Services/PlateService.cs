@@ -124,9 +124,10 @@ namespace Platender.Core.Services
         public async Task<(IEnumerable<Plate>, int)> GetFavouritePlatesAsync(int page, User user)
 			=> await _plateRepository.GetUserFavouritePlatesAsync(page, user);
 
-        public Task<(IEnumerable<Plate>, int)> GetTopLikedPlates(int page, string cultureCode)
-        {
-            
-        }
+		public async Task<(IEnumerable<Plate>, int)> GetTopLikedPlates(int page, string cultureCode)
+			=> await _plateRepository.GetTopLikedPlatesAsync(page, cultureCode);
+
+		public async Task<(IEnumerable<Plate>, int)> GetTopDislikedPlates(int page, string cultureCode)
+			=> await _plateRepository.GetTopDislikedPlatesAsync(page, cultureCode);
     }
 }

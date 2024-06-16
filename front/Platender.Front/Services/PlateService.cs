@@ -5,7 +5,6 @@ using Platender.Front.Helpers;
 using Platender.Front.Models;
 using Platender.Front.Models.Enums;
 using Platender.Front.Utilities;
-using System.Net.Http.Json;
 
 namespace Platender.Front.Services
 {
@@ -25,6 +24,21 @@ namespace Platender.Front.Services
 			_authenticationStateProvider = authenticationStateProvider;
 		}
 
+#region Post
+
+        public async Task PostPlateAsync(string numbers, CultureCode? cultureCode)
+		{
+			await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+
+			var plate = new PlateDto(
+				numbers,
+				cultureCode.HasValue ? cultureCode.ToString() : null);
+
+			var result = await _httpClient.PostAsJsonAsync(_backendConfig.Url + "/Plate", plate);
+		}
+#endregion
+
+#region Put/Patch
 		public async Task AddCommentToPlate(CommentDto comment)
 		{
 			await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
@@ -60,7 +74,9 @@ namespace Platender.Front.Services
 			var result = await _httpClient.PatchAsync(
 				_backendConfig.Url + $"/plate/{plateId}/like", null);
         }
+#endregion
 
+#region  Get
         public async Task<Plate> GetPlateByIdAsync(Guid id)
 		{
 			var result = await _httpClient.GetAsync(_backendConfig.Url + $"/plate/{id}");
@@ -95,9 +111,25 @@ namespace Platender.Front.Services
 			return await result.Content.ReadFromJsonAsync<List<PlateLikeDto>>();
         }
 
+		  public async Task<List<PlateLikeDto>> GetTopDislikedPlatesAsync()
+        {
+			var result = await _httpClient.GetAsync(_backendConfig.Url + "/plate/top");
+
+			return await result.Content.ReadFromJsonAsync<List<PlateLikeDto>>();
+        }
+
         public async Task<PagedData<Plate>> GetListOfTopLikedPlatesAsync(int page, CultureCode? cultureCode)
         {
-            var result = await _httpClient.GetAsync(_backendConfig.Url + "/plate/top/list" + "?"+
+            var result = await _httpClient.GetAsync(_backendConfig.Url + "/plate/top/liked" + "?"+
+			"page=" + page +
+			"&cultureCode=" + cultureCode.ToString());
+
+			return await result.Content.ReadFromJsonAsync<PagedData<Plate>>();
+        }
+
+		 public async Task<PagedData<Plate>> GetListOfTopDislikedPlatesAsync(int page, CultureCode? cultureCode)
+        {
+            var result = await _httpClient.GetAsync(_backendConfig.Url + "/plate/top/disliked" + "?"+
 			"page=" + page +
 			"&cultureCode=" + cultureCode.ToString());
 
@@ -111,15 +143,7 @@ namespace Platender.Front.Services
             return await result.Content.ReadFromJsonAsync<List<CommentLikeDto>>();
         }
 
-        public async Task PostPlateAsync(string numbers, CultureCode? cultureCode)
-		{
-			await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+#endregion
 
-			var plate = new PlateDto(
-				numbers,
-				cultureCode.HasValue ? cultureCode.ToString() : null);
-
-			var result = await _httpClient.PostAsJsonAsync(_backendConfig.Url + "/Plate", plate);
-		}
 	}
 }

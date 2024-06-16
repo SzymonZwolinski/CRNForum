@@ -18,5 +18,6 @@ namespace Platender.Core.Repositories
 		Task<(IEnumerable<Comment>, int)> GetPlateCommentsAsync(Guid plateId, int? page);
 		Task<(IEnumerable<Plate>, int)> GetUserFavouritePlatesAsync(int? page, User user);
 		Task<(IEnumerable<Plate>, int)> GetTopLikedPlatesAsync(int? page, string cultureCode);
+        Task<(IEnumerable<Plate>, int)> GetTopDislikedPlatesAsync(int? page, string cultureCode)
     }
 }
