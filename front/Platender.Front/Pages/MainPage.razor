@@ -8,12 +8,12 @@
 		@if (TopLikedPlates.Any())
 		{
 			<div class="drivers-card rounded-border">
-				<TableComponent BestDrivers="TopLikedPlates" Title="TOP 10 BEST DRIVERS" ButtonText="VIEW MORE!">
+				<TableComponent BestDrivers="TopLikedPlates" Title="TOP 10 BEST DRIVERS" ButtonText="VIEW MORE!" ButtonAction="MoveToBestPlates">
 				</TableComponent>
 			</div>
 		}
 		<div class="drivers-card rounded-border">
-			<TableComponent BestDrivers="TopLikedPlates" Title="TOP 10 WORST DRIVERS" ButtonText="VIEW MORE!">
+			<TableComponent BestDrivers="TopLikedPlates" Title="TOP 10 WORST DRIVERS" ButtonText="VIEW MORE!" ButtonAction="MoveToWorstPlates">
 			</TableComponent>
 		</div>
 	</div>

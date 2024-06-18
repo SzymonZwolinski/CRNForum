@@ -1,9 +1,10 @@
 @page "/plate/list/worst"
 @using Platender.Front.Services
+@using Platender.Front.Models
 <MudPaper>
     @foreach(var plate in Plates)
     {
-        <Platender.Front.Components.EUPlate PlateId="@plate.PlateId" CultureCode="@plate.Culture" Number="@plate.Numbers"
+        <Platender.Front.Components.EUPlate PlateId="@plate.Id" CultureCode="@plate.Culture" Number="@plate.Number"
 								DisplayFlag="true" FlagSrc="images/EUFlagHD.jpg" OnClickAction="@MoveToPlate"></Platender.Front.Components.EUPlate>
     }
 </MudPaper>
@@ -13,13 +14,13 @@
 	private NavigationManager _navigationManager { get; set; }
     [Inject]
     private IPlateService _plateService { get; set; }
-    private List<plate> Plates = new();
+    private List<Plate> Plates = new();
     private int page = 1;
     private int MaxPage;
     
-    private task GetWorstPlates()
+    protected override async Task OnInitializedAsync()
     {
-        var paggedPlates = await _plateService.GetListOfTopDislikedPlatesAsync(page);
+        var paggedPlates = await _plateService.GetListOfTopDislikedPlatesAsync(page, null);
         Plates.AddRange(paggedPlates.Items);
         
         MaxPage = (paggedPlates.TotalItems + 9) / 10;

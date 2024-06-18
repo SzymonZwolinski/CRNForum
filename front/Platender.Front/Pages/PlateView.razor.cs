@@ -13,7 +13,7 @@ namespace Platender.Front.Pages
         private IPlateService _plateService { get; set; }
 		[Inject]
 		private IUserService _userService { get; set; }
-		[Inject]
+		[CascadingParameter]
 		private AccountState AccountState { get; set; }
 
 		[Parameter]
@@ -112,11 +112,11 @@ namespace Platender.Front.Pages
 			page++;
 		}
 	
-		private  void ToggleFavouritePlateAsync(bool toggled)
+		private async void ToggleFavouritePlateAsync(bool toggled)
 		{
 			IsUserPlateFavourite = toggled;
-			Console.WriteLine("test");
-			_userService.AddOrRemoveUserFavouritePlateAsync(new UserFavouritePlate(_plate.Id));
+			
+			await _userService.AddOrRemoveUserFavouritePlateAsync(new UserFavouritePlate(_plate.Id));
 		}
 	}
 }

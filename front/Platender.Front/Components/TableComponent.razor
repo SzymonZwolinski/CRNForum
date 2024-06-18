@@ -39,7 +39,7 @@
 		</div>
 	</MudCardContent>
 	<MudCardActions Style="display: flex; justify-content: center;">
-		<MudButton Variant="Variant.Filled" ClickPropagation="false" Color="MudBlazor.Color.Success">
+		<MudButton Variant="Variant.Filled" ClickPropagation="false" Color="MudBlazor.Color.Success" OnClick="InvokeButtonAction">
 			@ButtonText
 		</MudButton>
 	</MudCardActions>
@@ -52,11 +52,18 @@
 	public string Title { get; set; }
 	[Parameter]
 	public string ButtonText { get; set; }
+	[Parameter]
+	public Action ButtonAction { get; set;  }
 	[Inject]
 	private NavigationManager _navigationManager { get; set; }
 
 	private void MoveToPlate(Guid plateId)
 	{
 		_navigationManager.NavigateTo("/plates/" + plateId.ToString());
+	}
+
+	private void InvokeButtonAction()
+	{
+		ButtonAction.Invoke();
 	}
 }

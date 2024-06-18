@@ -18,7 +18,7 @@ namespace Platender.Front.Pages
         public CultureCode? CultureCode;
 
         private bool _processing = false;
-        private PagedData<Plate> _plates;
+        private List<Plate> _plates;
         private bool IsGetPlatesSend = false;
         private string SentNumbers;
         private CultureCode? SentCultureCode;
@@ -30,21 +30,23 @@ namespace Platender.Front.Pages
             _processing = true;
             try
             {
-                _plates = await _plateService.GetPlatesByNumbersAsync(
+                var pagedPlates = await _plateService.GetPlatesByNumbersAsync(
                     Numbers,
                     CultureCode,
                     Page);
+
+                _plates.AddRange(pagedPlates.Items);
+         
+                IsGetPlatesSend = true;
+                SentNumbers = Numbers;
+                SentCultureCode = CultureCode;
+                MaxPage = (pagedPlates.TotalItems + 9) / 10;
             }
             catch (Exception e)
             {
                 _processing = false;
                 return;
             }
-
-            IsGetPlatesSend = true;
-            SentNumbers = Numbers;
-            SentCultureCode = CultureCode;
-            MaxPage = (_plates.TotalItems + 9) / 10;
 
             _processing = false;
             StateHasChanged();

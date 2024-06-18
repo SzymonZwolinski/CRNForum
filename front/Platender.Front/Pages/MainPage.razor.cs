@@ -9,6 +9,8 @@ namespace Platender.Front.Pages
 	{
 		[Inject]
 		private IPlateService _plateService { get; set; }
+		[Inject]
+		private NavigationManager _navigationManager { get; set; }
 
 		private List<PlateLikeDto> TopLikedPlates = new();
 		private List<SpottImageCarouselItem> _ImageCarouselItems = new();
@@ -23,5 +25,15 @@ namespace Platender.Front.Pages
 				new SpottImageCarouselItem(x.PlateId, x.Byte64Image))
 				.ToList();
 		}
+
+		private void MoveToWorstPlates()
+		{
+			_navigationManager.NavigateTo("/plate/list/worst");
+		}
+
+		private void MoveToBestPlates()
+		{
+			_navigationManager.NavigateTo("/plate/list/best");
+        }
 	}
 }

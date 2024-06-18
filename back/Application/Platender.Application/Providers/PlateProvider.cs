@@ -43,7 +43,7 @@ namespace Platender.Application.Providers
 		{
 			var plate = await _plateService.GetPlateAsync(plateId);
 
-            return plate.MapToPlateDto(userIp):
+            return plate.MapToPlateDto(userIp);
 		}
 
         public async Task AddSpotAsync(AddComment plate, string spotterUserName)

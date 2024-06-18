@@ -53,10 +53,10 @@
     </div>
     @if (IsGetPlatesSend)
     {
-        @if (_plates.Items.Any())
+        @if (_plates.Any())
         {
             <InfinityScroll ObserverTargetId="observerTarget" ObservableTargetReached="(e) => HandleEndOfInfinityLoad()">
-            @foreach (var plate in _plates.Items)
+            @foreach (var plate in _plates)
             {
                 <div style="padding: 0.5rem 0 0.5rem 0; display: flex;">
                     <EUPlate PlateId="@plate.Id" CultureCode="@plate.Culture" Number="@plate.Number" OnClickAction="@MoveToPlate">
